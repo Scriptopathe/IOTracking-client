@@ -1,0 +1,9 @@
+{
+    "places" : [
+        {
+            "name" : "Lac Montbel",
+            "background" : "lake-montbel.png",
+            "bounds" : [11.0, 31.0, 12.0, 32.0]
+        }
+    ]
+}
