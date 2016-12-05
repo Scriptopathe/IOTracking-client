@@ -1,8 +1,8 @@
 import { Component, Input, ViewChild, ElementRef } from '@angular/core';
 import { Http, Response }   from '@angular/http';
-import { TestService }      from './test.service';
 import { Observable }       from 'rxjs/Observable';
-import { Lake }             from './test.service';
+import { TestService }      from '../services/test.service';
+import { Lake }             from '../services/test.service';
 
 // import 'rxjs/Rx';
 import 'rxjs/add/operator/map'

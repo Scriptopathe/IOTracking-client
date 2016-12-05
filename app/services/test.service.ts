@@ -3,7 +3,7 @@ import { Http, Response }   from '@angular/http';
 import { Observable }       from 'rxjs/Rx';
 import { Inject }           from '@angular/core';
 
-@Injectable()
+
 export class Lake {
     constructor (public bounds : number[], public name : string,
                  public background : string) {
@@ -30,7 +30,7 @@ export class Lake {
         });
     }
 }
-
+@Injectable()
 export class TestService {
     lakes : Lake[]
 

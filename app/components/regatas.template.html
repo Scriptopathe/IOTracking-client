@@ -1,0 +1,99 @@
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Actions</h2>
+            <button class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Nouvelle régate</button>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- 
+            UPCOMING REGATAS
+        -->
+        <div class="col-md-6">
+            <h2>Prochaines régates</h2>
+
+            <div class="panel panel-default" *ngFor="let regata of regataSvc.getRegatas()">
+                <div class="panel-heading">
+                    <div class="container">
+
+                        <div class="row">
+                            <div class="col-xs-9 col-md-4" style="font-size: 1.5em">{{ regata.name }}</div>
+                            <div class="col-xs-3 col-md-2">
+                                <div style="text-align: left;" class="btn-group" role="group">
+                                    <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
+                                    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-pencil"></span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                    
+                </div>
+                
+                <div class="panel-body">
+                    <div class="container">
+
+                        <div class="row">
+                            <div class="col-xs-4 col-md-2"><span class="glyphicon glyphicon-map-marker"></span> <b>Location</b></div>
+                            <div class="col-xs-8 col-md-4">{{ regata.location }}</div>
+                        </div>
+                    
+                        <div class="row">
+                            <div class="col-xs-4 col-md-2"><span class="glyphicon glyphicon-time"></span> Start Date</div>
+                            <div class="col-xs-8 col-md-4">{{ regata.startDate }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4 col-md-2"><span class="glyphicon glyphicon-time"></span> End Date</div>
+                            <div class="col-xs-8 col-md-4">{{ regata.endDate }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 
+            PAST REGATAS
+        -->
+        <div class="col-md-6">
+            <h2>Dernières régates</h2>
+
+
+            <div class="panel panel-default" *ngFor="let regata of regataSvc.getRegatas()">
+                <div class="panel-heading">
+                    <div class="container">
+
+                        <div class="row">
+                            <div class="col-xs-9 col-md-4" style="font-size: 1.5em">{{ regata.name }}</div>
+                            <div class="col-xs-3 col-md-2">
+                                <div style="text-align: left;" class="btn-group" role="group">
+                                    <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
+                                    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-pencil"></span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                    
+                </div>
+                
+                <div class="panel-body">
+                    <div class="container">
+
+                        <div class="row">
+                            <div class="col-xs-4 col-md-2"><span class="glyphicon glyphicon-map-marker"></span> <b>Location</b></div>
+                            <div class="col-xs-8 col-md-4">{{ regata.location }}</div>
+                        </div>
+                    
+                        <div class="row">
+                            <div class="col-xs-4 col-md-2"><span class="glyphicon glyphicon-time"></span> Start Date</div>
+                            <div class="col-xs-8 col-md-4">{{ regata.startDate }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4 col-md-2"><span class="glyphicon glyphicon-time"></span> End Date</div>
+                            <div class="col-xs-8 col-md-4">{{ regata.endDate }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
