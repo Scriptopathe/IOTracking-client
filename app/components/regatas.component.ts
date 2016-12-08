@@ -8,7 +8,6 @@ import { Regata, RegatasService } from '../services/regatas.service'
 })
 
 export class RegatasComponent  { 
-
     constructor(private http : Http, private regataSvc : RegatasService) {        
         
     }

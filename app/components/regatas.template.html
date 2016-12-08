@@ -14,10 +14,9 @@
         <div class="col-md-6">
             <h2>Prochaines régates</h2>
 
-            <div class="panel panel-default" *ngFor="let regata of regataSvc.getRegatas()">
+            <div class="panel panel-default" *ngFor="let regata of regataSvc.upcomingRegatas">
                 <div class="panel-heading">
                     <div class="container">
-
                         <div class="row">
                             <div class="col-xs-9 col-md-4" style="font-size: 1.5em">{{ regata.name }}</div>
                             <div class="col-xs-3 col-md-2">
@@ -57,8 +56,35 @@
         <div class="col-md-6">
             <h2>Dernières régates</h2>
 
+            TODO : centrer et toussa
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <li>
+                        <a href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    
+                    <li *ngFor="let page of regataSvc.getDisplayedPages()" 
+                        [class.active]="page == regataSvc.pastRegatasPage"
+                        (click)="regataSvc.setPage(page)"
+                        >
+                        <a routerLink="/regatas" [ngSwitch]="page">
+                            <span *ngSwitchCase="0">First</span>
+                            <span *ngSwitchCase="regataSvc.getPagesCount()">Last</span>
+                            <span *ngSwitchDefault>{{page}}</span>
+                        </a>
+                    </li>
 
-            <div class="panel panel-default" *ngFor="let regata of regataSvc.getRegatas()">
+                    <li>
+                        <a href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="panel panel-default" *ngFor="let regata of regataSvc.pastRegatas">
                 <div class="panel-heading">
                     <div class="container">
 
