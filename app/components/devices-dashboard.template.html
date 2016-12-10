@@ -1,0 +1,28 @@
+<div class="container animated fadeInUp">
+    <device-list #devList [(device)]="currentDevice"></device-list>
+    
+    <!-- Low power devices -->
+    <div class="material-box material-box-fit animated fadeIn" *ngIf="lowPowerDevices.length != 0">
+        <div class="material-box-title">Low power devices ({{ lowPowerDevices.length}})</div>
+        <div class="">
+            <button class="btn btn-danger btn-sm animated fadeIn" style="margin-right: 10px; margin-bottom: 10px;" *ngFor="let device of lowPowerDevices" (click)="setDevice(device)">
+                <strong>{{ device.name }}</strong> - {{ device.batteryLevel }}%
+            </button>
+        </div>
+    </div>
+    
+    <div class="material-box material-box-fit animated fadeIn" *ngIf="activeDevices.length != 0">
+        <div class="material-box-title">Active devices ({{ activeDevices.length }})</div>
+        <button class="btn btn-default btn-sm animated fadeIn" style="margin-right: 10px; margin-bottom: 10px;" *ngFor="let device of activeDevices" (click)="setDevice(device)">
+            <strong>{{ device.name }}</strong> - {{ device.batteryLevel }}%
+        </button>
+    </div>
+
+    <div class="material-box material-box-fit animated fadeIn" *ngIf="newDevices.length != 0">
+        <div class="material-box-title">New devices ({{ newDevices.length }})</div>
+        <button class="btn btn-default btn-sm animated fadeIn" style="margin-right: 10px; margin-bottom: 10px;" *ngFor="let device of newDevices" (click)="setDevice(device)">
+            {{ device.identifier }} 
+        </button>
+    </div>
+
+</div>
