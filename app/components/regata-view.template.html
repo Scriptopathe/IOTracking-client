@@ -1,9 +1,40 @@
-<div #panel class="panel panel-default animated fadeIn">
-    <div class="panel-heading">
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-9 col-md-10" style="font-size: 1.5em">{{ regata.name }}</div>
-                <div class="col-xs-3 col-md-2">
+<div>
+    <style>
+        .glyphicon.spinning {
+            animation: spin 1s infinite linear;
+            -webkit-animation: spin2 1s infinite linear;
+        }
+
+        .spinning-container {
+            text-align: center; 
+            padding-top: 1em; 
+            width: 100%;
+            height: 0px;
+            overflow: visible;
+            font-size: 2em;
+        }
+        @keyframes spin {
+            from { transform: scale(1) rotate(0deg); }
+            to { transform: scale(1) rotate(360deg); }
+        }
+
+        @-webkit-keyframes spin2 {
+            from { -webkit-transform: rotate(0deg); }
+            to { -webkit-transform: rotate(360deg); }
+        }
+        
+
+    </style>
+
+    <div class="spinning-container animated fadeOut">
+        <span style="margin-top: 2em" class="glyphicon glyphicon-refresh spinning"></span>
+    </div>
+
+    <div #panel class="panel panel-default animated fadeIn">
+        <div class="panel-heading">
+            <div style="display: flex; justify-content: space-between;">
+                <div class="" style="font-size: 1.5em">{{ regata.name }}</div>
+                <div class="">
                     <div style="text-align: center;" class="btn-group" role="group">
                         <button type="button" class="btn btn-danger" (click)="onRemove()"><span class="glyphicon glyphicon-trash"></span></button>
                         <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-pencil"></span></button>
@@ -11,22 +42,22 @@
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="panel-body">
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-4 col-md-2"><span class="glyphicon glyphicon-map-marker"></span> <b>Location</b></div>
-                <div class="col-xs-8 col-md-10">{{ regata.location }}</div>
-            </div>
-        
-            <div class="row">
-                <div class="col-xs-4 col-md-2"><span class="glyphicon glyphicon-time"></span> Start Date</div>
-                <div class="col-xs-8 col-md-10">{{ regata.startDate }}</div>
-            </div>
-            <div class="row">
-                <div class="col-xs-4 col-md-2"><span class="glyphicon glyphicon-time"></span> End Date</div>
-                <div class="col-xs-8 col-md-10">{{ regata.endDate }}</div>
+        <div class="panel-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-4 col-md-2"><span class="glyphicon glyphicon-map-marker"></span> <b>Location</b></div>
+                    <div class="col-xs-8 col-md-10">{{ regata.location }}</div>
+                </div>
+            
+                <div class="row">
+                    <div class="col-xs-4 col-md-2"><span class="glyphicon glyphicon-time"></span> Start Date</div>
+                    <div class="col-xs-8 col-md-10">{{ regata.startDate }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4 col-md-2"><span class="glyphicon glyphicon-time"></span> End Date</div>
+                    <div class="col-xs-8 col-md-10">{{ regata.endDate }}</div>
+                </div>
             </div>
         </div>
     </div>

@@ -5,10 +5,13 @@ import { TestComponent }    from './components/test.component';
 import { UserPanelComponent } from './components/userpanel.component';
 import { DashboardComponent } from './components/dashboard.component';
 import { RegatasComponent } from './components/regatas.component';
+import { DeviceListComponent } from './components/devices-list.component';
+import { DeviceDashboardComponent } from './components/devices-dashboard.component';
 
 const appRoutes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'regatas', component: RegatasComponent },
+  { path: 'devices', component: DeviceDashboardComponent },
   { path: '**', component: DashboardComponent }
 ];
 

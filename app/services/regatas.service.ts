@@ -5,87 +5,68 @@ import { Inject }           from '@angular/core';
 
 export class Regata
 {
-    constructor(public name : string, public location : string, public startDate : Date, public endDate : Date) { }
+    constructor(public identifier : string, public name : string, public location : string,
+                public startDate : Date, public endDate : Date) { }
 }
 
 @Injectable()
 export class RegatasService {
+    
+
     public pastRegatas : Regata[]
     public pastRegatasCount : number
-    public pastRegatasPage : number = 0
-    public pastRegatasCountPerPage : number = 5
-
     public upcomingRegatas : Regata[]
+
+    
+    // Back end data simulation
+    private _backendLastRegatas : Regata[]
+    private _backendUpcomingRegatas : Regata[]
+
+    private _lastStart : number
+    private _lastCount : number
+
     public constructor() {
-        this.loadRegatas(0, 5);
-    }
 
-    public reload() : void
-    {
-        this.loadRegatas(this.pastRegatasPage * this.pastRegatasCountPerPage, this.pastRegatasCountPerPage)
-    }
-
-    public loadRegatas(start : number, count : number) : void {
-        var pastRegatas = [
-            new Regata("Regatta Of Doom", "Lake Montbel", new Date(), new Date()),
-            new Regata("Regatta Of Death", "Lake Montbel", new Date(), new Date()),
-            new Regata("Regatta Of Life", "Lake Montbel", new Date(), new Date()),
-            new Regata("Regatta Of Fire", "Lake Montbel", new Date(), new Date()),
-            new Regata("Regatta Of Ice", "Lake Montbel", new Date(), new Date())
+        this._backendLastRegatas = [
+            new Regata("5605605", "Regatta Of Doom", "Lake Montbel", new Date(), new Date()),
+            new Regata("55605605", "Regatta Of Death", "Lake Montbel", new Date(), new Date()),
+            new Regata("898989880","Regatta Of Life", "Lake Montbel", new Date(), new Date()),
+            new Regata("98898989898", "Regatta Of Fire", "Lake Montbel", new Date(), new Date()),
+            new Regata("121231231135", "Regatta Of Ice", "Lake Montbel", new Date(), new Date())
         ]
 
         for(let j = 0; j < 100; j++) {
-            pastRegatas.push(new Regata("Regata " + j, "Lake Montbel", new Date(), new Date()))
+            this._backendLastRegatas.push(new Regata("ID" + j, "Regata " + j, "Lake Montbel", new Date(), new Date()))
         }
 
-        this.pastRegatasCount = pastRegatas.length
-        this.pastRegatas = pastRegatas.splice(start, count)
-        this.upcomingRegatas =  [
-            new Regata("La prochaine régate", "Lake Montbel", new Date(), new Date()),
+
+        this._backendUpcomingRegatas =  [
+            new Regata("NEXT", "La prochaine régate", "Lake Montbel", new Date(), new Date()),
         ]
+
+        this.loadRegatas(0, 5);
+
     }
 
-    public deletePastRegata(index : number) {
-        this.pastRegatas.splice(index, 1);
+    public loadRegatas(start : number, count : number) : void {
+        this.pastRegatasCount = this._backendLastRegatas.length
+        this.pastRegatas = this._backendLastRegatas.slice(start, start+count)
+        this.upcomingRegatas = this._backendUpcomingRegatas.slice(0, this._backendUpcomingRegatas.length)
+
+        this._lastStart = start
+        this._lastCount = count
     }
 
-    public deleteUpcomingRegatas(index : number) {
-        this.upcomingRegatas.splice(index, 1);
-    }
-
-    /**-------------------------------------------------------------------------------- 
-     * Pagination 
-     * ----------------------------------------------------------------------------- */
-    public getPagesCount() : number {
-        return Math.ceil(1.0 * this.pastRegatasCount / this.pastRegatasCountPerPage)
-    }
-
-    public getDisplayedPages() : number[] {
-        let maxPagesDisplay = 3;
-        let pages : number[] = []
-
-        pages.push(0)
-
-        for(let i = -maxPagesDisplay; i <= maxPagesDisplay; i++)
-        {
-            let page = this.pastRegatasPage + i;
-            if(page > 0 && page < this.getPagesCount())
-            {
-                pages.push(this.pastRegatasPage + i)
-            }
+    public deleteRegata(regata : Regata) {
+        let index = this._backendLastRegatas.indexOf(regata) 
+        if(index != -1)
+            this._backendLastRegatas.splice(index, 1);
+        
+        index = this._backendUpcomingRegatas.indexOf(regata)
+        if(index != -1) {
+            this._backendUpcomingRegatas.splice(index, 1);
         }
 
-        pages.push(this.getPagesCount())
-
-        return pages
-    }
-
-    public setPage(page : number) : void
-    {
-        if(page < 0 || page > this.getPagesCount())
-            return
-        
-        this.pastRegatasPage = page
-        this.reload()
+        this.loadRegatas(this._lastStart, this._lastCount)
     }
 }
