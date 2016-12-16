@@ -25,4 +25,10 @@ export class RegataViewComponent  {
             othis.regataSvc.deleteRegata(othis.regata) 
         });
     }
+
+     public onEdit()
+    {
+        let element : HTMLDivElement = this.panel.nativeElement
+        //TODO edition
+    }
 }

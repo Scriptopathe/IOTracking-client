@@ -1,0 +1,135 @@
+<br /><br />
+<div class="container">
+    <div class="panel panel-default">
+        
+        <div class="panel-heading">
+            <div class="container">
+                <div class="row"><br />
+                    <div class="col-xs-9 col-md-4" style="font-size: 1.5em; height: 125px;"><strong>Edition:</strong> {{ currentRegata.name }} 
+                        <br /><br />
+                        <div class="input-group" style="width:1050px;">
+                            <span class="input-group-addon">New name</span>
+                            <input type="text" class="form-control" [(ngModel)]="currentRegata.name">
+                        </div>
+                    </div>
+                </div>
+            </div>                    
+        </div>
+
+        <div class="panel-body">
+            <div class="container" >
+
+                <div class="row"><br />
+                    <div class="col-xs-4 col-md-2"><span class="glyphicon glyphicon-map-marker"></span> <b>Location</b></div>
+                    <div class="col-xs-8 col-md-4">
+                        <div class="input-group" style="width:850px;">
+                            <span class="input-group-addon">New location</span>
+                            <input type="text" class="form-control" [(ngModel)]="currentRegata.location">
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="row"><br />
+                    <div class="col-xs-4 col-md-2"><span class="glyphicon glyphicon-time"></span> <b>Start Date</b></div>
+                    <div class="col-xs-8 col-md-4">
+                        <div class="input-group" style="width:850px;">
+                            <span class="input-group-addon">New Start Date</span>
+                            <input type="text" class="form-control" [(ngModel)]="currentRegata.startDate">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row"><br />
+                    <div class="col-xs-4 col-md-2"><span class="glyphicon glyphicon-time"></span><b> End Date</b></div>
+                    <div class="col-xs-8 col-md-4">
+                        <div class="input-group" style="width:850px;">
+                            <span class="input-group-addon">New End Date</span>
+                            <input type="text" class="form-control" [(ngModel)]="currentRegata.endDate">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row"><br />
+                    <div class="col-xs-2 col-md-1">
+                        <div style="text-align: left;" class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" (click)="onNewRace()"><span class="glyphicon glyphicon-plus"></span> Races</button>
+                        </div>
+                        <div class="col-xs-8 col-md-4">{{ currentRegata.Races }}</div><br /><br />
+
+                            <div *ngIf="showComponentNewRace">
+
+                                <div class="row"><br />                                        
+                                    <div class="panel-heading">
+                                        <div class="container">
+                                            <div class="row"><br />
+                                                <div class="col-xs-9 col-md-4" style="font-size: 1.5em; height: 125px;"><strong>Race Edition:</strong> {{ currentRegata.currentRace.name }} 
+                                                    <br /><br />
+                                                    <div class="input-group" style="width:1050px;">
+                                                        <span class="input-group-addon">New name</span>
+                                                        <input type="text" class="form-control" [(ngModel)]="currentRegata.currentRace.name">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>                    
+                                    </div>
+
+                                    <div class="panel-body">
+                                        <div class="container" >
+
+                                            <div class="row"><br />
+                                                <div class="col-xs-4 col-md-2"><span class="glyphicon glyphicon-map-marker"></span> <b>Location</b></div>
+                                                <div class="col-xs-8 col-md-4">
+                                                    <div class="input-group" style="width:850px;">
+                                                        <span class="input-group-addon">New location</span>
+                                                        <input type="text" class="form-control" [(ngModel)]="currentRegata.location">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        
+                                            <div class="row"><br />
+                                                <div class="col-xs-4 col-md-2"><span class="glyphicon glyphicon-time"></span> <b>Start Date</b></div>
+                                                <div class="col-xs-8 col-md-4">
+                                                    <div class="input-group" style="width:850px;">
+                                                        <span class="input-group-addon">New Start Date</span>
+                                                        <input type="text" class="form-control" [(ngModel)]="currentRegata.startDate">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row"><br />
+                                                <div class="col-xs-4 col-md-2"><span class="glyphicon glyphicon-time"></span><b> End Date</b></div>
+                                                <div class="col-xs-8 col-md-4">
+                                                    <div class="input-group" style="width:850px;">
+                                                        <span class="input-group-addon">New End Date</span>
+                                                        <input type="text" class="form-control" [(ngModel)]="currentRegata.endDate">
+                                                    </div>
+                                                </div>
+                                            </div><br />
+
+                                            <div class="row">
+                                                <div class="col-xs-3 col-md-2">
+                                                    <div style="position:relative; left:565%;" class="btn-group" role="group">
+                                                        <button type="button" class="btn btn-danger" (click)="onSaveRace()"><a style="color: white;">Save Race </a><span class="glyphicon glyphicon-ok"></span></button>
+                                                    </div>
+                                                </div>
+                                            </div> 
+                                        </div>
+                                    </div>           
+                                </div>
+                            </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-3 col-md-2">
+                        <div style="position:relative; left:586%;" class="btn-group" role="group">
+                            <button type="button" class="btn btn-danger" (click)="onSave()"><a style="color: white;">Done  </a><span class="glyphicon glyphicon-ok"></span></button>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>           
+</div>
+

@@ -1,22 +1,23 @@
-import { NgModule }      from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { HttpModule }   from '@angular/http';
-import { RouterModule, Routes } from '@angular/router';
-import { FormsModule } from '@angular/forms';
-import { AppRoutingModule } from './app-routing-module';
+import { NgModule }                   from '@angular/core';
+import { BrowserModule }              from '@angular/platform-browser';
+import { HttpModule }                 from '@angular/http';
+import { RouterModule, Routes }       from '@angular/router';
+import { FormsModule }                from '@angular/forms';
+import { AppRoutingModule }           from './app-routing-module';
 
-import { AppComponent }  from './components/app.component';
-import { TestComponent }    from './components/test.component';
-import { UserPanelComponent } from './components/userpanel.component';
-import { DashboardComponent } from './components/dashboard.component';
-import { DeviceDashboardComponent } from './components/devices-dashboard.component';
-import { RegatasComponent } from './components/regatas.component';
-import { RegataViewComponent } from './components/regata-view.component'
-import { DeviceListComponent } from './components/devices-list.component'
+import { AppComponent }               from './components/app.component';
+import { TestComponent }              from './components/test.component';
+import { UserPanelComponent }         from './components/userpanel.component';
+import { DashboardComponent }         from './components/dashboard.component';
+import { DeviceDashboardComponent }   from './components/devices-dashboard.component';
+import { RegatasComponent }           from './components/regatas.component';
+import { RegataEditionComponent }     from './components/regata.edit.component';
+import { RegataViewComponent }        from './components/regata-view.component'
+import { DeviceListComponent }        from './components/devices-list.component'
 
-import { UserService } from './services/user.service';
-import { RegatasService } from './services/regatas.service';
-import { DevicesService } from './services/devices.service';
+import { UserService }                from './services/user.service';
+import { RegatasService }             from './services/regatas.service';
+import { DevicesService }             from './services/devices.service';
 
 import * as router from '@angular/router';
 
@@ -29,7 +30,8 @@ import * as router from '@angular/router';
                   RegatasComponent,
                   RegataViewComponent,
                   DeviceListComponent,
-                  DeviceDashboardComponent
+                  DeviceDashboardComponent,
+                  RegataEditionComponent
                 ],
   providers:    [
     RegatasService,

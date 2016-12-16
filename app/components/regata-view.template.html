@@ -30,6 +30,12 @@
         <span style="margin-top: 2em" class="glyphicon glyphicon-refresh spinning"></span>
     </div>
 
+<!-- pop up
+    <div>
+        <regata-edition [regata]="regata"></regata-edition>
+    </div>
+-->
+
     <div #panel class="panel panel-default animated fadeIn">
         <div class="panel-heading">
             <div style="display: flex; justify-content: space-between;">
@@ -37,7 +43,7 @@
                 <div class="">
                     <div style="text-align: center;" class="btn-group" role="group">
                         <button type="button" class="btn btn-danger" (click)="onRemove()"><span class="glyphicon glyphicon-trash"></span></button>
-                        <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-pencil"></span></button>
+                        <button type="button" class="btn btn-default" [routerLink]="['/regata-edit', regata.identifier]" (click)="onEdit()"><span class="glyphicon glyphicon-pencil"></span></button>
                     </div>
                 </div>
             </div>

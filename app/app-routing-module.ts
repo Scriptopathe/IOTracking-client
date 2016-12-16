@@ -1,17 +1,19 @@
-import { NgModule }             from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { AppComponent }  from './components/app.component';
-import { TestComponent }    from './components/test.component';
-import { UserPanelComponent } from './components/userpanel.component';
-import { DashboardComponent } from './components/dashboard.component';
-import { RegatasComponent } from './components/regatas.component';
-import { DeviceListComponent } from './components/devices-list.component';
-import { DeviceDashboardComponent } from './components/devices-dashboard.component';
+import { NgModule }                   from '@angular/core';
+import { Routes, RouterModule }       from '@angular/router';
+import { AppComponent }               from './components/app.component';
+import { TestComponent }              from './components/test.component';
+import { UserPanelComponent }         from './components/userpanel.component';
+import { DashboardComponent }         from './components/dashboard.component';
+import { RegatasComponent }           from './components/regatas.component';
+import { DeviceListComponent }        from './components/devices-list.component';
+import { DeviceDashboardComponent }   from './components/devices-dashboard.component';
+import { RegataEditionComponent }     from './components/regata.edit.component';
 
 const appRoutes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'regatas', component: RegatasComponent },
   { path: 'devices', component: DeviceDashboardComponent },
+  { path: 'regata-edit/:regataId', component: RegataEditionComponent },
   { path: '**', component: DashboardComponent }
 ];
 
