@@ -2,7 +2,8 @@ import { Component, Input, ViewChild, ElementRef }  from '@angular/core';
 import { ActivatedRoute }                           from '@angular/router'
 import { Http, Response }                           from '@angular/http';
 import { Observable }                               from 'rxjs/Observable';
-import { Regata, RegatasService, Race }             from '../services/regatas.service'
+import { RegatasService }                           from '../services/regatas.service'
+import { Regata, Race}                              from '../services/server-model'
 
 @Component({
     selector: 'race-edit',

@@ -2,8 +2,8 @@ import { Component, Input, ViewChild, ElementRef }  from '@angular/core';
 import { ActivatedRoute }                           from '@angular/router'
 import { Http, Response }                           from '@angular/http';
 import { Observable }                               from 'rxjs/Observable';
-import { Regata, RegatasService, Race }             from '../services/regatas.service'
-
+import { RegatasService }                           from '../services/regatas.service'
+import { Regata, Race}                              from '../services/server-model'
 @Component({
     selector: 'new-race',
     templateUrl: 'app/components/new-race.template.html'
@@ -21,7 +21,15 @@ export class NewRaceComponent  {
     }
 
     onSaveRace(){
-        this.currentRace = new Race(raceId, name, null /*concurrents : User[]*/, null /*route : Route*/);
+        this.currentRace = {
+            buoys : [],
+            concurrents : [],
+            data : "jiajia",
+            endDate : new Date(),
+            map : "jiajia",
+            name : "jijiajia",
+            startDate : new Date()
+        }
     }
 
     ngOnInit() {

@@ -21,8 +21,8 @@ export class DevicesService {
     private _lastStart : number
     private _lastCount : number
 
-    public constructor() {
-
+    public constructor(private _http : Http) {
+        
         this._backendDevices = []
 
         this._backendDevices.push(new Device("ID" + 9000, "", 100))

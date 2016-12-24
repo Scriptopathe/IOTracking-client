@@ -1,7 +1,8 @@
 import { Component, Input, ViewChild, ElementRef } from '@angular/core';
 import { Http, Response }   from '@angular/http';
 import { Observable }       from 'rxjs/Observable';
-import { Regata, RegatasService } from '../services/regatas.service'
+import { RegatasService }   from '../services/regatas.service'
+import { Regata, Race}      from '../services/server-model'
 import * as $ from "jquery";
 
 @Component({
