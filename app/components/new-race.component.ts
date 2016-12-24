@@ -3,38 +3,25 @@ import { ActivatedRoute }                           from '@angular/router'
 import { Http, Response }                           from '@angular/http';
 import { Observable }                               from 'rxjs/Observable';
 import { Regata, RegatasService, Race }             from '../services/regatas.service'
+
 @Component({
-    selector: 'regata-edit',
-    templateUrl: 'app/components/regata.edit.template.html'
+    selector: 'new-race',
+    templateUrl: 'app/components/new-race.template.html'
 })
 
-export class RegataEditionComponent  {
+export class NewRaceComponent  {
     //@Input('regata') currentRegata: Regata; 
+    currentRace: Race; 
     currentRegata: Regata; 
-    currentRace: Race;
     regataId : string; 
     raceId : string; 
-    showComponentNewRace : boolean;
-    showComponentEditRace : boolean;
+    name : string;
 
-    constructor(private route : ActivatedRoute, private http : Http, private regataSvc : RegatasService) {     
-        this.showComponentNewRace = false;  
-
-    }
-    
-    onNewRace(){
-        this.showComponentNewRace = true;
-        this.currentRace = new Race();
-    }
-    
-    onRaceEdit() {
-        this.showComponentEditRace = true;
-        this.currentRace = this.regataSvc.findRaceById(this.currentRegata, this.raceId);
+    constructor(private route : ActivatedRoute, private http : Http, private regataSvc : RegatasService) {
     }
 
     onSaveRace(){
-        //TODO save
-        this.showComponentNewRace = false;
+        this.currentRace = new Race(raceId, name, null /*concurrents : User[]*/, null /*route : Route*/);
     }
 
     ngOnInit() {
