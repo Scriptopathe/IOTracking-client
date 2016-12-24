@@ -17,7 +17,7 @@ export class Route
 
 export class Race
 {
-    constructor(public identifier : string, public name : string, public concurrents : User[][], public route : Route) {}
+    constructor(public identifier : string, public name : string, public concurrents : User[], public route : Route) {}
 }
 
 export class Regata
@@ -45,7 +45,7 @@ export class RegatasService {
     public constructor() {
 
         this._backendLastRegatas = [
-            new Regata("5605605", "Regatta Of Doom", "Lake Montbel", new Date(), new Date(), null),
+            new Regata("5605605", "Regatta Of Doom", "Lake Montbel", new Date(), new Date(), [new Race("RACE_TEST", "Race de la mort qui tue avec brio dans ton jardin", [new User("myuserid", "gandalf", null/*[this.findById("5605605")]*/)], null)]),
             new Regata("55605605", "Regatta Of Death", "Lake Montbel", new Date(), new Date(), null),
             new Regata("898989880","Regatta Of Life", "Lake Montbel", new Date(), new Date(), null),
             new Regata("98898989898", "Regatta Of Fire", "Lake Montbel", new Date(), new Date(), null),

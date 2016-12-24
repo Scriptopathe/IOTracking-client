@@ -26,7 +26,12 @@ export class RegataViewComponent  {
         });
     }
 
-     public onEdit()
+    public onSave()
+    {
+        //TODO
+    }
+
+    public onEdit()
     {
         let element : HTMLDivElement = this.panel.nativeElement
         //TODO edition
