@@ -58,10 +58,30 @@ export class RegatasService {
         this._lastCount = count
     }
 
-    public deleteRegata(Regata : Regata) {
-        // TODO
+    /**
+     * Asks the server for regata deletion.
+     */
+    public deleteRegata(regata : Regata) : Observable<Response> {
+        let obs = this.http.delete(Server.RegattasUrl + "/" + regata.identifier)
+        obs.subscribe((value : Response) => {
+                this.loadRegatas(this._lastStart, this._lastCount)
+        })
+        return obs
+    }
 
-        this.loadRegatas(this._lastStart, this._lastCount)
+    /**
+     * Asks the server to create a new regata.
+     */
+    public postRegata(regata : Regata) : Observable<Response> {
+        let obs : Observable<Response>
+        if(regata.identifier == null) {
+            // new regata
+            obs = this.http.post(Server.RegattasUrl, JSON.stringify(regata))
+        } else {
+            // edit regata
+            obs = this.http.put(Server.RegattasUrl + "/" + regata.identifier, JSON.stringify(regata))
+        }
+        return obs
     }
 
     public findById(id : string) : Regata {

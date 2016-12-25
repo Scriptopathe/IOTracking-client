@@ -38,12 +38,24 @@ export class RegataEditionComponent  {
         this.showComponentNewRace = false;
     }
 
+    onSave() {
+        this.regataSvc.postRegata(this.currentRegata).subscribe((value : Response) => {
+            alert("SAVE STATUS : " + value.status + " : " + value.statusText)
+        })
+    }
+
     ngOnInit() {
         this.route
             .params
             .subscribe(params => {
                 this.regataId = params['regataId']
-                this.currentRegata = this.regataSvc.findById(this.regataId)
+                if(this.regataId == 'new') {
+                    // Create new regata
+                    this.currentRegata = new Regata("Nouvelle régate", new Date(), new Date(), "Lieu", [])
+                } else {
+                    // Edit regata
+                    this.currentRegata = this.regataSvc.findById(this.regataId)
+                }
         });
     }
 }

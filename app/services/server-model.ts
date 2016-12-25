@@ -39,6 +39,13 @@ export class Regata extends DBItem {
         public races? : Array<Race>) { 
             super(null)
         }
+    
+    public loadValues(values : any) {
+        super.loadValues(values)
+        this.startDate = new Date(this.startDate)
+        this.endDate = new Date(this.endDate)
+        return this
+    }
 }
 
 /**
