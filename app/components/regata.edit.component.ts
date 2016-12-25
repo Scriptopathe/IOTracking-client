@@ -20,22 +20,6 @@ export class RegataEditionComponent  {
 
     constructor(private route : ActivatedRoute, private http : Http, private regataSvc : RegatasService) {     
         this.showComponentNewRace = false;  
-
-    }
-    
-    onNewRace(){
-        this.showComponentNewRace = true;
-        this.currentRace = null // TODO
-    }
-    
-    onRaceEdit() {
-        this.showComponentEditRace = true;
-        this.currentRace = this.regataSvc.findRaceById(this.currentRegata, this.raceId);
-    }
-
-    onSaveRace(){
-        //TODO save
-        this.showComponentNewRace = false;
     }
 
     onSave() {

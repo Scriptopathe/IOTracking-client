@@ -4,6 +4,8 @@ import { Http, Response }                           from '@angular/http';
 import { Observable }                               from 'rxjs/Observable';
 import { RegatasService }                           from '../services/regatas.service'
 import { Regata, Race}                              from '../services/server-model'
+import * as $ from 'jquery'
+
 @Component({
     selector: 'new-race',
     templateUrl: 'app/components/new-race.template.html'
@@ -16,20 +18,17 @@ export class NewRaceComponent  {
     regataId : string; 
     raceId : string; 
     name : string;
+    modalId : string;
 
     constructor(private route : ActivatedRoute, private http : Http, private regataSvc : RegatasService) {
     }
 
     onSaveRace(){
-        this.currentRace = {
-            buoys : [],
-            concurrents : [],
-            data : "jiajia",
-            endDate : new Date(),
-            map : "jiajia",
-            name : "jijiajia",
-            startDate : new Date()
-        }
+        this.currentRace = new Race(this.name, new Date(), new Date(), [], "", "", []);
+    }
+
+     getModalId() {
+        return this.modalId;
     }
 
     ngOnInit() {
@@ -38,6 +37,9 @@ export class NewRaceComponent  {
             .subscribe(params => {
                 this.regataId = params['regataId']
                 this.currentRegata = this.regataSvc.findById(this.regataId)
+                this.modalId = this.currentRegata.name + "_newrace"
         });
+
+        //$(this.modalId).modal()
     }
 }

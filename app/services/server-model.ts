@@ -92,13 +92,13 @@ export class User extends DBItem {
  */
 export class Race {
     public constructor(
+        public name : string,
         public startDate : Date,
         public endDate : Date,
         public concurrents : Array<Racer>,
         public map : Reference<RaceMap>,
         public data : Reference<RaceData>,
-        public buoys : Array<Point>,
-        public name : string
+        public buoys : Array<Point>
     ) { }
 }
 

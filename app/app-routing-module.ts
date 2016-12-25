@@ -16,7 +16,7 @@ const appRoutes: Routes = [
   { path: 'regatas', component: RegatasComponent },
   { path: 'devices', component: DeviceDashboardComponent },
   { path: 'regata-edit/:regataId', component: RegataEditionComponent },
-  { path: 'race-edit/:regataId/:raceId', component: RaceEditionComponent },
+  { path: 'race-edit/:regataId/:indexRace', component: RaceEditionComponent },
   { path: 'new-race/:regataId', component: NewRaceComponent },
   { path: '**', component: DashboardComponent }
 ];
