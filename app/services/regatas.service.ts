@@ -2,22 +2,19 @@ import { Injectable }       from '@angular/core';
 import { Http, Response }   from '@angular/http';
 import { Observable }       from 'rxjs/Rx';
 import { Inject }           from '@angular/core';
-import { User }             from './user.service' ;
+import { User, Role }       from './user.service' ;
 
-export interface Position
+export interface Point
 {
     x : number;
     y : number;
 }
 
-export class Route
-{
-    constructor(public identifier : string, public buoysPositions : Position[]) {}
-}
-
 export class Race
 {
-    constructor(public identifier : string, public name : string, public concurrents : User[], public route : Route) {}
+    // map : Reference<RaceMap>
+    // data : Reference<RaceData>
+    constructor(public name : string, public startDate : Date, public endDate : Date, public concurrents : Array<User>, public buoys : Array<Point>) {}
 }
 
 export class Regata
@@ -45,7 +42,7 @@ export class RegatasService {
     public constructor() {
 
         this._backendLastRegatas = [
-            new Regata("5605605", "Regatta Of Doom", "Lake Montbel", new Date(), new Date(), [new Race("RACE_TEST", "Race de la mort qui tue avec brio dans ton jardin", [new User("myuserid", "gandalf", null/*[this.findById("5605605")]*/)], null)]),
+            new Regata("5605605", "Regatta Of Doom", "Lake Montbel", new Date(), new Date(), [new Race("Race de la mort qui tue avec brio dans ton jardin", new Date(), new Date(), [new User("myuserid", "gandalf", Role.staff, null/*[this.findById("5605605")]*/)], null)]),
             new Regata("55605605", "Regatta Of Death", "Lake Montbel", new Date(), new Date(), null),
             new Regata("898989880","Regatta Of Life", "Lake Montbel", new Date(), new Date(), null),
             new Regata("98898989898", "Regatta Of Fire", "Lake Montbel", new Date(), new Date(), null),
@@ -93,18 +90,5 @@ export class RegatasService {
             regatta = this._backendUpcomingRegatas.find((value) => value.identifier == id);
         }
         return regatta;
-    }
-
-    public findRaceById(regata : Regata, id : string) : Race {
-        var res : Race ;
-        for (let race of regata.races)
-        {
-            if (race.identifier == id)
-            {
-                res = race;
-                break;
-            }
-        }
-        return res;
     }
 }

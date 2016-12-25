@@ -21,18 +21,8 @@ export class RegataEditionComponent  {
         this.showComponentNewRace = false;  
 
     }
-    
-    onNewRace(){
-        this.showComponentNewRace = true;
-        this.currentRace = new Race();
-    }
-    
-    onRaceEdit() {
-        this.showComponentEditRace = true;
-        this.currentRace = this.regataSvc.findRaceById(this.currentRegata, this.raceId);
-    }
 
-    onSaveRace(){
+    onSave(){
         //TODO save
         this.showComponentNewRace = false;
     }
