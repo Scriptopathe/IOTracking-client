@@ -20,6 +20,7 @@ import { NewRaceComponent }           from './components/new-race.component';
 import { UserService }                from './services/user.service';
 import { RegatasService }             from './services/regatas.service';
 import { DevicesService }             from './services/devices.service';
+import { RaceService }                from './services/race.service';
 
 import * as router from '@angular/router';
 
@@ -40,7 +41,8 @@ import * as router from '@angular/router';
   providers:    [
     RegatasService,
     DevicesService,
-    UserService
+    UserService,
+    RaceService
   ],
   
   bootstrap:    [ AppComponent ],

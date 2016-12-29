@@ -31,8 +31,8 @@ export class RegatasService {
 
     public loadRegatas(start : number, count : number) : void {
         var now = new Date()
-        var pastRegatasNeedle = "{\"endDate\": {\"$lte\": " + now.getTime() + "}}"
-        var upcomingRegatasNeedle = "{\"endDate\": {\"$gt\": " + now.getTime() + "}}"
+        var pastRegatasNeedle = "{\"endDate\": {\"$lte\": " + now.getTime() + "}, " + " \"$orderby\": {\"startDate\" : -1 } }"
+        var upcomingRegatasNeedle = "{\"endDate\": {\"$gt\": " + now.getTime() + "}, " + " \"$orderby\": {\"startDate\" : -1 } }"
         this.http
             .get(Server.RegattasUrl + "?first=" + start + "&last=" + (start + count) + "&needle=" + pastRegatasNeedle)
             .subscribe((value : Response) => {
