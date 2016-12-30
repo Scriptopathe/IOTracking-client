@@ -54,6 +54,7 @@ export class Regata extends DBItem {
 export class Racer {
     public constructor(
         public boatIdentifier? : string,
+        public skipperName? : string,
         public user? : Reference<User>,
         public device? : Reference<Device>
     ) { }
@@ -80,7 +81,6 @@ export class RaceMap extends DBItem {
 export class User extends DBItem {
     public constructor(
         public username? : string,
-        public password? : string,
         public role? : string
     ) {
         super(null)
@@ -132,4 +132,5 @@ export class Server {
     public static RegattasUrl = Server.BaseUrl + "/regattas"
     public static RaceDataUrl = Server.BaseUrl + "/racedata"
     public static RaceMapUrl = Server.BaseUrl + "/racemaps"
+    public static UsersUrl = Server.BaseUrl + "/racemaps"
 }
