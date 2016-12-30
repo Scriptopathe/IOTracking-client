@@ -13,6 +13,7 @@ import { DeviceDashboardComponent }   from './components/devices-dashboard.compo
 import { RegatasComponent }           from './components/regatas.component';
 import { RegataEditionComponent }     from './components/regata.edit.component';
 import { RaceEditionComponent }       from './components/race.edit.component';
+import { RacePlayerComponent }       from './components/race-player.component';
 import { RegataViewComponent }        from './components/regata-view.component'
 import { DeviceListComponent }        from './components/devices-list.component'
 import { NewRaceComponent }           from './components/new-race.component';
@@ -36,7 +37,8 @@ import * as router from '@angular/router';
                   DeviceDashboardComponent,
                   RegataEditionComponent,
                   RaceEditionComponent,
-                  NewRaceComponent
+                  NewRaceComponent,
+                  RacePlayerComponent
                 ],
   providers:    [
     RegatasService,

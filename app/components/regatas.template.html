@@ -5,6 +5,19 @@
         <a [routerLink]="['/regata-edit', 'new']"class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Nouvelle régate</a>
     </div>
 
+
+    <div *ngIf="regataSvc.pastRegatas != undefined">
+        <div class="panel panel-default animated fadeIn">
+                <div class="panel-heading">
+                    <div class="" style="font-size: 1.5em">{{ regataSvc.pastRegatas[0].races[0].name }}</div>
+                </div>
+                <div class="panel-body">
+                    <race-player [race]="regataSvc.pastRegatas[0].races[0]"></race-player>
+                </div>
+        </div>
+    </div>
+
+
     <!-- 
         UPCOMING REGATAS
     -->

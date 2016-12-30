@@ -1,0 +1,17 @@
+<div>
+    <div class="container">
+        <div class="row">
+            <button class="btn btn-default" (click)="toogleShowTrajectory()">Toogle show trajectory</button>
+
+            <button class="btn btn-default" (click)="showAllDevices()">Show all devices</button>
+
+            <button class="btn btn-default" (click)="hideAllDevices()">Hide all devices</button>
+        </div>
+    </div>
+    <br />
+    <img style="display: none" #mapImg [src]="getLakeImageUrl()"/>
+    <div #mapCanvasContainer class="">
+            <canvas style="display: block" #mapCanvas></canvas>
+    </div>
+
+</div>
