@@ -36,6 +36,9 @@ export class RaceService {
      * given race object.
      */
     private loadRaceData(race : Race) {
+        if(race == undefined)
+            return
+
         this.http.get(Server.RaceDataUrl + "/" + race.data)
             .subscribe((value : Response) => {
                 this.raceData = new RaceData()
