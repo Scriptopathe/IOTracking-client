@@ -4,7 +4,7 @@ import { Http, Response }                           from '@angular/http';
 import { Observable }                               from 'rxjs/Observable';
 import { RegatasService }                           from '../services/regatas.service'
 import { RaceService }                              from '../services/race.service'
-import { Regata, Race, TimePoint, Point }           from '../services/server-model'
+import { Regata, Race, Racer, TimePoint, Point }    from '../services/server-model'
 import * as $ from 'jquery'
 
 interface DeviceOption {
@@ -26,6 +26,7 @@ export class RacePlayerComponent  {
     public showTrajectory : boolean = true
     public devicesOptions : { [devId : string] : DeviceOption } = null
 
+
     constructor(private http : Http, private raceSvc : RaceService) {
         window.addEventListener("resize", () => this.resizeCanvas())
     }
@@ -38,6 +39,25 @@ export class RacePlayerComponent  {
         for(let devId in this.devicesOptions) {
             this.devicesOptions[devId].show = true
         }
+    }
+
+    getDevices() : string[] {
+        let devices : string[] = []
+        for(let key in this.devicesOptions) {
+            devices.push(key)
+        }
+        return devices
+    }
+
+    getRacer(devId : string) : Racer {
+        return this.raceSvc.race.concurrents.find((racer : Racer) => {
+            return racer.device === devId
+        })
+    }
+
+
+    getDeviceOpts(devId : string) : DeviceOption {
+        return this.devicesOptions[devId]
     }
 
     hideAllDevices() : void {
@@ -86,15 +106,15 @@ export class RacePlayerComponent  {
         let max = 1024
 
         // Draw background image
-        context.fillStyle = 'gray'
-        context.fillRect(0, 0, w, h)
-        context.fillStyle = 'blue'
-        context.fillRect(10, 10, 110, 110)
         context.fillStyle = 'white'
+        context.fillRect(0, 0, w, h)
+        context.fillStyle = 'white'
+        context.globalAlpha = 0.2
         context.drawImage(
             img, 0, 0,
             w, h)
         
+        context.globalAlpha = 1
         for(let checkpoint of this.raceSvc.race.buoys) {
             context.fillStyle = 'red'
             let x = (checkpoint.x / max) * w
@@ -114,7 +134,7 @@ export class RacePlayerComponent  {
             }
         }
 
-        // Draw one concurrent race
+        // Draw one concurrent racetype
         context.fillStyle = 'white'
         for(let devId in this.raceSvc.raceData.rawData) {
             // Show / Hide
@@ -127,6 +147,14 @@ export class RacePlayerComponent  {
             // DEBUG
             this.currentTime %= pts[pts.length - 1].t
             
+
+            if(this.showTrajectory) {
+                context.beginPath();   
+                context.moveTo(pts[0].x, pts[0].y);
+            }
+
+            context.fillStyle = this.devicesOptions[devId].color
+            context.strokeStyle = this.devicesOptions[devId].color
             for(let pt of pts) {
                 let isAfter = pt.t >= this.currentTime
                 
@@ -136,12 +164,16 @@ export class RacePlayerComponent  {
                 let x = (pt.x / max) * w
                 let y = (pt.y / max) * h 
 
-                context.fillStyle = this.devicesOptions[devId].color
+                if(this.showTrajectory)
+                    context.lineTo(x, y)
                 context.fillRect(x, y, 2, 2)
 
                 if(isAfter)
                     break;
             }
+
+            if(this.showTrajectory)
+                context.stroke();
 
         }
     }
