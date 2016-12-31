@@ -1,10 +1,12 @@
 import { Component, Input, ViewChild, ElementRef }  from '@angular/core';
 import { ActivatedRoute }                           from '@angular/router'
-import { Http, Response }                           from '@angular/http';
-import { Observable }                               from 'rxjs/Observable';
+import { Http, Response }                           from '@angular/http'
+import { Observable }                               from 'rxjs/Observable'
 import { RegatasService }                           from '../services/regatas.service'
 import { RaceService }                              from '../services/race.service'
-import { Regata, Race, Racer, TimePoint, Point }    from '../services/server-model'
+import { Regata, Race, Racer,
+         TimePoint, Point, FullRace }               from '../services/server-model'
+
 import * as $ from 'jquery'
 
 interface DeviceOption {
@@ -14,7 +16,7 @@ interface DeviceOption {
 
 @Component({
     selector: 'race-player',
-    templateUrl: 'app/components/race-player.template.html'
+    templateUrl: 'app/components/race-player.template.html',
 })
 export class RacePlayerComponent  {
     @Input("race") race : Race;
@@ -22,10 +24,18 @@ export class RacePlayerComponent  {
     @ViewChild("mapCanvas") mapCanvas: ElementRef;
     @ViewChild("mapImg") mapImg: ElementRef;
 
-    public currentTime : number = 0 
+    // constants
+    private frameDelta : number = 1000.0 / 30.0
+    
+    // data
+    private fullRace : FullRace = null
+
+    // player options
+    public currentTime : number = 0 // in seconds
     public showTrajectory : boolean = true
     public devicesOptions : { [devId : string] : DeviceOption } = null
-
+    public isPlaying : boolean = true
+    public speed : number = 1 // 1x realtime
 
     constructor(private http : Http, private raceSvc : RaceService) {
         window.addEventListener("resize", () => this.resizeCanvas())
@@ -50,11 +60,10 @@ export class RacePlayerComponent  {
     }
 
     getRacer(devId : string) : Racer {
-        return this.raceSvc.race.concurrents.find((racer : Racer) => {
+        return this.fullRace.concurrents.find((racer : Racer) => {
             return racer.device === devId
         })
     }
-
 
     getDeviceOpts(devId : string) : DeviceOption {
         return this.devicesOptions[devId]
@@ -66,24 +75,46 @@ export class RacePlayerComponent  {
         }
     }
 
+    zeroFill(n : number) : string {
+        return ('0000'+n).slice(-2);
+    }
+
+    getTimeString(timeInSeconds : number) : string {
+        // 1h 34′ 56″
+        let seconds = this.zeroFill(Math.floor(timeInSeconds % 60))
+        let minutes = this.zeroFill(Math.floor((timeInSeconds % (60 * 60)) / 60))
+        let hours = this.zeroFill(Math.floor((timeInSeconds) / (60 * 60)))
+        return hours + "h " + minutes + "' " + seconds + "\""
+    }
+
+    speedUp() {
+        this.speed *= 2
+    }
+
+    speedDown() {
+        this.speed = Math.max(1, this.speed / 2)
+    }
+
     /* ------------------------------------------------------
      * API
      * ----------------------------------------------------*/
     getLakeImageUrl() : String {
-        if(this.raceSvc.raceMap == undefined) {
+        if(this.fullRace == undefined) {
             return ""
         }
-        return "app/static/" + this.raceSvc.raceMap.raceMapImageUrl
+        return "app/static/" + this.fullRace.map.raceMapImageUrl
     }
 
     /* ------------------------------------------------------
      * Angular hooks
      * ----------------------------------------------------*/
     ngOnInit() {
-        setInterval(() => this.canvasUpdate(), 1000.0/30)
+        setInterval(() => this.canvasUpdate(), this.frameDelta)
         setTimeout(() => this.resizeCanvas(), 500)
         this.resizeCanvas()
-        this.raceSvc.race = this.race
+        this.raceSvc.loadRaceData(this.race).subscribe((fullRace) => {
+            this.fullRace = fullRace
+        })
     }
 
     /* ------------------------------------------------------
@@ -92,10 +123,33 @@ export class RacePlayerComponent  {
     randomRGB() {
         return Math.round(Math.random() * 255)
     }
+
     randomColor(seed : number) {
         return "rgb("   + this.randomRGB() + "," 
                         + this.randomRGB() + ","
                         + this.randomRGB() + ")"
+    }
+
+    getMaxTime() : number {
+        if(this.fullRace == undefined)
+            return 0
+        
+        let maxTime = Number.MIN_VALUE
+        for(let devId in this.fullRace.data.rawData) {
+            maxTime = Math.max(maxTime,  this.fullRace.data.rawData[devId][this.fullRace.data.rawData[devId].length - 1].t)
+        }
+        return maxTime
+    }
+
+    getMinTime() : number {
+        if(this.fullRace == undefined)
+            return 0
+        
+        let minTime = Number.MAX_VALUE
+        for(let devId in this.fullRace.data.rawData) {
+            minTime = Math.min(minTime,  this.fullRace.data.rawData[devId][0].t)
+        }
+        return minTime
     }
 
     canvasUpdate() : void {
@@ -114,19 +168,30 @@ export class RacePlayerComponent  {
             img, 0, 0,
             w, h)
         
+
+        // Update time
+        if(this.isPlaying) {
+            this.currentTime += this.speed * this.frameDelta / 1000.0
+            this.currentTime %= this.getMaxTime()
+        }
+
+        if(this.fullRace == null)
+            return
+        
+        // Draws checkpoints
         context.globalAlpha = 1
-        for(let checkpoint of this.raceSvc.race.buoys) {
+        for(let checkpoint of this.fullRace.buoys) {
             context.fillStyle = 'red'
             let x = (checkpoint.x / max) * w
             let y = (checkpoint.y / max) * h 
             context.fillRect(x, y, 5, 5)
         }
 
-        this.currentTime += 0.2
         
-        if(this.raceSvc.raceData.rawData != null && this.devicesOptions == null) {
+        // Initialize device options
+        if(this.fullRace.data.rawData != null && this.devicesOptions == null) {
             this.devicesOptions = {}
-            for(let devId in this.raceSvc.raceData.rawData) {
+            for(let devId in this.fullRace.data.rawData) {
                 this.devicesOptions[devId] = {
                     show: true,
                     color: this.randomColor(0)
@@ -136,21 +201,20 @@ export class RacePlayerComponent  {
 
         // Draw one concurrent racetype
         context.fillStyle = 'white'
-        for(let devId in this.raceSvc.raceData.rawData) {
+        for(let devId in this.fullRace.data.rawData) {
             // Show / Hide
             if(!this.devicesOptions[devId].show)
                 continue
             
             // Points of the trajectory
-            let pts : TimePoint[] = this.raceSvc.raceData.rawData[devId]
-
-            // DEBUG
-            this.currentTime %= pts[pts.length - 1].t
+            let pts : TimePoint[] = this.fullRace.data.rawData[devId]
             
-
             if(this.showTrajectory) {
+                let pt = pts[0]
+                let x = (pt.x / max) * w
+                let y = (pt.y / max) * h 
                 context.beginPath();   
-                context.moveTo(pts[0].x, pts[0].y);
+                context.moveTo(x, y);
             }
 
             context.fillStyle = this.devicesOptions[devId].color
@@ -196,4 +260,3 @@ export class RacePlayerComponent  {
         canvas.height = h
     }
 }
-

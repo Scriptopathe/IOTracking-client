@@ -13,10 +13,12 @@ import { DeviceDashboardComponent }   from './components/devices-dashboard.compo
 import { RegatasComponent }           from './components/regatas.component';
 import { RegataEditionComponent }     from './components/regata.edit.component';
 import { RaceEditionComponent }       from './components/race.edit.component';
-import { RacePlayerComponent }       from './components/race-player.component';
+import { RacePlayerComponent }        from './components/race-player.component';
 import { RegataViewComponent }        from './components/regata-view.component'
 import { DeviceListComponent }        from './components/devices-list.component'
 import { NewRaceComponent }           from './components/new-race.component';
+import { RaceViewComponent }           from './components/race-view.component';
+import { SliderComponent }            from './components/ui/slider.component';
 
 import { UserService }                from './services/user.service';
 import { RegatasService }             from './services/regatas.service';
@@ -38,7 +40,9 @@ import * as router from '@angular/router';
                   RegataEditionComponent,
                   RaceEditionComponent,
                   NewRaceComponent,
-                  RacePlayerComponent
+                  RacePlayerComponent,
+                  SliderComponent,
+                  RaceViewComponent
                 ],
   providers:    [
     RegatasService,

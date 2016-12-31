@@ -103,6 +103,20 @@ export class Race {
 }
 
 /**
+ * Interface containing all the fields of a race object.
+ */
+export class FullRace extends DBItem {
+    public constructor(
+        public name? : string,
+        public startDate? : Date,
+        public endDate? : Date,
+        public concurrents? : Array<Racer>,
+        public map? : RaceMap,
+        public data? : RaceData,
+        public buoys? : Array<Point>
+    ) { super(null) }
+}
+/**
  * Interface containing all the fields of a device object.
  */
 export class Device extends DBItem {

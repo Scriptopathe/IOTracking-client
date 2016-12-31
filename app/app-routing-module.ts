@@ -10,6 +10,7 @@ import { DeviceDashboardComponent }   from './components/devices-dashboard.compo
 import { RegataEditionComponent }     from './components/regata.edit.component';
 import { RaceEditionComponent }       from './components/race.edit.component';
 import { NewRaceComponent }           from './components/new-race.component';
+import { RaceViewComponent }           from './components/race-view.component';
 
 const appRoutes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
@@ -18,6 +19,7 @@ const appRoutes: Routes = [
   { path: 'regata-edit/:regataId', component: RegataEditionComponent },
   { path: 'race-edit/:regataId/:indexRace', component: RaceEditionComponent },
   { path: 'new-race/:regataId', component: NewRaceComponent },
+  { path: 'view-race/:regata/:race', component: RaceViewComponent },
   { path: '**', component: DashboardComponent }
 ];
 

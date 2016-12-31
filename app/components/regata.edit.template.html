@@ -50,9 +50,10 @@
                 </div><br />
 
                 <!-- display existing races for current regata -->
-                <div *ngFor="let race of currentRegata.races">
+                <div *ngFor="let race of currentRegata.races; let i = index">
                     <div style="text-align: left;" class="btn-group" role="group">
-                                <button type="button" class="btn btn-default" [routerLink]="['/race-edit', currentRegata.identifier, race.identifier]"><span class="glyphicon glyphicon-pencil"></span>  {{ race.name }}</button>
+                                <button type="button" class="btn btn-default" [routerLink]="['/race-edit', currentRegata.identifier, i]"><span class="glyphicon glyphicon-pencil"></span>  {{ race.name }}</button>
+                                <button type="button" class="btn btn-default" [routerLink]="['/view-race', currentRegata.identifier, i]"><span class="glyphicon glyphicon-view"></span>  View</button>
                     </div>
                 </div>
 

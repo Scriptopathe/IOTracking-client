@@ -1,31 +1,17 @@
 import { Injectable }       from '@angular/core';
 import { Http, Response }   from '@angular/http';
-import { Observable }       from 'rxjs/Rx';
+import { Observable, Subscriber }  from 'rxjs/Rx';
 import { Inject }           from '@angular/core';
 import { User, Regata,
-         Race, Server, 
+         FullRace, Race, Server, 
          RaceData, RaceMap,
          Point, TimePoint } from './server-model';
 
 @Injectable()
 export class RaceService {
-    private _race : Race
-    public raceData : RaceData
-    public raceMap : RaceMap
 
     public constructor(private http : Http) {
 
-    }
-
-    /** ======================================================================
-     *  PROPERTIES
-     *  =================================================================== */
-    public get race() { return this._race }
-    public set race(race : Race) {
-        this._race = race
-        this.raceData = null
-        this.raceMap = null
-        this.loadRaceData(race)
     }
 
     /** ======================================================================
@@ -35,20 +21,40 @@ export class RaceService {
      * Loads raceData and raceMap actual values using the references in the
      * given race object.
      */
-    private loadRaceData(race : Race) {
+    private loadRaceData(race : Race) : Observable<FullRace> {
         if(race == undefined)
-            return
+            return null
 
-        this.http.get(Server.RaceDataUrl + "/" + race.data)
+        var othis = this
+        
+        return new Observable<FullRace>((subscriber : Subscriber<FullRace>) => {
+            let fullrace : FullRace = new FullRace();
+            fullrace.loadValues(race)
+            fullrace.map = null
+            fullrace.data = null
+
+            othis.http.get(Server.RaceDataUrl + "/" + race.data)
             .subscribe((value : Response) => {
-                this.raceData = new RaceData()
-                this.raceData.loadValues(value.json()) 
+                let data = new RaceData()
+                data.loadValues(value.json()) 
+                fullrace.data = data
+                if(fullrace.map != null) {
+                    subscriber.next(fullrace)
+                    subscriber.complete()
+                }
             })
 
-        this.http.get(Server.RaceMapUrl + "/" + race.map)
+            othis.http.get(Server.RaceMapUrl + "/" + race.map)
             .subscribe((value : Response) => {
-                this.raceMap = new RaceMap()
-                this.raceMap.loadValues(value.json())
+                let map = new RaceMap()
+                map.loadValues(value.json())
+                fullrace.map = map
+
+                if(fullrace.data != null) {
+                    subscriber.next(fullrace)
+                    subscriber.complete()
+                }
             })
+        })
     }
 }
