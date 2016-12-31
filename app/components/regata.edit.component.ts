@@ -38,7 +38,9 @@ export class RegataEditionComponent  {
                     this.currentRegata = new Regata("Nouvelle régate", new Date(), new Date(), "Lieu", [])
                 } else {
                     // Edit regata
-                    this.currentRegata = this.regataSvc.findById(this.regataId)
+                    this.regataSvc.findById(this.regataId).subscribe((regata : Regata) => {
+                        this.currentRegata = regata
+                    })
                 }
         });
     }

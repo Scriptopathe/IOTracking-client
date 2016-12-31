@@ -1,8 +1,8 @@
-import { Injectable }       from '@angular/core';
-import { Http, Response }   from '@angular/http';
-import { Observable }       from 'rxjs/Rx';
-import { Inject }           from '@angular/core';
-import { User, Regata, Race, Server }          from './server-model';
+import { Injectable }                   from '@angular/core';
+import { Http, Response }               from '@angular/http';
+import { Observable, Subscriber }       from 'rxjs/Rx';
+import { Inject }                       from '@angular/core';
+import { User, Regata, Race, Server }   from './server-model';
 
 export interface Point
 {
@@ -17,15 +17,13 @@ export class RegatasService {
     public pastRegatasCount : number
     public upcomingRegatas : Regata[]
 
-    
-    // Back end data simulation
-    private _backendLastRegatas : Regata[]
-    private _backendUpcomingRegatas : Regata[]
-
     private _lastStart : number
     private _lastCount : number
 
     public constructor(private http : Http) {
+        this.pastRegatas = []
+        this.upcomingRegatas = []
+        this.pastRegatasCount = 0
         this.loadRegatas(0, 5);
     }
 
@@ -81,11 +79,27 @@ export class RegatasService {
         return obs
     }
 
-    public findById(id : string) : Regata {
+    public findById(id : string) : Observable<Regata> {
         var regata = this.pastRegatas.find((value) => value.identifier == id)
         if(regata == null) {
             regata = this.upcomingRegatas.find((value) => value.identifier == id);
         }
-        return regata;
+
+        // If not in cache, load the regatta
+        if(regata == null) {
+            return new Observable<Regata>((subscriber : Subscriber<Regata>) => { 
+                this.http.get(Server.RegattasUrl + "/" + id).subscribe((response : Response) => {
+                    regata = new Regata()
+                    regata.loadValues(response.json())
+                    subscriber.next(regata)
+                    subscriber.complete()
+                })
+            }); 
+        }
+
+        return new Observable<Regata>((subscriber : Subscriber<Regata>) => { 
+            subscriber.next(regata)
+            subscriber.complete()
+        });
     }
 }

@@ -26,12 +26,13 @@ export class RaceViewComponent  {
             .params
             .subscribe(params => {
                 var regattaId = params["regata"]
-                let regata : Regata = this.regataSvc.findById(regattaId)
-                if(regata != null) {
-                    let raceId = Number(params["race"])
-                    let race : Race = regata.races[raceId]
-                    this.race = race
-                }
+                this.regataSvc.findById(regattaId).subscribe((regata : Regata) => {
+                    if(regata != null) {
+                        let raceId = Number(params["race"])
+                        let race : Race = regata.races[raceId]
+                        this.race = race
+                    }
+                })
         });
     }
 }

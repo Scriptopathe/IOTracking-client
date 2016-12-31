@@ -19,16 +19,19 @@ interface DeviceOption {
     templateUrl: 'app/components/race-player.template.html',
 })
 export class RacePlayerComponent  {
-    @Input("race") race : Race;
     @ViewChild("mapCanvasContainer") mapCanvasContainer : ElementRef;
     @ViewChild("mapCanvas") mapCanvas: ElementRef;
     @ViewChild("mapImg") mapImg: ElementRef;
 
+    /* ------------------------------------------------------
+     * Variables
+     * ----------------------------------------------------*/
     // constants
     private frameDelta : number = 1000.0 / 30.0
     
     // data
     private fullRace : FullRace = null
+    private _race : Race
 
     // player options
     public currentTime : number = 0 // in seconds
@@ -37,10 +40,31 @@ export class RacePlayerComponent  {
     public isPlaying : boolean = true
     public speed : number = 1 // 1x realtime
 
+    /* ------------------------------------------------------
+     * Properties
+     * ----------------------------------------------------*/
+    get race() : Race { 
+        return this._race   
+    };
+
+    @Input("race") set race(race : Race) {
+        this._race = race
+        if(race != null) {
+            this.raceSvc.loadRaceData(this.race).subscribe((fullRace) => {
+                this.fullRace = fullRace
+            })
+        }
+    }
+    /* ------------------------------------------------------
+     * Constructor
+     * ----------------------------------------------------*/
     constructor(private http : Http, private raceSvc : RaceService) {
         window.addEventListener("resize", () => this.resizeCanvas())
     }
-    
+
+    /* ------------------------------------------------------
+     * Methods
+     * ----------------------------------------------------*/   
     toogleShowTrajectory() : void {
         this.showTrajectory = !this.showTrajectory
     }
@@ -76,6 +100,7 @@ export class RacePlayerComponent  {
     }
 
     zeroFill(n : number) : string {
+        if(n == undefined) n = 0
         return ('0000'+n).slice(-2);
     }
 
@@ -112,9 +137,6 @@ export class RacePlayerComponent  {
         setInterval(() => this.canvasUpdate(), this.frameDelta)
         setTimeout(() => this.resizeCanvas(), 500)
         this.resizeCanvas()
-        this.raceSvc.loadRaceData(this.race).subscribe((fullRace) => {
-            this.fullRace = fullRace
-        })
     }
 
     /* ------------------------------------------------------
@@ -132,9 +154,9 @@ export class RacePlayerComponent  {
 
     getMaxTime() : number {
         if(this.fullRace == undefined)
-            return 0
+            return 100
         
-        let maxTime = Number.MIN_VALUE
+        let maxTime = 0
         for(let devId in this.fullRace.data.rawData) {
             maxTime = Math.max(maxTime,  this.fullRace.data.rawData[devId][this.fullRace.data.rawData[devId].length - 1].t)
         }

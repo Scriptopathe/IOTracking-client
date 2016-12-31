@@ -36,7 +36,9 @@ export class NewRaceComponent  {
             .params
             .subscribe(params => {
                 this.regataId = params['regataId']
-                this.currentRegata = this.regataSvc.findById(this.regataId)
+                this.regataSvc.findById(this.regataId).subscribe((regata : Regata) => {
+                    this.currentRegata = regata
+                })
                 this.modalId = this.currentRegata.name + "_newrace"
         });
 

@@ -47,9 +47,8 @@ export class SliderComponent  {
     @Input("value")
     get value() { return this._value }
     set value(val) {
-        if(val == undefined) val = this.minValue
-        this._value = Math.max(this.minValue, Math.min(this.maxValue, val))
-        this.valueChange.emit(this.value)
+        this._value = val // Math.max(this.minValue, Math.min(this.maxValue, val))
+        this.valueChange.emit(this._value)
         this.canvasUpdate()
     }
 
@@ -93,8 +92,6 @@ export class SliderComponent  {
 
     onMouseUp(e: JQueryMouseEventObject) {
         if(this._isSliding) {
-            // Fire event
-
             this._isSliding = false
         }
 
@@ -140,7 +137,12 @@ export class SliderComponent  {
 
     getCaretRect() : Rectangle {
         let caretWidth = 10
-        let percent = 1.0 * (this.value - this.minValue) / this.maxValue
+        let percent = 1.0 * (this.value - this.minValue) / (this.maxValue - this.minValue)
+        
+        if(this.minValue == this.maxValue) {
+            percent = 0.5
+        }
+
         let posX = percent * this.getCanvas().width - caretWidth / 2
         return {
             x: posX,
