@@ -21,12 +21,12 @@ export class RaceService {
      * Loads raceData and raceMap actual values using the references in the
      * given race object.
      */
-    private loadRaceData(race : Race) : Observable<FullRace> {
+    public loadRaceData(race : Race) : Observable<FullRace> {
         if(race == undefined)
             return null
 
         var othis = this
-        
+
         return new Observable<FullRace>((subscriber : Subscriber<FullRace>) => {
             let fullrace : FullRace = new FullRace();
             fullrace.loadValues(race)
