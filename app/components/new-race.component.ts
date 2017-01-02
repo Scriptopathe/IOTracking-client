@@ -35,7 +35,7 @@ export class NewRaceComponent  {
         this.route
             .params
             .subscribe(params => {
-                this.regataId = params['regataId']
+                this.regataId = params['regata']
                 this.regataSvc.findById(this.regataId).subscribe((regata : Regata) => {
                     this.currentRegata = regata
                 })

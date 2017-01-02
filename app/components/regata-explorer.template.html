@@ -1,0 +1,50 @@
+<div class="container animated fadeInUp">
+    <div class="material-box material-box-fit">
+        <div class="material-box-title">Regates</div>
+
+        <div class="row">
+            <div class="col-xs-3">
+                <button class="btn btn-default" [disabled]="previousMonthDisabled()" (click)="goToPreviousMonth()">Mois précédent</button>
+            </div>
+
+
+            <div class="col-xs-3">
+                <select class="form-control" [(ngModel)]="year">
+                    <option *ngFor="let y of getYears()" [value]="y">{{ y }}</option>
+                </select>
+            </div>
+
+            <div class="col-xs-3 text-right">
+                <select class="form-control" [(ngModel)]="month">
+                    <option *ngFor="let m of DateHelper.getMonths()" [value]="m">{{ DateHelper.getMonthString(m) }}</option>
+                </select>
+            </div>
+
+            <div class="col-xs-3 text-right">
+                <button class="btn btn-default" [disabled]="nextMonthDisabled()" (click)="goToNextMonth()">Mois suivant</button>
+            </div>
+
+        </div>
+
+        <br />
+        
+        <ul class="list-group">
+            <a [routerLink]="['/regata-explorer/regata', regata.identifier]" class="list-group-item" *ngFor="let regata of regatas">
+                <h4 class="list-group-item-heading">{{ regata.name }}</h4>
+                <p class="list-group-item-text">
+                    <span class="glyphicon glyphicon-time"></span> 
+                    <b>{{ DateHelper.formatFullDate(regata.startDate) }}</b> -
+                    <b>{{ DateHelper.formatFullDate(regata.endDate) }}</b><br />
+
+                    <span class="glyphicon glyphicon-flag"></span> {{ regata.races.length }} courses.
+
+                </p>
+            </a>
+        </ul>
+
+        <div *ngIf="regatas.length == 0" style="text-align: center">
+            <br />
+            <h4>Pas de régate durant le mois de {{ DateHelper.getMonthString(month) }} {{ year }}.</h4>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,54 @@
+<div class="container">
+    <div *ngIf="regata == null" class="spinning-container animated bounceInDown">
+        <span style="margin-top: 2em" class="glyphicon glyphicon-refresh spinning"></span>
+    </div>
+
+    <div *ngIf="regata != null">
+        <div class="material-box material-box-fit animated fadeIn">
+            <div class="material-box-title">{{ regata.name }}</div>
+            <div class="row">
+                <div class="col-xs-1 text-right">
+                    <span class="glyphicon glyphicon-time"></span> 
+                </div>
+                <div class="col-xs-11">
+                    <b>{{ DateHelper.formatFullDate(regata.startDate) }}</b> -
+                    <b>{{ DateHelper.formatFullDate(regata.endDate) }}</b><br />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-1 text-right">
+                    <span class="glyphicon glyphicon-flag"></span> 
+                </div>
+                <div class="col-xs-11">
+                    {{ regata.races.length }} courses
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-1 text-right">
+                    <span class="glyphicon glyphicon-map-marker"></span> 
+                </div>
+                <div class="col-xs-11">
+                    {{ regata.location }}
+                </div>
+            </div>
+
+            <br />
+            
+            <div class="list-group">
+                <a *ngFor="let race of regata.races; let i = index" 
+                    [routerLink]="['/regata-explorer/regata', regata.identifier, i]" 
+                    class="list-group-item">
+                    
+                    <h4 class="list-group-item-heading">{{ race.name }}</h4>
+
+                    <div class="list-group-item-text">
+                        <span class="glyphicon glyphicon-time"></span>
+                        <b>{{ DateHelper.formatFullDate(race.startDate) }}</b> -
+                        <b>{{ DateHelper.formatFullDate(race.endDate) }}</b>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

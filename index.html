@@ -67,6 +67,29 @@
         margin-bottom: 1em;
         border-bottom: 1px solid #F0F0F0;
       }
+
+      .glyphicon.spinning {
+          animation: spin 1s infinite linear;
+          -webkit-animation: spin2 1s infinite linear;
+      }
+
+      .spinning-container {
+          text-align: center; 
+          padding-top: 1em; 
+          width: 100%;
+          height: 0px;
+          overflow: visible;
+          font-size: 2em;
+      }
+      @keyframes spin {
+          from { transform: scale(1) rotate(0deg); }
+          to { transform: scale(1) rotate(360deg); }
+      }
+
+      @-webkit-keyframes spin2 {
+          from { -webkit-transform: rotate(0deg); }
+          to { -webkit-transform: rotate(360deg); }
+      }
     </style>
     <script>
       System.import('app').catch(function(err){ console.error(err); });

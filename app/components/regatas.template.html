@@ -2,7 +2,7 @@
 
     <div class="material-box material-box-fit">
         <div class="material-box-title">Actions</div>
-        <a [routerLink]="['/regata-edit', 'new']"class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Nouvelle régate</a>
+        <a [routerLink]="['new']"class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Nouvelle régate</a>
     </div>
 
     <!-- 
@@ -36,7 +36,7 @@
                         [class.active]="page == pastRegatasPage"
                         (click)="setPage(page)"
                         >
-                        <a routerLink="/regatas" [ngSwitch]="page">
+                        <a [routerLink]="[]" [ngSwitch]="page">
                             <span *ngSwitchCase="0">First</span>
                             <span *ngSwitchCase="getPagesCount()-1">Last</span>
                             <span *ngSwitchDefault>{{page}}</span>

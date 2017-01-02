@@ -32,7 +32,7 @@ export class RegataEditionComponent  {
         this.route
             .params
             .subscribe(params => {
-                this.regataId = params['regataId']
+                this.regataId = params['regata']
                 if(this.regataId == 'new') {
                     // Create new regata
                     this.currentRegata = new Regata("Nouvelle régate", new Date(), new Date(), "Lieu", [])
