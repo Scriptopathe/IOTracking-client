@@ -1,57 +1,57 @@
-import { Injectable }       from '@angular/core';
-import { Http, Response }   from '@angular/http';
-import { Observable }       from 'rxjs/Rx';
-import { Inject }           from '@angular/core';
+import { Injectable }                   from '@angular/core';
+import { Http, Response }               from '@angular/http';
+import { Observable, Subscriber }       from 'rxjs/Rx';
+import { Inject }                       from '@angular/core';
+import { Device, Server }               from './server-model';
 
-export class Device
-{
-    constructor(public identifier : string, public name : string, public batteryLevel : number, public isActive? : boolean) { }
-}
 
 @Injectable()
 export class DevicesService {
 
-    public devices : Device[]
-    public devicesCount : number
-
-    
-    // Back end data simulation
-    private _backendDevices : Device[]
-
-    private _lastStart : number
-    private _lastCount : number
-
     public constructor(private _http : Http) {
         
-        this._backendDevices = []
-
-        this._backendDevices.push(new Device("ID" + 9000, "", 100))
-
-        for(let j = 0; j < 100; j++) {
-            this._backendDevices.push(new Device("ID" + j, "Device " + j, Math.ceil(Math.random() * 100), j % 7 == 0))
-        }
-
-
-        this.loadDevices(0, this._backendDevices.length-1);
     }
 
-    public loadDevices(start : number, count : number) : void {
-        this.devicesCount = this._backendDevices.length
-        this.devices = this._backendDevices.slice(start, start+count)
-        
-        this._lastStart = start
-        this._lastCount = count
+    public loadDevices() : Observable<Device[]> {
+        return new Observable<Device[]>((subscriber : Subscriber<Device[]>) => {
+            this._http.get(Server.DevicesUrl)
+            .subscribe((value : Response) => {
+                if(value.ok) {
+                    let devices = (<any[]>value.json()).map((value) => new Device().loadValues(value))
+                    subscriber.next(devices)
+                } else {
+                    subscriber.error(value.status)
+                }
+                subscriber.complete()
+            })
+        })
     }
 
-    public deleteDevice(Device : Device) {
-        let index = this._backendDevices.indexOf(Device) 
-        if(index != -1)
-            this._backendDevices.splice(index, 1);
-
-        this.loadDevices(this._lastStart, this._lastCount)
+    public deleteDevice(device : Device) : Observable<boolean> {
+        return new Observable<boolean>((subscriber : Subscriber<boolean>) => {
+            this._http.delete(Server.DevicesUrl + "/" + device.identifier)
+            .subscribe((value : Response) => {
+                subscriber.next(value.ok)
+                if(!value.ok)
+                    subscriber.error(value.status)
+                subscriber.complete()
+            })
+        })
     }
 
-    get lowPowerDevices() { return this.devices.filter((value, index) => { return value.batteryLevel < 10 }) }
-    get newDevices() { return this.devices.filter((value, index) => { return value.name == "" }) }
-    get activeDevices() { return this.devices.filter((value, index) => { return value.isActive }) }
+    public updateDevice(device : Device) : Observable<boolean> {
+        return new Observable<boolean>((subscriber : Subscriber<boolean>) => {
+            this._http.put(Server.DevicesUrl + "/" + device.identifier, JSON.stringify(device))
+            .subscribe((value : Response) => {
+                subscriber.next(value.ok)
+                if(!value.ok)
+                    subscriber.error(value.status)
+                subscriber.complete()
+            })
+        })
+    }
+
+    public getLowPowerDevices(devices : Device[]) { return devices.filter((value, index) => { return value.batteryLevel < 10 }) }
+    public getNewDevices(devices : Device[]) { return devices.filter((value, index) => { return value.name == "" }) }
+    public getActiveDevices(devices : Device[]) { return devices.filter((value, index) => { return value.isActive }) }
 }

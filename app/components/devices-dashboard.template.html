@@ -1,5 +1,5 @@
 <div class="container animated fadeInUp">
-    <device-list #devList [(device)]="currentDevice"></device-list>
+    <device-list #devList [(device)]="currentDevice" [devices]="devices"></device-list>
     
     <!-- Low power devices -->
     <div class="material-box material-box-fit animated fadeIn" *ngIf="lowPowerDevices.length != 0">
