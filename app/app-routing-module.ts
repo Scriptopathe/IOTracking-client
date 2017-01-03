@@ -59,6 +59,10 @@ const appRoutes: Routes = [
                 component: RegataEditionComponent
               },
               {
+                path: 'newrace',
+                component: NewRaceComponent
+              },
+              {
                 // dashboard/regatas/:regata/races
                 path: 'races/:race',
                 children: [
@@ -70,10 +74,6 @@ const appRoutes: Routes = [
                     path: 'view',
                     component: RaceViewComponent,
                   },
-                  {
-                    path: 'new',
-                    component: NewRaceComponent
-                  }
                 ]
               }
             ]
