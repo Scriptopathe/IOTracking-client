@@ -147,4 +147,5 @@ export class Server {
     public static RaceDataUrl = Server.BaseUrl + "/racedata"
     public static RaceMapUrl = Server.BaseUrl + "/racemaps"
     public static UsersUrl = Server.BaseUrl + "/racemaps"
+    public static DevicesUrl = Server.BaseUrl + "/devices"
 }
