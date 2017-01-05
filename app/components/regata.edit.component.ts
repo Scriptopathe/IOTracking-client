@@ -3,6 +3,7 @@ import { ActivatedRoute }                           from '@angular/router'
 import { Http, Response }                           from '@angular/http';
 import { Observable }                               from 'rxjs/Observable';
 import { RegatasService }                           from '../services/regatas.service'
+import { RaceService }                              from '../services/race.service'
 import { Regata, Race }                             from '../services/server-model'
 @Component({
     selector: 'regata-edit',
@@ -14,12 +15,34 @@ export class RegataEditionComponent  {
     currentRegata: Regata; 
     currentRace: Race;
     regataId : string; 
-    raceId : string; 
     showComponentNewRace : boolean;
     showComponentEditRace : boolean;
 
-    constructor(private route : ActivatedRoute, private http : Http, private regataSvc : RegatasService) {     
-        this.showComponentNewRace = false;  
+    liveRegataId : string
+    liveRaceId : number
+
+    constructor(private route : ActivatedRoute, private http : Http, 
+        private regataSvc : RegatasService, private raceSvc : RaceService) {     
+        this.showComponentNewRace = false;
+        this.currentRegata = null
+        this.currentRace = null
+        this.raceSvc.getLiveRace().subscribe((serverState) => {
+            this.liveRegataId = <string>serverState.liveRegata
+            this.liveRaceId = serverState.liveRaceId
+        })
+    }
+
+    isLive(raceId : number) {
+        return this.liveRegataId == this.regataId && raceId == this.liveRaceId
+    }
+
+    setLive(raceId : number) {
+        this.raceSvc.setLiveRace(this.regataId, raceId).subscribe((value) =>{
+            if(value) {
+                this.liveRegataId = this.regataId
+                this.liveRaceId = raceId
+            }
+        })
     }
 
     onSave() {

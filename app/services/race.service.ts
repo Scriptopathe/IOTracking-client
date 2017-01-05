@@ -5,7 +5,8 @@ import { Inject }           from '@angular/core';
 import { User, Regata,
          FullRace, Race, Server, 
          RaceData, RaceMap,
-         Point, TimePoint } from './server-model';
+         Point, TimePoint,
+         ServerState } from './server-model';
 
 @Injectable()
 export class RaceService {
@@ -17,6 +18,51 @@ export class RaceService {
     /** ======================================================================
      *  METHODS
      *  =================================================================== */
+
+    public setLiveRace(regattaId : string, raceId : number) : Observable<boolean> {
+        var othis = this
+        return new Observable<boolean>((subscriber : Subscriber<boolean>) => {
+            othis.http.post(Server.LiveUrl, JSON.stringify({ liveRegata: regattaId, liveRaceId: raceId }))
+            .subscribe((value : Response) =>
+            {
+                subscriber.next(value.ok)
+                subscriber.complete()
+            })
+        })
+    }
+
+    public clearLiveRace() : Observable<boolean> {
+        var othis = this
+        return new Observable<boolean>((subscriber : Subscriber<boolean>) => {
+            othis.http.delete(Server.LiveUrl)
+            .subscribe((value : Response) =>
+            {
+                subscriber.next(value.ok)
+                subscriber.complete()
+            })
+        })
+    }
+
+    public getLiveRace() : Observable<ServerState> {
+        var othis = this
+        return new Observable<ServerState>((subscriber : Subscriber<ServerState>) => {
+            othis.http.get(Server.LiveUrl)
+            .subscribe((value : Response) =>
+            {
+                if(!value.ok) {
+                    subscriber.error(value.status)
+                    subscriber.complete()
+                    return
+                }
+
+                let state = new ServerState()
+                state.loadValues(value.json())
+                subscriber.next(state)
+                subscriber.complete()
+            })
+        })
+    }
+
     /**
      * Loads raceData and raceMap actual values using the references in the
      * given race object.

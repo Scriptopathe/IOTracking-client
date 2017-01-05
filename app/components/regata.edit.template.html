@@ -1,6 +1,6 @@
 <br /><br />
 <div class="container">
-    <div class="panel panel-default">
+    <div *ngIf="currentRegata != null" class="panel panel-default">
         
         <div class="panel-heading">
             <div class="container">
@@ -54,6 +54,10 @@
                     <div style="text-align: left;" class="btn-group" role="group">
                                 <button type="button" class="btn btn-default" [routerLink]="['races', i, 'edit']"><span class="glyphicon glyphicon-pencil"></span>  {{ race.name }}</button>
                                 <button type="button" class="btn btn-default" [routerLink]="['races', i, 'view']"><span class="glyphicon glyphicon-view"></span>  View</button>
+                                <button type="button" class="btn btn-default" (click)=setLive(i)><span class="glyphicon glyphicon-view"></span>  Set live</button>
+                                <div *ngIf="isLive(i)">
+                                    Live !
+                                </div>
                     </div>
                 </div>
 
