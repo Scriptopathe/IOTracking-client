@@ -13,9 +13,11 @@ import { RegataFullViewComponent }    from './components/regata-fullview.compone
 import { RaceEditionComponent }       from './components/race.edit.component';
 import { NewRaceComponent }           from './components/new-race.component';
 import { RaceViewComponent }          from './components/race-view.component';
+import { RacerEditionComponent }      from './components/racer-edit.component';
+import { NewRacerComponent }          from './components/new-racer.component';
 
 const appRoutes: Routes = [
-  { path: 'regata-explorer',                            component: RegataExplorerComponent },
+  { path: 'regata-explorer', component: RegataExplorerComponent },
   { path: 'regata-explorer/regata',
     children: [
     {
@@ -74,8 +76,21 @@ const appRoutes: Routes = [
                     path: 'view',
                     component: RaceViewComponent,
                   },
+                  {
+                    path: 'edit/newracer',
+                    component: NewRacerComponent
+                  },     {
+                    // dashboard/regatas/:regata/:race/:racer
+                    path: 'edit/:racer',
+                    children: [
+                      {
+                        path: 'edit',
+                        component: RacerEditionComponent
+                      }
+                    ]
+                  }
                 ]
-              }
+              },
             ]
           },
         ]

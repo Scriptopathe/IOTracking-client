@@ -3,21 +3,23 @@ import { ActivatedRoute }                           from '@angular/router'
 import { Http, Response }                           from '@angular/http';
 import { Observable }                               from 'rxjs/Observable';
 import { RegatasService }                           from '../services/regatas.service'
-import { Regata, Race}                              from '../services/server-model'
+import { Regata, Race, Racer }                      from '../services/server-model'
 import * as $ from 'jquery'
 
 @Component({
-    selector: 'race-edit',
-    templateUrl: 'app/components/race.edit.template.html'
+    selector: 'racer-edit',
+    templateUrl: 'app/components/racer-edit.template.html'
 })
 
-export class RaceEditionComponent  {
+export class RacerEditionComponent  {
     //@Input('regata') regataId : string; 
     //@Input('race') raceId : string; 
     regataId : string; 
     indexRace : string; 
+    indexRacer : string; 
     currentRegata: Regata; 
     currentRace: Race; 
+    currentRacer: Racer; 
     modalId : string;
 
     constructor(private route : ActivatedRoute, private http : Http, private regataSvc : RegatasService) {
@@ -36,12 +38,14 @@ export class RaceEditionComponent  {
         this.route
             .params
             .subscribe(params => {
+                this.indexRacer = params['racer']
                 this.indexRace = params['race']
                 this.regataId = params['regata']
                 this.regataSvc.findById(this.regataId).subscribe((regata : Regata) => {
                     this.currentRegata = regata
                 })
                 this.currentRace = this.currentRegata.races[this.indexRace]
+                this.currentRacer = this.currentRegata.races[this.indexRace].concurrents[this.indexRacer]
                 this.modalId = this.currentRegata.name + "_" + this.currentRace.name
         });
 

@@ -27,6 +27,8 @@ import { RegatasService }             from './services/regatas.service';
 import { RegatasNewService }          from './services/regatas-new.service';
 import { DevicesService }             from './services/devices.service';
 import { RaceService }                from './services/race.service';
+import { RacerEditionComponent }      from './components/racer-edit.component';
+import { NewRacerComponent }          from './components/new-racer.component';     
 
 import * as router from '@angular/router';
 
@@ -47,7 +49,9 @@ import * as router from '@angular/router';
                   RacePlayerComponent,
                   SliderComponent,
                   RaceViewComponent,
-                  RegataExplorerComponent
+                  RegataExplorerComponent,
+                  RacerEditionComponent,
+                  NewRacerComponent
                 ],
   providers:    [
     RegatasService,
