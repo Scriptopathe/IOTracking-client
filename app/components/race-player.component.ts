@@ -1,4 +1,5 @@
-import { Component, Input, ViewChild, ElementRef }  from '@angular/core';
+import { Component, Input, ViewChild, ElementRef,
+         SimpleChange }                             from '@angular/core';
 import { ActivatedRoute }                           from '@angular/router'
 import { Http, Response }                           from '@angular/http'
 import { Observable }                               from 'rxjs/Observable'
@@ -22,7 +23,7 @@ export class RacePlayerComponent  {
     @ViewChild("mapCanvasContainer") mapCanvasContainer : ElementRef;
     @ViewChild("mapCanvas") mapCanvas: ElementRef;
     @ViewChild("mapImg") mapImg: ElementRef;
-
+    @Input("race") race : Race
     /* ------------------------------------------------------
      * Variables
      * ----------------------------------------------------*/
@@ -31,7 +32,6 @@ export class RacePlayerComponent  {
     
     // data
     private fullRace : FullRace = null
-    private _race : Race
 
     // player options
     public currentTime : number = 0 // in seconds
@@ -43,13 +43,8 @@ export class RacePlayerComponent  {
     /* ------------------------------------------------------
      * Properties
      * ----------------------------------------------------*/
-    get race() : Race { 
-        return this._race   
-    };
-
-    @Input("race") set race(race : Race) {
-        this._race = race
-        if(race != null) {
+    ngOnChanges(changes: {[ propName: string]: SimpleChange}) {
+        if("race" in changes && this.race != null) {
             this.raceSvc.loadRaceData(this.race).subscribe((fullRace) => {
                 this.fullRace = fullRace
             })
