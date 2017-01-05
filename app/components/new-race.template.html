@@ -1,8 +1,5 @@
-<div id="getModalId()" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-
-<!-- <div class="modal fade" [id]="getModalId()">
-    <div class="modal-dialog" role="document"> -->
+<!-- <div class="modal fade" [id]="getModalId()"> -->
+    <div class="modal-dialog" role="document"> 
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -12,55 +9,31 @@
             </div>
 
             <div class="modal-body">
-                <div class="input-group" style="width:1050px;">
+                <div class="input-group">
                     <span class="input-group-addon">Name</span>
                     <input type="text" class="form-control">
-                </div>
-            </div>     
+                </div><br />
+
+                 <div class="input-group">
+                    <span class="input-group-addon">Start Date</span>
+                    <input type="text" class="form-control">
+                </div><br />
+
+                <div class="input-group">
+                    <span class="input-group-addon">End Date</span>
+                    <input type="text" class="form-control">
+                </div><br />
+            </div>    
 
             <div class="modal-footer">
                 <div class="row">
                     <div class="col-xs-3 col-md-2">
                         <div style="position:relative; left:565%;" class="btn-group" role="group">
-                            <button type="button" class="btn btn-danger" (click)="onSaveRace()"><a style="color: white;">Save Race </a><span class="glyphicon glyphicon-ok"></span></button>
+                            <button type="button" class="btn btn-danger" [routerLink]="['/dashboard/regatas/', currentRegata.identifier]" (click)="onSaveRace()"><a style="color: white;">Save Race </a><span class="glyphicon glyphicon-ok"></span></button>
                         </div>
                     </div>
                 </div>           
-            </div>
-            
+            </div>        
         </div>
     </div>
-</div>
-
-<!--
-<br /><div class="container">
-    <div class="panel panel-default">
-        
-        <div class="panel-heading">
-            <div class="container">
-                <div class="row"><br />
-                    <div class="col-xs-9 col-md-4" style="font-size: 1.5em; height: 125px;"><strong>New Race</strong>
-                        <br /><br />
-                        <div class="input-group" style="width:1050px;">
-                            <span class="input-group-addon">Name</span>
-                            <input type="text" class="form-control">
-                        </div>
-                    </div>
-                </div>
-            </div>                    
-        </div>
-
-        <div class="panel-body">
-            <div class="container" >
-                <div class="row">
-                    <div class="col-xs-3 col-md-2">
-                        <div style="position:relative; left:565%;" class="btn-group" role="group">
-                            <button type="button" class="btn btn-danger" (click)="onSaveRace()"><a style="color: white;">Save Race </a><span class="glyphicon glyphicon-ok"></span></button>
-                        </div>
-                    </div>
-                </div>           
-            </div>
-        </div>
-    </div>           
-</div>
--->
+<!--   </div>-->

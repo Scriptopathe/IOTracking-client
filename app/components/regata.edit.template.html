@@ -52,12 +52,12 @@
                 <!-- display existing races for current regata -->
                 <div *ngFor="let race of currentRegata.races; let i = index">
                     <div style="text-align: left;" class="btn-group" role="group">
-                                <button type="button" class="btn btn-default" [routerLink]="['races', i, 'edit']"><span class="glyphicon glyphicon-pencil"></span>  {{ race.name }}</button>
-                                <button type="button" class="btn btn-default" [routerLink]="['races', i, 'view']"><span class="glyphicon glyphicon-view"></span>  View</button>
+                                <button type="button" class="btn btn-default" style="background-color:#f3bebe;" [routerLink]="['races', i, 'edit']"><span class="glyphicon glyphicon-pencil"></span>  {{ race.name }}</button>
+                                <button type="button" class="btn btn-default" style="margin-right: 10px;" [routerLink]="['races', i, 'view']"><span class="glyphicon glyphicon-view"></span>  View</button>
                                 <button type="button" class="btn btn-default" (click)=setLive(i)><span class="glyphicon glyphicon-view"></span>  Set live</button>
-                                <div *ngIf="isLive(i)">
+                                <span *ngIf="isLive(i)">
                                     Live !
-                                </div>
+                                </span>
                     </div>
                 </div>
 
