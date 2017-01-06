@@ -38,7 +38,8 @@
             <div *ngFor="let racer of currentRace.concurrents; let i = index" style="text-align: left; margin-left:50px;" class="btn-group" role="group">
                 <button type="button" class="btn btn-default" style="background-color:#f3bebe; margin-bottom:10px;" [routerLink]="[i, 'edit']"><span class="glyphicon glyphicon-pencil"></span>  {{ racer.skipperName }}</button>
                 <button type="button" class="btn btn-default" style="margin-bottom:10px;"><span class="glyphicon glyphicon-view"></span>  {{racer.boatIdentifier }}</button>
-                <button type="button" class="btn btn-default" style="margin-right:10px; margin-bottom:10px;"><span class="glyphicon glyphicon-view"></span>  {{racer.device.identifier }}</button>
+                <button type="button" class="btn btn-default" style="margin-right:10px; margin-bottom:10px;"><span class="glyphicon glyphicon-view"></span>  {{racer.device.hwid }}</button>
+                {{ racer.device }}
             </div>
 
             <!-- add a new racer for current race when clicked -->

@@ -5,12 +5,14 @@ import { Observable }                               from 'rxjs/Observable';
 import { RegatasService }                           from '../services/regatas.service'
 import { RaceService }                              from '../services/race.service'
 import { Regata, Race }                             from '../services/server-model'
+import { DateHelper }                              from '../helpers/datehelper'
 @Component({
     selector: 'regata-edit',
     templateUrl: 'app/components/regata.edit.template.html'
 })
 
 export class RegataEditionComponent  {
+    public DateHelper = DateHelper
     //@Input('regata') currentRegata: Regata; 
     currentRegata: Regata; 
     currentRace: Race;
@@ -41,6 +43,19 @@ export class RegataEditionComponent  {
             if(value) {
                 this.liveRegataId = this.regataId
                 this.liveRaceId = raceId
+            }
+        })
+    }
+
+    removeRace(raceId : number) {
+        this.currentRegata.races.splice(raceId, 1)
+    }
+    
+    clearLive() {
+        this.raceSvc.clearLiveRace().subscribe((value) => {
+            if(value) {
+                this.liveRaceId = null
+                this.liveRegataId = null
             }
         })
     }
