@@ -1,7 +1,13 @@
-<br /><br />
 <div class="container">
+    <breadcumb
+        [labels]="['Dashboard', 'Regatas', currentRegata.name]"
+        [routes]="[['/dashboard'], 
+                    ['/dashboard/regatas'],
+                    ['/dashboard/regatas/', currentRegata.identifier]]">
+    </breadcumb>
     <div *ngIf="currentRegata != null" class="panel panel-default">
-        
+
+
         <div class="panel-heading">
             <h4><strong>Edition:</strong> {{ currentRegata.name }}</h4>
             <div class="row">

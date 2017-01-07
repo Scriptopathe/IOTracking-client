@@ -1,5 +1,29 @@
 <div class="container animated fadeInUp">
-    <device-list #devList [(device)]="currentDevice" [devices]="devices"></device-list>
+    <breadcumb
+        [labels]="['Dashboard', 'Devices']"
+        [routes]="[['/dashboard'], ['/dashboard/devices']]"
+    >
+    </breadcumb>
+    
+    <!-- Low power devices -->
+    <div class="material-box material-box-fit animated fadeIn">
+        <div class="material-box-title">Actions</div>
+
+        <div class="btn-group" role="group">
+            <button class="btn btn-default" (click)="addNewDevice()">
+                <span class="glyphicon glyphicon-plus"></span> Ajouter
+            </button>
+            <button class="btn btn-default" type="button" (click)="saveDevice()" [disabled]="!hasCurrentDevice()">
+                <span class="glyphicon glyphicon-check"></span> Enregistrer
+            </button>
+            <button class="btn btn-danger" (click)="removeCurrentDevice()" [disabled]="!hasCurrentDevice()">
+                <span class="glyphicon glyphicon-remove"></span> Supprimer
+            </button>
+        </div>
+                
+    </div>
+
+    <device-list #devList [devices]="devices"></device-list>
     
     <!-- Low power devices -->
     <div class="material-box material-box-fit animated fadeIn" *ngIf="lowPowerDevices.length != 0">

@@ -7,7 +7,13 @@
         public map? : Reference<RaceMap>,
         public data? : Reference<RaceData>,
         public buoys? : Array<Point>        -->
-
+    <breadcumb
+        [labels]="['Dashboard', 'Regatas', currentRegata.name, currentRace.name]"
+        [routes]="[['/dashboard'], 
+                    ['/dashboard/regatas'],
+                    ['/dashboard/regatas/', currentRegata.identifier],
+                    ['/dashboard/regatas/', currentRegata.identifier, 'races', indexRace, 'edit']]">
+    </breadcumb>
     <div class="modal-dialog" role="dialog">
         <div class="modal-content">
             <div class="modal-header">

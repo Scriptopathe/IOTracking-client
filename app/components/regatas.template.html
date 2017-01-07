@@ -1,4 +1,9 @@
-<div class="container animated fadeInUp">
+<div class="container">
+    <breadcumb
+        [labels]="['Dashboard', 'Regatas']"
+        [routes]="[['/dashboard'], ['/dashboard/regatas']]"
+    >
+    </breadcumb>
 
     <div class="material-box material-box-fit">
         <div class="material-box-title">Actions</div>
