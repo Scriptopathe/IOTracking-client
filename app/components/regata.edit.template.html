@@ -1,5 +1,5 @@
 <br /><br />
-<div class="container">
+<div class="container" *ngIf="currentRegata != null">
     <div class="panel panel-default">
         
         <div class="panel-heading">
@@ -7,7 +7,7 @@
                 <div class="row"><br />
                     <div class="col-xs-9 col-md-4" style="font-size: 1.5em; height: 125px;"><strong>Edition:</strong> {{ currentRegata.name }} 
                         <br /><br />
-                        <div class="input-group" style="width:1050px;">
+                        <div class="input-group">
                             <span class="input-group-addon">New name</span>
                             <input type="text" class="form-control" [(ngModel)]="currentRegata.name">
                         </div>
@@ -17,12 +17,11 @@
         </div>
 
         <div class="panel-body">
-            <div class="container" >
 
                 <div class="row"><br />
                     <div class="col-xs-4 col-md-2"><span class="glyphicon glyphicon-map-marker"></span> <b>Location</b></div>
                     <div class="col-xs-8 col-md-4">
-                        <div class="input-group" style="width:850px;">
+                        <div class="input-group">
                             <span class="input-group-addon">New location</span>
                             <input type="text" class="form-control" [(ngModel)]="currentRegata.location">
                         </div>
@@ -32,7 +31,7 @@
                 <div class="row"><br />
                     <div class="col-xs-4 col-md-2"><span class="glyphicon glyphicon-time"></span> <b>Start Date</b></div>
                     <div class="col-xs-8 col-md-4">
-                        <div class="input-group" style="width:850px;">
+                        <div class="input-group">
                             <span class="input-group-addon">New Start Date</span>
                             <input type="text" class="form-control" [(ngModel)]="currentRegata.startDate">
                         </div>
@@ -42,7 +41,7 @@
                 <div class="row"><br />
                     <div class="col-xs-4 col-md-2"><span class="glyphicon glyphicon-time"></span><b> End Date</b></div>
                     <div class="col-xs-8 col-md-4">
-                        <div class="input-group" style="width:850px;">
+                        <div class="input-group">
                             <span class="input-group-addon">New End Date</span>
                             <input type="text" class="form-control" [(ngModel)]="currentRegata.endDate">
                         </div>
@@ -70,7 +69,6 @@
                             <button type="button" class="btn btn-danger" (click)="onSave()"><a style="color: white;">Done  </a><span class="glyphicon glyphicon-ok"></span></button>
                         </div>
                     </div>
-                </div>
                 
             </div>
         </div>

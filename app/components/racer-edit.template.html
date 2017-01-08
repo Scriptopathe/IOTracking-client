@@ -1,20 +1,107 @@
 <!-- <div class="modal fade" [id]="getModalId()">-->
+<style>
+    .battery-container {
+        border-color: #E0E0E0;
+        border-width: 2px;
+        border-style: solid;
+        background-color: #FAFAFA;
+        width: 100%;
+        height: 2em;
+        padding: 0.25em;
+        border-radius: 10px;
+        box-shadow: 2px 2px 7px #E8E8E8;
+    }
 
-    <div class="modal-dialog" role="dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-                <div class="modal-title" style="font-size: 1.5em; height: 125px;"><strong>Racer Edition:</strong> {{ currentRacer.skipperName }} </div>
+    .battery-inner {
+        vertical-align: text-bottom;
+        height: 100%;
+        text-align: center;
+        overflow: hidden;
+        line-height: 1.3em;
+        border-radius: 10px;
+    }
+
+</style>
+
+<div class="modal-dialog" role="dialog" *ngIf="currentRegata != null && currentRace != null && currentRacer != null">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="modal-title" style="font-size: 1.5em; height: 125px;"><strong>Racer Edition:</strong> {{ currentRacer.skipperName }} </div>
+        </div><br />
+
+        <div class="modal-body">
+            <div class="input-group">
+                <span class="input-group-addon">New name</span>
+                <input type="text" class="form-control" [(ngModel)]="currentRacer.skipperName">
             </div><br />
 
-            <div class="modal-body">
-                <div class="input-group">
-                    <span class="input-group-addon">New name</span>
-                    <input type="text" class="form-control" [(ngModel)]="currentRacer.skipperName">
-                </div><br />
+            <!-- device list -->           
+            <div class="input-group" style="margin-right:0%; margin-left:0%;">
+                <span class="input-group-addon">New Device</span>        
+                <div class="form-group">
+                    <select class="form-control" [(ngModel)]="currentDevice">
+                        <option *ngFor="let device of devices; let i = index" (click)="setDevice(device)">{{ device.identifier }} - {{ device.name }}</option>
+                    </select>
+                    <br />
+                </div>
+            </div><br />   
+
+            <div class="animated fadeIn" *ngIf="currentDevice != null">
+                {{ currentDevice.name }} - {{ currentDevice.identifier }}
+                <!-- Energy -->
+                <div class="row">
+                    <div class="col-xs-6 col-sm-4 col-md-3" style="height: 2em;">
+                        <img src="app/static/battery-icon.png" style="width: 2em; height: 2em;" />
+                        <span style="padding-left: 10px; display: inline-block; line-height: 2em; ">
+                            <strong>Energy Level</strong>
+                        </span>
+                    </div> 
+                    <div class="col-xs-6 col-sm-8 col-md-9">
+                        <div class="battery-container">
+                            <div class="battery-inner" [style.width]="currentDevice.batteryLevel + '%'" [style.background]="getBackground(currentDevice.batteryLevel)" >
+                                <strong style="background-color: rgba(255, 255, 255, 0.75); border-radius: 5px;" >{{ currentDevice.batteryLevel }} %</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="currentDevice.batteryLevel < 50">
+                ATTENTION: the current device's battery level is only {{ currentDevice.batteryLevel }} %
+                </div>
             </div>
-        </div>
-     </div>
-<!-- </div>-->
+
+            <div *ngIf="currentDevice == null">
+                No selected device.
+            </div>
+
+            <!-- boats list --> 
+            <!--        
+            <div class="input-group" style="margin-right:0%; margin-left:0%;">
+                <span class="input-group-addon">New Device</span>        
+                <div class="form-group">
+                    <select class="form-control" [(ngModel)]="currentBoat">
+                        <option *ngFor="let boat of boats; let i = index" (click)="setBoat(boat)">{{ boat.identifier }} - {{ boat.name }}</option>
+                    </select>
+                    <br />
+                </div>
+            </div><br />   
+
+            <div class="animated fadeIn" *ngIf="currentBoat != null">
+                {{ currentBoat.name }} - {{ currentBoat.identifier }}
+        
+            <div *ngIf="currentBoat == null">
+                No selected boat.
+            </div>        
+            -->
+        </div><br /><br />
+        
+        <div class="modal-footer">
+            <div style="margin-right:5%;" class="btn-group" role="group">
+                <button type="button" class="btn btn-danger" [routerLink]="['/dashboard/regatas/', currentRegata.identifier, 'races', indexRace, 'edit']" (click)="onSaveRacer()"><a style="color: white;">Save Racer </a><span class="glyphicon glyphicon-ok"></span></button>
+            </div>
+        </div>           
+    </div>
+</div>
