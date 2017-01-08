@@ -19,13 +19,37 @@ export class NewRaceComponent  {
     regataId : string; 
     raceId : string; 
     modalId : string;
+    name : string;
+    startDate : string;
+    endDate: string;
+    missStartDate : boolean = false;
+    missEndDate : boolean = false;
+    missName : boolean = false;
 
     constructor(private route : ActivatedRoute, private http : Http, private regataSvc : RegatasService) {
         this.concurrents = null;
+        this.startDate = "";
+        this.endDate = "";
+        this.name = "";
     }
 
     onSaveRace(name : string){
-        this.currentRace = new Race(name, new Date(), new Date(), [], "", "", []);
+        this.missName = false,
+        this.missStartDate = false,
+        this.missEndDate = false;
+        if (this.name != "" && this.startDate != "" && this.endDate != "")
+        {
+            this.currentRace = new Race(name, new Date(), new Date(), [], "", "", []);
+            this.currentRegata.races.push(this.currentRace);
+        }
+        else {
+            if (this.name == "")
+                this.missName = true;
+            if (this.startDate == "")
+                this.missStartDate = true;
+            if (this.endDate == "")
+                this.missEndDate = true;
+        }
     }
 
     ngOnInit() {

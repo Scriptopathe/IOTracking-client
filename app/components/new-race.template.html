@@ -9,20 +9,33 @@
         <div class="panel-body">
             <div class="input-group">
                 <span class="input-group-addon">Name</span>
-                <input type="text" class="form-control">
+                <input type="text" id="name" class="form-control" [(ngModel)]="name">
+            </div>
+            <div *ngIf="missName == true">
+                Le nom de la course doit être renseigné.
             </div><br />
 
                 <div class="input-group">
                 <span class="input-group-addon">Start Date</span>
-                <input type="text" class="form-control">
+                <input type="text" id="startDate" class="form-control" [(ngModel)]="startDate">
+            </div>
+            <div *ngIf="missStartDate == true">
+                La date de début doit être renseignée.
             </div><br />
 
             <div class="input-group">
                 <span class="input-group-addon">End Date</span>
-                <input type="text" class="form-control">
+                <input type="text" id="endDate" class="form-control" [(ngModel)]="endDate">
             </div>
+            <div *ngIf="missEndDate == true">
+                La date de fin doit être renseignée.
+            </div><br />
         </div>    
 
+        <div *ngIf="concurrents == null" style="text-align:left; margin-left:2%;">
+            Il n'y a pas encore de skipper pour cette course.
+            <br /><br />
+        </div>
         <div *ngIf="concurrents != null">
             <!-- display existing racers for current race -->
             <div *ngFor="let racer of currentRace.concurrents; let i = index" style="text-align: left; margin-left:5%;" class="btn-group" role="group">
@@ -45,11 +58,12 @@
         <div class="row">
             <div class="col-xs-3 col-md-2">
                 <div style="position:relative; left:613%;" class="btn-group" role="group">
-                    <button type="button" class="btn btn-danger" [routerLink]="['/dashboard/regatas/', currentRegata.identifier]" (click)="onSaveRace()"><a style="color: white;">Save Race </a><span class="glyphicon glyphicon-ok"></span></button>
+                    <button type="button" class="btn btn-danger" (click)="onSaveRace()"><a style="color: white;">Save Race </a><span class="glyphicon glyphicon-ok"></span></button>
                 </div>
             </div>
         </div><br />  
     </div> 
-</div>       
+</div>     
+<!--- [routerLink]="['/dashboard/regatas/', currentRegata.identifier]"  -->  
 
 <!--   </div>-->

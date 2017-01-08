@@ -18,8 +18,6 @@ export class RacerEditionComponent  {
     //@Input('race') raceId : string; 
     currentDevice : Device;
     devices : Device[] = [];
-    //currentBoat : Boat;
-    //boats : Boat[] = [];
     regataId : string; 
     indexRace : string; 
     indexRacer : string; 
@@ -37,7 +35,7 @@ export class RacerEditionComponent  {
             this.devices = devices
         })
     }
-    
+
     onSaveRace(){
         // since the races are not identified, save the entire regata  
         this.regataSvc.postRegata(this.currentRegata);

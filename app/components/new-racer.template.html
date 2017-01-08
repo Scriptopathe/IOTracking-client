@@ -37,7 +37,18 @@
         <div class="modal-body">
             <div class="input-group">
                 <span class="input-group-addon">Name</span>
-                <input type="text" class="form-control">
+                <input type="text" id="name" class="form-control" [(ngModel)]="name"/>
+            </div>
+            <div *ngIf="missName == true">
+                Le nom du skipper doit être renseigné.
+            </div><br />
+
+            <div class="input-group">
+                <span class="input-group-addon">Boat name</span>
+                <input type="text" id="boat" class="form-control" [(ngModel)]="boat">
+            </div>
+            <div *ngIf="missBoat == true">
+                Le nom du bateau doit être renseigné.
             </div><br />
 
             <!-- device list -->      
@@ -78,34 +89,16 @@
             <div *ngIf="currentDevice == null">
                 No selected device.
             </div>
-
-            <!-- boats list --> 
-            <!--        
-            <div class="input-group" style="margin-right:0%; margin-left:0%;">
-                <span class="input-group-addon">New Device</span>        
-                <div class="form-group">
-                    <select class="form-control" [(ngModel)]="currentBoat">
-                        <option *ngFor="let boat of boats; let i = index" (click)="setBoat(boat)">{{ boat.identifier }} - {{ boat.name }}</option>
-                    </select>
-                    <br />
-                </div>
-            </div><br />   
-
-            <div class="animated fadeIn" *ngIf="currentBoat != null">
-                {{ currentBoat.name }} - {{ currentBoat.identifier }}
-        
-            <div *ngIf="currentBoat == null">
-                No selected boat.
-            </div>        
-            -->
-        </div><br /><br />
+        </div><br />
         
         <div class="modal-footer">
             <div style="margin-right:5%;" class="btn-group" role="group">
-                <button type="button" class="btn btn-danger" [routerLink]="['/dashboard/regatas/', currentRegata.identifier, 'races', indexRace, 'edit']" (click)="onSaveRacer()"><a style="color: white;">Save Racer </a><span class="glyphicon glyphicon-ok"></span></button>
+                <button type="button" class="btn btn-danger" (click)="onSaveRacer()"><a style="color: white;">Save Racer </a><span class="glyphicon glyphicon-ok"></span></button>
             </div>
         </div>           
     </div>
 </div>
+
+<!-- [routerLink]="['/dashboard/regatas/', currentRegata.identifier, 'races', indexRace, 'edit']"  -->
 
 <!-- </div>-->

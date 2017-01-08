@@ -17,23 +17,36 @@ export class NewRacerComponent  {
     //@Input('regata') currentRegata: Regata;
     currentDevice : Device;
     devices : Device[] = [];
-    //currentBoat : Boat;
-    //boats : Boat[] = [];
     currentRacer: Racer; 
     currentRace: Race; 
     currentRegata: Regata; 
     regataId : string; 
     indexRace : string;
     name : string;
+    boat : string;
     //modalId : string;
+    missName : boolean = false;
+    missBoat : boolean = false;
 
     constructor(private route : ActivatedRoute, private http : Http, private regataSvc : RegatasService, private sanitizer : DomSanitizer, private devicesSvc : DevicesService) {
         this.loadDevices();
+        this.name = "";
+        this.boat = "";
     }
 
     onSaveRacer(){
-        this.currentRacer = new Racer("", this.name, null, null);
-    }
+        this.missBoat = false;
+        this.missName = false;
+        if (this.name != "" && this.boat != ""){
+            this.currentRacer = new Racer(this.boat, this.name, null, null);
+        }
+        else {
+            if (this.name == "")
+                this.missName = true; 
+            if (this.boat == "")
+                 this.missBoat = true; 
+       }
+    }    
 
     loadDevices() {
         this.devicesSvc.loadDevices().subscribe((devices : Device[]) => {
