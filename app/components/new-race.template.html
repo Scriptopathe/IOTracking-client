@@ -1,39 +1,55 @@
 <!-- <div class="modal fade" [id]="getModalId()"> -->
-    <div class="modal-dialog" role="document"> 
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-                <div class="modal-title" style="font-size: 1.5em; height: 125px;"><strong>New Race</strong></div>
-            </div>
 
-            <div class="modal-body">
-                <div class="input-group">
-                    <span class="input-group-addon">Name</span>
-                    <input type="text" class="form-control">
-                </div><br />
-
-                 <div class="input-group">
-                    <span class="input-group-addon">Start Date</span>
-                    <input type="text" class="form-control">
-                </div><br />
-
-                <div class="input-group">
-                    <span class="input-group-addon">End Date</span>
-                    <input type="text" class="form-control">
-                </div><br />
-            </div>    
-
-            <div class="modal-footer">
-                <div class="row">
-                    <div class="col-xs-3 col-md-2">
-                        <div style="position:relative; left:565%;" class="btn-group" role="group">
-                            <button type="button" class="btn btn-danger" [routerLink]="['/dashboard/regatas/', currentRegata.identifier]" (click)="onSaveRace()"><a style="color: white;">Save Race </a><span class="glyphicon glyphicon-ok"></span></button>
-                        </div>
-                    </div>
-                </div>           
-            </div>        
+<div class="container" style="margin-top:30px;">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="panel-title" style="font-size: 1.5em;"><strong>New Race</strong></div>
         </div>
-    </div>
+
+        <div class="panel-body">
+            <div class="input-group">
+                <span class="input-group-addon">Name</span>
+                <input type="text" class="form-control">
+            </div><br />
+
+                <div class="input-group">
+                <span class="input-group-addon">Start Date</span>
+                <input type="text" class="form-control">
+            </div><br />
+
+            <div class="input-group">
+                <span class="input-group-addon">End Date</span>
+                <input type="text" class="form-control">
+            </div>
+        </div>    
+
+        <div *ngIf="concurrents != null">
+            <!-- display existing racers for current race -->
+            <div *ngFor="let racer of currentRace.concurrents; let i = index" style="text-align: left; margin-left:5%;" class="btn-group" role="group">
+                <button type="button" class="btn btn-default" style="background-color:#f3bebe; margin-bottom:10px;" [routerLink]="[i, 'edit']"><span class="glyphicon glyphicon-pencil"></span>  {{ racer.skipperName }}</button>
+                <button type="button" class="btn btn-default" style="margin-bottom:10px;"><span class="glyphicon glyphicon-view"></span>  {{racer.boatIdentifier }}</button>
+                <button type="button" class="btn btn-default" style="margin-right:10px; margin-bottom:10px;"><span class="glyphicon glyphicon-view"></span>  {{racer.device.hwid }}</button>
+                {{ racer.device }}
+            </div>
+        </div>
+
+        <!-- add a new racer for current race when clicked -->
+        <div class="row">
+            <div class="col-xs-2 col-md-1">
+                <div style="text-align: left;" class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" style="margin-left:14%" [routerLink]="['newracer']"><span class="glyphicon glyphicon-plus"></span> Add a racer</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-3 col-md-2">
+                <div style="position:relative; left:613%;" class="btn-group" role="group">
+                    <button type="button" class="btn btn-danger" [routerLink]="['/dashboard/regatas/', currentRegata.identifier]" (click)="onSaveRace()"><a style="color: white;">Save Race </a><span class="glyphicon glyphicon-ok"></span></button>
+                </div>
+            </div>
+        </div><br />  
+    </div> 
+</div>       
+
 <!--   </div>-->
