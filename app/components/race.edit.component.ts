@@ -25,6 +25,10 @@ export class RaceEditionComponent  {
         private regataSvc : RegatasService) {
     }
 
+    onRemoveRacer(){
+        //TODO
+    }
+
     onSaveRace(){
         // since the races are not identified, save the entire regata  
         this.regataSvc.postRegata(this.currentRegata);
