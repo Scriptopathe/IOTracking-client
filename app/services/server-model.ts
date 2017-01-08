@@ -141,6 +141,15 @@ export class RaceData extends DBItem {
     }
 }
 
+export class ServerState extends DBItem {
+    public constructor(
+        public liveRegata? : Reference<Regata>,
+        public liveRaceId? : number
+    ) {
+        super(null)
+    }
+}
+
 export class Server {
     public static BaseUrl = "http://localhost:3001/api"
     public static RegattasUrl = Server.BaseUrl + "/regattas"
@@ -148,4 +157,5 @@ export class Server {
     public static RaceMapUrl = Server.BaseUrl + "/racemaps"
     public static UsersUrl = Server.BaseUrl + "/racemaps"
     public static DevicesUrl = Server.BaseUrl + "/devices"
+    public static LiveUrl = Server.BaseUrl + "/state/live"
 }

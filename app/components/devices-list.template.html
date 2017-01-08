@@ -22,12 +22,11 @@
         }
 
     </style>
-    <br />
     <div class="material-box material-box-fit">
         <div class="material-box-title">Devices</div>
         <div class="form-group">
             <select class="form-control" [(ngModel)]="currentDevice">
-                <option *ngFor="let device of devices; let i = index" [value]="i"  >{{device.identifier}} - {{ device.name }}</option>
+                <option *ngFor="let device of devices; let i = index" [value]="i">{{device.hwid}} - {{ device.name }}</option>
             </select>
             <br />
 
@@ -35,12 +34,12 @@
                 <div class="input-group">
                     <span class="input-group-addon">Nom</span>
                     <input type="text" class="form-control" [(ngModel)]="devices[currentDevice].name">
-
-                    <span class="input-group-btn">
-                        <button class="btn btn-primary" type="button" (click)="saveDevice()"><span class="glyphicon glyphicon-check"></span> Save</button>
-                    </span>
                 </div>
-
+                <br />
+                <div class="input-group">
+                    <span class="input-group-addon">EUID</span>
+                    <input type="text" class="form-control" [(ngModel)]="devices[currentDevice].hwid">
+                </div>
                 <br />
 
                 <!-- Energy -->
@@ -59,6 +58,7 @@
                         </div>
                     </div>
                 </div>
+                <br />
             </div>
 
             <div *ngIf="currentDevice == null">

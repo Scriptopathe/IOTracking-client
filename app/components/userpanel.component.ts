@@ -1,8 +1,8 @@
 import { Component, Input, ViewChild, ElementRef } from '@angular/core';
 import { Http, Response }   from '@angular/http';
+import { User }             from '../services/server-model';
 import { UserService }      from '../services/user.service';
 import { Observable }       from 'rxjs/Observable';
-import { Lake }             from '../services/test.service';
 
 // import 'rxjs/Rx';
 import 'rxjs/add/operator/map'
@@ -14,8 +14,11 @@ import 'rxjs/add/operator/map'
 })
 
 export class UserPanelComponent  { 
+    user : User
 
     constructor(private userService : UserService, private http : Http) {        
-        
+        this.user = new User("", "anonymous")    
     }
+
+    
 }

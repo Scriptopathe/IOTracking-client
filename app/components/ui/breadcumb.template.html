@@ -1,0 +1,8 @@
+<div> 
+    <br />
+    <ol *ngIf="labels != null" class="breadcrumb" style="background: #FFFFFF">
+        <li *ngFor="let label of labels; let i = index">
+            <a [routerLink]="routes[i]">{{ label }}</a>
+        </li>
+    </ol>
+</div>

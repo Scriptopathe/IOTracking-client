@@ -2,6 +2,7 @@ import { Component, Input, ViewChild, ElementRef }  from '@angular/core';
 import { Http, Response }                           from '@angular/http';
 import { Observable }                               from 'rxjs/Observable';
 import { RegatasNewService }                        from '../services/regatas-new.service'
+import { RaceService }                              from '../services/race.service'
 import { Regata, Race}                              from '../services/server-model'
 import { DateHelper }                               from '../helpers/datehelper'
 @Component({
@@ -12,18 +13,26 @@ import { DateHelper }                               from '../helpers/datehelper'
 export class RegataExplorerComponent  { 
     public DateHelper = DateHelper
 
+
     public regatas : Regata[] = []
+    
+    public liveRaceId : number
+    public liveRegataId : string
+    public liveRegata : Regata
+
     private _year : number
     private _month : number
     
-
-    constructor(private http : Http, private regataSvc : RegatasNewService) {        
+    constructor(private http : Http,
+        private regataSvc : RegatasNewService,
+        private raceSvc : RaceService) {        
         let now = new Date()
 
         // Loads this months regatas
         this._year = now.getFullYear()
         this._month = now.getMonth()
         this.loadRegatas(this._year, this._month)
+        this.loadLiveRace()
     }
 
     get year() { return this._year }
@@ -58,6 +67,20 @@ export class RegataExplorerComponent  {
 
         this.regataSvc.loadRegatas(after, before).subscribe((regatas : Regata[]) => {
             this.regatas = regatas
+        })
+    }
+
+    loadLiveRace() {
+        var self = this
+        this.raceSvc.getLiveRace().subscribe((serverState) => {
+            if(serverState.identifier != null) {
+                self.regataSvc.findById(<string>serverState.liveRegata)
+                .subscribe((regata) => {
+                    self.liveRaceId = serverState.liveRaceId
+                    self.liveRegataId = <string>serverState.liveRegata
+                    self.liveRegata = regata
+                })
+            }
         })
     }
 

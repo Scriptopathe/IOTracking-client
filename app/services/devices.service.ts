@@ -26,7 +26,7 @@ export class DevicesService {
             })
         })
     }
-
+    
     public deleteDevice(device : Device) : Observable<boolean> {
         return new Observable<boolean>((subscriber : Subscriber<boolean>) => {
             this._http.delete(Server.DevicesUrl + "/" + device.identifier)
@@ -41,13 +41,23 @@ export class DevicesService {
 
     public updateDevice(device : Device) : Observable<boolean> {
         return new Observable<boolean>((subscriber : Subscriber<boolean>) => {
-            this._http.put(Server.DevicesUrl + "/" + device.identifier, JSON.stringify(device))
-            .subscribe((value : Response) => {
-                subscriber.next(value.ok)
-                if(!value.ok)
-                    subscriber.error(value.status)
-                subscriber.complete()
-            })
+            if(device.identifier == null) {
+                this._http.post(Server.DevicesUrl, JSON.stringify(device))
+                .subscribe((value : Response) => {
+                    subscriber.next(value.ok)
+                    if(!value.ok)
+                        subscriber.error(value.status)
+                    subscriber.complete()
+                })
+            } else {
+                this._http.put(Server.DevicesUrl + "/" + device.identifier, JSON.stringify(device))
+                .subscribe((value : Response) => {
+                    subscriber.next(value.ok)
+                    if(!value.ok)
+                        subscriber.error(value.status)
+                    subscriber.complete()
+                })
+            }
         })
     }
 

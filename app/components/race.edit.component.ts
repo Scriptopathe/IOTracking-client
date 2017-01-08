@@ -3,6 +3,7 @@ import { ActivatedRoute }                           from '@angular/router'
 import { Http, Response }                           from '@angular/http';
 import { Observable }                               from 'rxjs/Observable';
 import { RegatasService }                           from '../services/regatas.service'
+import { RaceService }                           from '../services/race.service'
 import { Regata, Race}                              from '../services/server-model'
 import * as $                                       from 'jquery'
 
@@ -20,12 +21,13 @@ export class RaceEditionComponent  {
     currentRace: Race; 
     modalId : string;
 
-    constructor(private route : ActivatedRoute, private http : Http, private regataSvc : RegatasService) {
+    constructor(private route : ActivatedRoute, private http : Http, 
+        private regataSvc : RegatasService) {
     }
 
     onSaveRace(){
         // since the races are not identified, save the entire regata  
-        this.regataSvc.updateRegata(this.currentRegata);
+        this.regataSvc.postRegata(this.currentRegata);
     }
 
     getModalId() {

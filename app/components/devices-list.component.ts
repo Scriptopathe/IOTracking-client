@@ -1,4 +1,5 @@
-import { Component, Input, ViewChild, ElementRef }  from '@angular/core'
+import { Component, Input, ViewChild, ElementRef,
+         EventEmitter, Output }                     from '@angular/core'
 import { Http, Response }                           from '@angular/http'
 import { Observable }                               from 'rxjs/Observable'
 import { DevicesService }                           from '../services/devices.service'
@@ -11,16 +12,12 @@ import { Device }                                   from '../services/server-mod
 })
 
 export class DeviceListComponent  { 
-    @Input("device") public currentDevice : number
+    public currentDevice : number
     @Input("devices") public devices : Device[]
+    @Output("device") currentDeviceChange = new EventEmitter()
 
     constructor(private sanitizer : DomSanitizer, private devicesSvc : DevicesService) {        
-        
-    }
 
-    saveDevice() {
-        this.devicesSvc.updateDevice(this.devices[this.currentDevice]).subscribe((value : boolean) => {  
-        })
     }
 
     getBackground(energy : number) : SafeStyle {

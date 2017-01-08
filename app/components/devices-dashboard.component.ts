@@ -25,6 +25,32 @@ export class DeviceDashboardComponent  {
         })
     }
 
+    removeCurrentDevice() {
+        if(this.deviceList.currentDevice != null) {
+            this.devicesSvc.deleteDevice(this.devices[this.deviceList.currentDevice]).subscribe((value) => {
+                if(value) {
+                    this.currentDevice = null
+                    this.loadDevices()
+                }
+            })
+        }
+    }
+    
+    hasCurrentDevice() {
+        return this.deviceList.currentDevice != null
+    }
+
+    addNewDevice() {
+        let dev = new Device("EUID", "Nom", 100, false)
+        this.devices.push(dev)
+        this.setDevice(dev)
+    }
+
+    saveDevice() {
+        this.devicesSvc.updateDevice(this.devices[this.deviceList.currentDevice]).subscribe((value : boolean) => {  
+        })
+    }
+
     setDevice(device : Device) {
         let index = this.devices.findIndex((value : Device) => { return value.identifier == device.identifier })
         this.deviceList.currentDevice = index 

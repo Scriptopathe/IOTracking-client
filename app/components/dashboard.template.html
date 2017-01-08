@@ -5,7 +5,27 @@
             color: black;
         }
     </style>
-    
+    <div class="material-box material-box-fit" *ngIf="liveRegata != null">
+        <div class="material-box-title">Course en direct : {{ liveRegata.races[liveRaceId].name }}</div>
+        <div class="row">
+            <div class="col-xs-6">
+                <div style="text-align: center">
+                    <button class="btn btn-default btn-success" [routerLink]="['/regata-explorer/regata', liveRegataId, liveRaceId]">
+                        <span class="glyphicon glyphicon-play"></span> Voir le direct !
+                    </button>
+                </div>
+            </div>
+
+            <div class="col-xs-6">
+                <div style="text-align: center">
+                    <button class="btn btn-danger btn-info" (click)="clearLive()">
+                        <span class="glyphicon glyphicon-stop"></span> Arrêter la course.
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-xs-6 animated fadeInLeft">
             <div class="material-box material-box-big material-box-regatas"><a routerLink="regatas">Régates</a></div>

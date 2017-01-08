@@ -37,6 +37,11 @@ export class RacerEditionComponent  {
             this.devices = devices
         })
     }
+    
+    onSaveRace(){
+        // since the races are not identified, save the entire regata  
+        this.regataSvc.postRegata(this.currentRegata);
+    }
 
     setDevice(device : Device) {
         this.currentDevice = device

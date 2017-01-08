@@ -20,6 +20,7 @@ import { DeviceListComponent }        from './components/devices-list.component'
 import { NewRaceComponent }           from './components/new-race.component';
 import { RaceViewComponent }           from './components/race-view.component';
 import { SliderComponent }            from './components/ui/slider.component';
+import { BreadcumbComponent }         from './components/ui/breadcumb.component';
 import { RegataFullViewComponent }    from './components/regata-fullview.component';
 
 import { UserService }                from './services/user.service';
@@ -48,6 +49,7 @@ import * as router from '@angular/router';
                   NewRaceComponent,
                   RacePlayerComponent,
                   SliderComponent,
+                  BreadcumbComponent,
                   RaceViewComponent,
                   RegataExplorerComponent,
                   RacerEditionComponent,
