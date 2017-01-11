@@ -10,11 +10,9 @@ import { DeviceListComponent }        from './components/devices-list.component'
 import { DeviceDashboardComponent }   from './components/devices-dashboard.component';
 import { RegataEditionComponent }     from './components/regata.edit.component';
 import { RegataFullViewComponent }    from './components/regata-fullview.component';
-import { RaceEditionComponent }       from './components/race.edit.component';
-import { NewRaceComponent }           from './components/new-race.component';
+import { RaceComponent }              from './components/race.component';
 import { RaceViewComponent }          from './components/race-view.component';
-import { RacerEditionComponent }      from './components/racer-edit.component';
-import { NewRacerComponent }          from './components/new-racer.component';
+import { RacerComponent }             from './components/racer.component';
 
 const appRoutes: Routes = [
   { path: 'regata-explorer', component: RegataExplorerComponent },
@@ -62,7 +60,7 @@ const appRoutes: Routes = [
               },
               {
                 path: 'newrace',
-                component: NewRaceComponent
+                component: RaceComponent
               },
               {
                 // dashboard/regatas/:regata/races
@@ -70,25 +68,25 @@ const appRoutes: Routes = [
                 children: [
                   {
                     path: 'edit',
-                    component: RaceEditionComponent
+                    children: [
+                      {
+                        path: '',
+                        component: RaceComponent
+                      },
+                      {
+                        path: 'newracer',
+                        component: RacerComponent
+                      },
+                      {
+                        path: ':racer/edit',
+                        component: RacerComponent
+                      }
+                    ]
                   },
                   {
                     path: 'view',
                     component: RaceViewComponent,
-                  },
-                  {
-                    path: 'edit/newracer',
-                    component: NewRacerComponent
-                  },     {
-                    // dashboard/regatas/:regata/:race/:racer
-                    path: 'edit/:racer',
-                    children: [
-                      {
-                        path: 'edit',
-                        component: RacerEditionComponent
-                      }
-                    ]
-                  }
+                  }    
                 ]
               },
             ]

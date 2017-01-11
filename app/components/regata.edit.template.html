@@ -3,7 +3,7 @@
         [labels]="['Dashboard', 'Regatas', currentRegata.name]"
         [routes]="[['/dashboard'], 
                     ['/dashboard/regatas'],
-                    ['/dashboard/regatas/', currentRegata.identifier]]">
+                    ['/dashboard/regatas/', isNew ? 'new' : currentRegata.identifier]]">
     </breadcumb>
 
     <div class="panel panel-default">
@@ -11,19 +11,25 @@
             <h4><strong>Edition:</strong> {{ currentRegata.name }}</h4>
         </div>
 
-        <div class="panel-body">
-            <div class="row"><br />
+        <div class="panel-body" style="margin-left:80px; margin-right:80px;">
+            <div class="row" ><br />
                 <div class="col-xs-4"><span class="glyphicon glyphicon-map-marker"></span> <b>Name</b></div>
                 <div class="col-xs-8">
-                    <input type="text" class="form-control" [(ngModel)]="currentRegata.name">
+                    <input type="text" class="form-control" [(ngModel)]="newName">
                 </div>
+                 <div *ngIf="missName == true" style="margin-left:20px; color:red;">
+                    Le nom de la régate doit être renseigné.
+                </div><br />
             </div>
 
             <div class="row"><br />
                 <div class="col-xs-4"><span class="glyphicon glyphicon-map-marker"></span> <b>Location</b></div>
                 <div class="col-xs-8">
-                    <input type="text" class="form-control" [(ngModel)]="currentRegata.location">
+                    <input type="text" class="form-control" [(ngModel)]="newLocation">
                 </div>
+                <div *ngIf="missLocation == true" style="margin-left:20px; color:red;">
+                    Le lieu de la régate doit être renseigné.
+                </div><br />
             </div>
         
             <div class="row"><br />
@@ -76,19 +82,16 @@
             <div class="row">
                 <div class="col-xs-2 col-md-1">
                     <div style="text-align: left;" class="btn-group" role="group">
-                            <button type="button" class="btn btn-default" [routerLink]="['newrace']"><span class="glyphicon glyphicon-plus"></span> Add Race</button>
-                    </div>
-                </div>
-            </div><br />
-
-            <div class="row">
-                <div class="col-xs-8 col-md-6">
-                    <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-danger" (click)="onSave()"><a style="color: white;">Done  </a><span class="glyphicon glyphicon-ok"></span></button>
+                            <button type="button" class="btn btn-default" (click)="onNewRace()"><span class="glyphicon glyphicon-plus"></span> Add Race</button>
                     </div>
                 </div>
             </div>
-        </div>
+
+            <div class="btn-group;btn pull-right" role="group">
+                <button type="button" class="btn btn-default" (click)="onCancel()"><a style="color: black;">Cancel </a><span class="glyphicon glyphicon-remove"></span></button>
+                <button type="button" class="btn btn-danger" (click)="onSave()"><a style="color: white;">Save Race </a><span class="glyphicon glyphicon-ok"></span></button>
+            </div><br /><br />
+        </div><br />
     </div>           
 </div>
 
