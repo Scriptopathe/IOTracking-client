@@ -5,6 +5,7 @@ import { Observable }                               from 'rxjs/Observable'
 import { DevicesService }                           from '../services/devices.service'
 import { DomSanitizer, SafeHtml,SafeUrl,SafeStyle } from '@angular/platform-browser'
 import { Device }                                   from '../services/server-model'
+
 @Component({
     selector: 'device-list',
     templateUrl: 'app/components/devices-list.template.html'

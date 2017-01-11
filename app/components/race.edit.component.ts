@@ -5,7 +5,7 @@ import { Observable }                               from 'rxjs/Observable';
 import { RegatasService }                           from '../services/regatas.service'
 import { RaceService }                           from '../services/race.service'
 import { Regata, Race}                              from '../services/server-model'
-import * as $ from 'jquery'
+import * as $                                       from 'jquery'
 
 @Component({
     selector: 'race-edit',
@@ -25,6 +25,10 @@ export class RaceEditionComponent  {
         private regataSvc : RegatasService) {
     }
 
+    onRemoveRacer(){
+        //TODO
+    }
+
     onSaveRace(){
         // since the races are not identified, save the entire regata  
         this.regataSvc.postRegata(this.currentRegata);
@@ -42,12 +46,9 @@ export class RaceEditionComponent  {
                 this.regataId = params['regata']
                 this.regataSvc.findById(this.regataId).subscribe((regata : Regata) => {
                     this.currentRegata = regata
+                    this.currentRace = this.currentRegata.races[this.indexRace]
                 })
-                this.currentRace = this.currentRegata.races[this.indexRace]
-                this.modalId = this.currentRegata.name + "_" + this.currentRace.name
+                //this.modalId = this.currentRegata.name + "_" + this.currentRace.name
         });
-
-        //$(this.modalId).modal();
-    }
+     }
 }
-
