@@ -30,7 +30,7 @@
             </select>
             <br />
 
-            <div class="animated fadeIn" *ngIf="currentDevice != null">
+            <div class="animated fadeIn" *ngIf="currentDevice != null && devices[currentDevice] != null">
                 <div class="input-group">
                     <span class="input-group-addon">Nom</span>
                     <input type="text" class="form-control" [(ngModel)]="devices[currentDevice].name">
