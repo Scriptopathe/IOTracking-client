@@ -2,7 +2,7 @@ import { Component, Input, ViewChild, ElementRef }  from '@angular/core';
 import { ActivatedRoute, Router }                   from '@angular/router'
 import { Http, Response }                           from '@angular/http';
 import { Observable }                               from 'rxjs/Observable';
-import { RegatasService }                           from '../services/regatas.service'
+import { RegatasNewService }                        from '../services/regatas-new.service'
 import { Regata, Race, Racer, Point, Reference,
     RaceMap, RaceData }                             from '../services/server-model'
 import * as $ from 'jquery'
@@ -29,14 +29,14 @@ export class RaceComponent  {
     newRaceIndex : number;
     isNew : boolean;
 
-    constructor(private router : Router, private route : ActivatedRoute, private http : Http, private regataSvc : RegatasService) {
+    constructor(private router : Router, private route : ActivatedRoute, private http : Http, private regataSvc : RegatasNewService) {
         this.newStartDate = "";
         this.newEndDate = "";
     }
 
     onRemoveRacer(racerId : number) {
         this.currentRegata.races[this.raceId].concurrents.splice(racerId, 1)
-        this.regataSvc.postRegata(this.currentRegata).subscribe((value : Response) => {})
+        this.regataSvc.postRegata(this.currentRegata).subscribe((value : bolean) => {})
         this.regataSvc.loadRegatas;
     }
 
@@ -51,7 +51,7 @@ export class RaceComponent  {
         if (this.newName != "" && this.newStartDate != "" && this.newEndDate != "")
         {
             this.currentRace.name = this.newName;
-            this.regataSvc.postRegata(this.currentRegata).subscribe((value : Response) => {})
+            this.regataSvc.postRegata(this.currentRegata).subscribe((value : boolean) => {})
             this.regataSvc.loadRegatas;
             this.router.navigate(['/dashboard/regatas/', this.currentRegata.identifier]);
         }
@@ -69,7 +69,7 @@ export class RaceComponent  {
         if (this.indexRace != null) {
             /* delete race if the creation is abandonned */
             this.currentRegata.races.splice(this.indexRace, 1);
-            this.regataSvc.postRegata(this.currentRegata).subscribe((value : Response) => {})
+            this.regataSvc.postRegata(this.currentRegata).subscribe((value : boolean) => {})
             this.regataSvc.loadRegatas;
         }
         this.router.navigate(['/dashboard/regatas/', this.currentRegata.identifier]);        
@@ -101,7 +101,7 @@ export class RaceComponent  {
                     this.currentRace = new Race("Nouvelle Course", new Date(), new Date(), new Array<Racer>(), new Reference<RaceMap>(), new Reference<RaceData>(), new Array<Point>());
                  
                     this.currentRegata.races.push(this.currentRace);
-                    this.regataSvc.postRegata(this.currentRegata).subscribe((value : Response) => {})
+                    this.regataSvc.postRegata(this.currentRegata).subscribe((value : boolean) => {})
                     this.regataSvc.loadRegatas;
 
                     let index = this.currentRegata.races.findIndex((value : Race) => { return value.name == "Nouvelle Course"; });

@@ -27,12 +27,17 @@ export class DeviceDashboardComponent  {
 
     removeCurrentDevice() {
         if(this.deviceList.currentDevice != null) {
-            this.devicesSvc.deleteDevice(this.devices[this.deviceList.currentDevice]).subscribe((value) => {
-                if(value) {
-                    this.currentDevice = null
-                    this.loadDevices()
-                }
-            })
+            if(this.devices[this.deviceList.currentDevice].identifier == null) {
+                // Just need to erase locally if it was create without being saved.
+                this.devices.splice(this.deviceList.currentDevice, 1)
+            } else {
+                this.devicesSvc.deleteDevice(this.devices[this.deviceList.currentDevice]).subscribe((value) => {
+                    if(value) {
+                        this.currentDevice = null
+                        this.loadDevices()
+                    }
+                })
+            }
         }
     }
     

@@ -2,7 +2,7 @@ import { Component, Input, ViewChild, ElementRef }  from '@angular/core';
 import { ActivatedRoute, Router }                   from '@angular/router'
 import { Http, Response }                           from '@angular/http';
 import { Observable }                               from 'rxjs/Observable';
-import { RegatasService }                           from '../services/regatas.service'
+import { RegatasNewService }                        from '../services/regatas-new.service'
 import { RaceService }                              from '../services/race.service'
 import { Regata, Race }                             from '../services/server-model'
 import { DateHelper }                               from '../helpers/datehelper'
@@ -33,20 +33,22 @@ export class RegataEditionComponent  {
     liveRaceId : number
 
     constructor(private route : ActivatedRoute, private router : Router, private http : Http, 
-        private regataSvc : RegatasService, private raceSvc : RaceService) {     
+        private regataSvc : RegatasNewService, private raceSvc : RegatasNewService) {     
         this.showComponentNewRace = false;
         this.currentRegata = null
         this.currentRace = null
+        /*
         this.raceSvc.getLiveRace().subscribe((serverState) => {
             this.liveRegataId = <string>serverState.liveRegata
             this.liveRaceId = serverState.liveRaceId
-        })
+        }) */
     }
 
     isLive(raceId : number) {
         return this.liveRegataId == this.regataId && raceId == this.liveRaceId
     }
 
+/*
     setLive(raceId : number) {
         this.raceSvc.setLiveRace(this.regataId, raceId).subscribe((value) =>{
             if(value) {
@@ -55,6 +57,7 @@ export class RegataEditionComponent  {
             }
         })
     }
+*/
 
     onNewRace(){
         console.log("regataid = " + this.regataId)
@@ -63,7 +66,7 @@ export class RegataEditionComponent  {
 
     removeRace(raceId : number) {
         this.currentRegata.races.splice(raceId, 1)
-        this.regataSvc.postRegata(this.currentRegata).subscribe((value : Response) => {})
+        this.regataSvc.postRegata(this.currentRegata).subscribe((value : boolean) => {})
     }
     
     clearLive() {
@@ -89,7 +92,7 @@ export class RegataEditionComponent  {
         if (this.newName != "" && this.newLocation != "") {
             this.currentRegata.name = this.newName;
             this.currentRegata.location = this.newLocation;
-            this.regataSvc.postRegata(this.currentRegata).subscribe((value : Response) => {})
+            this.regataSvc.postRegata(this.currentRegata).subscribe((value : boolean) => {})
             this.router.navigate(['/dashboard/regatas']);
         }
         else {
@@ -111,7 +114,7 @@ export class RegataEditionComponent  {
                     this.newName = "";
                     this.newLocation = "";
                     this.isNew = true
-                    this.regataSvc.postRegata(this.currentRegata).subscribe((value : Response) => {})
+                    this.regataSvc.postRegata(this.currentRegata).subscribe((value : boolean) => {})
                     this.regataSvc.loadRegatas;
                 } else {
                     // Edit regata

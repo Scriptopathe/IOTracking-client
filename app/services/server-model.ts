@@ -65,6 +65,7 @@ export class Racer {
  */
 export class RaceMap extends DBItem {
     public constructor(
+        public name? : string,
         public raceMapImageUrl? : string,
         public northLatReference? : number,
         public southLatReference? : number,

@@ -2,7 +2,7 @@ import { Component, Input, ViewChild, ElementRef }  from '@angular/core';
 import { ActivatedRoute, Router }                   from '@angular/router'
 import { Http, Response }                           from '@angular/http';
 import { Observable }                               from 'rxjs/Observable';
-import { RegatasService }                           from '../services/regatas.service'
+import { RegatasNewService }                        from '../services/regatas-new.service'
 import { Regata, Race, Racer, Device, Reference }   from '../services/server-model'
 import { DevicesService }                           from '../services/devices.service'
 import { DomSanitizer, SafeHtml,SafeUrl,SafeStyle } from '@angular/platform-browser'
@@ -35,7 +35,7 @@ export class RacerComponent  {
     
     isNewRace : boolean = false;
 
-    constructor(private router : Router, private route : ActivatedRoute, private http : Http, private regataSvc : RegatasService, private sanitizer : DomSanitizer, private devicesSvc : DevicesService) {
+    constructor(private router : Router, private route : ActivatedRoute, private http : Http, private regataSvc : RegatasNewService, private sanitizer : DomSanitizer, private devicesSvc : DevicesService) {
         this.loadDevices();
         this.regataSvc.loadRegatas;
         this.newName = "";
@@ -52,7 +52,7 @@ export class RacerComponent  {
             this.currentRacer.skipperName = this.newName;
             this.currentRacer.boatIdentifier = this.newBoatId;
             this.currentRacer.device = new Reference<Device>(this.newDeviceId);
-            this.regataSvc.postRegata(this.currentRegata).subscribe((value : Response) => {})
+            this.regataSvc.postRegata(this.currentRegata).subscribe((value : boolean) => {})
             this.regataSvc.loadRegatas;
             this.router.navigate(['/dashboard/regatas/', this.currentRegata.identifier, 'races', this.raceId, 'edit']);                
         }
@@ -97,7 +97,7 @@ export class RacerComponent  {
         if (this.indexRacer != null) {
             /* delete racer if the creation is abandonned */
             this.currentRegata.races[this.raceId].concurrents.splice(this.indexRacer, 1)
-            this.regataSvc.postRegata(this.currentRegata).subscribe((value : Response) => {})
+            this.regataSvc.postRegata(this.currentRegata).subscribe((value : boolean) => {})
             this.regataSvc.loadRegatas;
         }
         this.router.navigate(['/dashboard/regatas/', this.currentRegata.identifier, 'races', this.raceId, 'edit']);
