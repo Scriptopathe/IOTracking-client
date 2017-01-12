@@ -3,19 +3,19 @@ import { Routes, RouterModule }       from '@angular/router';
 import { AppComponent }               from './components/app.component';
 import { TestComponent }              from './components/test.component';
 import { UserPanelComponent }         from './components/userpanel.component';
-import { DashboardComponent }         from './components/dashboard.component';
+import { DashboardComponent }         from './components/dashboard/dashboard.component';
 import { RegatasComponent }           from './components/regatas.component';
-import { RegataExplorerComponent }    from './components/regata-explorer.component';
-import { DeviceListComponent }        from './components/devices-list.component';
-import { DeviceDashboardComponent }   from './components/devices-dashboard.component';
+import { RegataExplorerComponent }    from './components/explorer/regata-explorer.component';
+import { DeviceListComponent }        from './components/dashboard/devices/devices-list.component';
+import { DeviceDashboardComponent }   from './components/dashboard/devices/devices-dashboard.component';
 import { RegataEditionComponent }     from './components/regata.edit.component';
-import { RegataFullViewComponent }    from './components/regata-fullview.component';
+import { RegataFullViewComponent }    from './components/explorer/regata-fullview.component';
 import { RaceEditionComponent }       from './components/race.edit.component';
 import { NewRaceComponent }           from './components/new-race.component';
 import { RaceViewComponent }          from './components/race-view.component';
 import { RacerEditionComponent }      from './components/racer-edit.component';
 import { NewRacerComponent }          from './components/new-racer.component';
-import { RacemapsComponent }          from './components/racemaps/racemaps.component';     
+import { RacemapsComponent }          from './components/dashboard/racemaps/racemaps.component';     
 
 const appRoutes: Routes = [
   { path: 'regata-explorer', component: RegataExplorerComponent },

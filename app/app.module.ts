@@ -8,20 +8,20 @@ import { AppRoutingModule }           from './app-routing-module';
 import { AppComponent }               from './components/app.component';
 import { TestComponent }              from './components/test.component';
 import { UserPanelComponent }         from './components/userpanel.component';
-import { DashboardComponent }         from './components/dashboard.component';
-import { DeviceDashboardComponent }   from './components/devices-dashboard.component';
+import { DashboardComponent }         from './components/dashboard/dashboard.component';
+import { DeviceDashboardComponent }   from './components/dashboard/devices/devices-dashboard.component';
 import { RegatasComponent }           from './components/regatas.component';
 import { RegataEditionComponent }     from './components/regata.edit.component';
-import { RegataExplorerComponent }     from './components/regata-explorer.component';
+import { RegataExplorerComponent }    from './components/explorer/regata-explorer.component';
 import { RaceEditionComponent }       from './components/race.edit.component';
 import { RacePlayerComponent }        from './components/race-player.component';
 import { RegataViewComponent }        from './components/regata-view.component'
-import { DeviceListComponent }        from './components/devices-list.component'
+import { DeviceListComponent }        from './components/dashboard/devices/devices-list.component'
 import { NewRaceComponent }           from './components/new-race.component';
-import { RaceViewComponent }           from './components/race-view.component';
+import { RaceViewComponent }          from './components/race-view.component';
 import { SliderComponent }            from './components/ui/slider.component';
 import { BreadcumbComponent }         from './components/ui/breadcumb.component';
-import { RegataFullViewComponent }    from './components/regata-fullview.component';
+import { RegataFullViewComponent }    from './components/explorer/regata-fullview.component';
 
 import { UserService }                from './services/user.service';
 import { RegatasService }             from './services/regatas.service';
@@ -31,7 +31,7 @@ import { RaceService }                from './services/race.service';
 import { RacemapsService }            from './services/racemaps.service';
 import { RacerEditionComponent }      from './components/racer-edit.component';
 import { NewRacerComponent }          from './components/new-racer.component';  
-import { RacemapsComponent }          from './components/racemaps/racemaps.component';     
+import { RacemapsComponent }          from './components/dashboard/racemaps/racemaps.component';     
 
 import * as router from '@angular/router';
 
