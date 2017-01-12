@@ -26,6 +26,8 @@ export class RacemapsService {
                     if(!value.ok) subscriber.error(value.status)
                     subscriber.next(value.ok)
                     subscriber.complete()
+                }, (error : Response) => {
+                    subscriber.error(error.statusText)
                 })
             }
         })
@@ -43,6 +45,8 @@ export class RacemapsService {
                     if(!value.ok) subscriber.error(value.status)
                     subscriber.next(value.ok)
                     subscriber.complete()
+                }, (error : Response) => {
+                    subscriber.error(error.statusText)
                 })
 
             } else {
@@ -52,6 +56,8 @@ export class RacemapsService {
                     if(!value.ok) subscriber.error(value.status)
                     subscriber.next(value.ok)
                     subscriber.complete()
+                }, (error) => {
+                    subscriber.error(error.statusText)
                 })
             }
         })

@@ -15,6 +15,7 @@ import { NewRaceComponent }           from './components/new-race.component';
 import { RaceViewComponent }          from './components/race-view.component';
 import { RacerEditionComponent }      from './components/racer-edit.component';
 import { NewRacerComponent }          from './components/new-racer.component';
+import { RacemapsComponent }          from './components/racemaps/racemaps.component';     
 
 const appRoutes: Routes = [
   { path: 'regata-explorer', component: RegataExplorerComponent },
@@ -37,6 +38,10 @@ const appRoutes: Routes = [
       {
         path: '',
         component: DashboardComponent
+      },
+      {
+        path: 'racemaps',
+        component: RacemapsComponent
       },
       {
         // dashboard/devices/

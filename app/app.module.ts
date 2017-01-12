@@ -28,8 +28,10 @@ import { RegatasService }             from './services/regatas.service';
 import { RegatasNewService }          from './services/regatas-new.service';
 import { DevicesService }             from './services/devices.service';
 import { RaceService }                from './services/race.service';
+import { RacemapsService }            from './services/racemaps.service';
 import { RacerEditionComponent }      from './components/racer-edit.component';
-import { NewRacerComponent }          from './components/new-racer.component';     
+import { NewRacerComponent }          from './components/new-racer.component';  
+import { RacemapsComponent }          from './components/racemaps/racemaps.component';     
 
 import * as router from '@angular/router';
 
@@ -53,14 +55,16 @@ import * as router from '@angular/router';
                   RaceViewComponent,
                   RegataExplorerComponent,
                   RacerEditionComponent,
-                  NewRacerComponent
+                  NewRacerComponent,
+                  RacemapsComponent
                 ],
   providers:    [
     RegatasService,
     RegatasNewService,
     DevicesService,
     UserService,
-    RaceService
+    RaceService,
+    RacemapsService
   ],
   
   bootstrap:    [ AppComponent ],
