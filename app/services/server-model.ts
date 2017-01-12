@@ -152,7 +152,7 @@ export class ServerState extends DBItem {
 }
 
 export class Server {
-    public static BaseUrl = "http://localhost:3003/api"
+    public static BaseUrl = "http://localhost:3001/api"
     public static RegattasUrl = Server.BaseUrl + "/regattas"
     public static RaceDataUrl = Server.BaseUrl + "/racedata"
     public static RaceMapUrl = Server.BaseUrl + "/racemaps"

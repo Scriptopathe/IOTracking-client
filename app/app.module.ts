@@ -10,12 +10,12 @@ import { TestComponent }              from './components/test.component';
 import { UserPanelComponent }         from './components/userpanel.component';
 import { DashboardComponent }         from './components/dashboard/dashboard.component';
 import { DeviceDashboardComponent }   from './components/dashboard/devices/devices-dashboard.component';
-import { RegatasComponent }           from './components/regatas.component';
-import { RegataEditionComponent }     from './components/regata.edit.component';
-import { RaceComponent }              from './components/race.component';
+import { RegatasComponent }           from './components/dashboard/regatas/regatas.component';
+import { RegataEditionComponent }     from './components/dashboard/regatas/regata.edit.component';
+import { RaceComponent }              from './components/dashboard/regatas/race.component';
 import { RegataExplorerComponent }    from './components/explorer/regata-explorer.component';
 import { RacePlayerComponent }        from './components/race-player.component';
-import { RegataViewComponent }        from './components/regata-view.component'
+import { RegataViewComponent }        from './components/dashboard/regatas/regata-view.component'
 import { DeviceListComponent }        from './components/dashboard/devices/devices-list.component'
 import { RaceViewComponent }          from './components/race-view.component';
 import { SliderComponent }            from './components/ui/slider.component';
@@ -26,7 +26,7 @@ import { RegatasService }             from './services/regatas.service';
 import { RegatasNewService }          from './services/regatas-new.service';
 import { DevicesService }             from './services/devices.service';
 import { RaceService }                from './services/race.service';
-import { RacerComponent }             from './components/racer.component';     
+import { RacerComponent }             from './components/dashboard/regatas/racer.component';     
 import { RacemapsService }            from './services/racemaps.service';
 import { RacemapsComponent }          from './components/dashboard/racemaps/racemaps.component';     
 import * as router from '@angular/router';

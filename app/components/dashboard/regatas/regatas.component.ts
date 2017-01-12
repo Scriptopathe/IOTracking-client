@@ -1,11 +1,11 @@
 import { Component, Input, ViewChild, ElementRef } from '@angular/core';
 import { Http, Response }   from '@angular/http';
 import { Observable }       from 'rxjs/Observable';
-import { RegatasService }   from '../services/regatas.service'
-import { Regata, Race}      from '../services/server-model'
+import { RegatasService }   from '../../../services/regatas.service'
+import { Regata, Race}      from '../../../services/server-model'
 @Component({
     selector: 'regatas',
-    templateUrl: 'app/components/regatas.template.html'
+    templateUrl: 'app/components/dashboard/regatas/regatas.template.html'
 })
 
 export class RegatasComponent  { 

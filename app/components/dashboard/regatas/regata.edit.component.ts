@@ -2,13 +2,13 @@ import { Component, Input, ViewChild, ElementRef }  from '@angular/core';
 import { ActivatedRoute, Router }                   from '@angular/router'
 import { Http, Response }                           from '@angular/http';
 import { Observable }                               from 'rxjs/Observable';
-import { RegatasNewService }                        from '../services/regatas-new.service'
-import { RaceService }                              from '../services/race.service'
-import { Regata, Race }                             from '../services/server-model'
-import { DateHelper }                               from '../helpers/datehelper'
+import { RegatasNewService }                        from '../../../services/regatas-new.service'
+import { RaceService }                              from '../../../services/race.service'
+import { Regata, Race }                             from '../../../services/server-model'
+import { DateHelper }                               from '../../../helpers/datehelper'
 @Component({
     selector: 'regata-edit',
-    templateUrl: 'app/components/regata.edit.template.html'
+    templateUrl: 'app/components/dashboard/regatas/regata.edit.template.html'
 })
 
 export class RegataEditionComponent  {

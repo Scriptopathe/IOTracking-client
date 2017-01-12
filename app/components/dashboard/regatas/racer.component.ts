@@ -2,15 +2,15 @@ import { Component, Input, ViewChild, ElementRef }  from '@angular/core';
 import { ActivatedRoute, Router }                   from '@angular/router'
 import { Http, Response }                           from '@angular/http';
 import { Observable }                               from 'rxjs/Observable';
-import { RegatasNewService }                        from '../services/regatas-new.service'
-import { Regata, Race, Racer, Device, Reference }   from '../services/server-model'
-import { DevicesService }                           from '../services/devices.service'
+import { RegatasNewService }                        from '../../../services/regatas-new.service'
+import { Regata, Race, Racer, Device, Reference }   from '../../../services/server-model'
+import { DevicesService }                           from '../../../services/devices.service'
 import { DomSanitizer, SafeHtml,SafeUrl,SafeStyle } from '@angular/platform-browser'
 import * as $ from 'jquery'
 
 @Component({
     selector: 'racer',
-    templateUrl: 'app/components/racer.template.html'
+    templateUrl: 'app/components/dashboard/regatas/racer.template.html'
 })
 
 export class RacerComponent  {
