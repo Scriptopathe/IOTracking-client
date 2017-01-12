@@ -3,12 +3,12 @@ import { Component, Input, ViewChild, ElementRef,
 import { Http, Response }                           from '@angular/http'
 import { Observable }                               from 'rxjs/Observable'
 import { DomSanitizer, SafeHtml,SafeUrl,SafeStyle } from '@angular/platform-browser'
-import { RacemapsService }                          from '../../services/racemaps.service'
-import { RaceMap }                                  from '../../services/server-model'
+import { RacemapsService }                          from '../../../services/racemaps.service'
+import { RaceMap }                                  from '../../../services/server-model'
 
 @Component({
     selector: 'racemaps',
-    templateUrl: 'app/components/racemaps/racemaps.template.html'
+    templateUrl: 'app/components/dashboard/racemaps/racemaps.template.html'
 })
 
 export class RacemapsComponent  { 

@@ -1,13 +1,13 @@
 import { Component, Input, ViewChild, ElementRef }  from '@angular/core';
 import { Http, Response }                           from '@angular/http';
 import { Observable }                               from 'rxjs/Observable';
-import { RegatasNewService }                        from '../services/regatas-new.service'
-import { RaceService }                              from '../services/race.service'
-import { Regata, Race}                              from '../services/server-model'
+import { RegatasNewService }                        from '../../services/regatas-new.service'
+import { RaceService }                              from '../../services/race.service'
+import { Regata, Race}                              from '../../services/server-model'
 
 @Component({
     selector: 'dashboard',
-    templateUrl: 'app/components/dashboard.template.html'
+    templateUrl: 'app/components/dashboard/dashboard.template.html'
 })
 
 export class DashboardComponent  { 

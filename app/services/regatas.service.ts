@@ -67,16 +67,18 @@ export class RegatasService {
     /**
      * Asks the server to create a new regata.
      */
-    public postRegata(regata : Regata) : Observable<Response> {
-        let obs : Observable<Response>
+    public postRegata(regata : Regata) : void {
         if(regata.identifier == null) {
             // new regata
-            obs = this.http.post(Server.RegattasUrl, JSON.stringify(regata))
+            this.http.post(Server.RegattasUrl, JSON.stringify(regata)).subscribe((value : Response) => {
+                if(value.ok) {
+                    regata.loadValues(value.json())
+                }
+            })
         } else {
             // edit regata
-            obs = this.http.put(Server.RegattasUrl + "/" + regata.identifier, JSON.stringify(regata))
+            this.http.put(Server.RegattasUrl + "/" + regata.identifier, JSON.stringify(regata))
         }
-        return obs
     }
 
     public findById(id : string) : Observable<Regata> {

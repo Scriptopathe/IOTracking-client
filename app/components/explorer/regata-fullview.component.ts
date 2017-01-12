@@ -1,15 +1,15 @@
 import { Component, Input, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute }                          from '@angular/router'
-import { DateHelper }                              from '../helpers/datehelper'
+import { DateHelper }                              from '../../helpers/datehelper'
 import { Http, Response }                          from '@angular/http';
 import { Observable }                              from 'rxjs/Observable';
-import { RegatasService }                          from '../services/regatas.service'
-import { Regata, Race}                             from '../services/server-model'
+import { RegatasService }                          from '../../services/regatas.service'
+import { Regata, Race}                             from '../../services/server-model'
 import * as $ from "jquery";
 
 @Component({
     selector: 'regata-fullview',
-    templateUrl: 'app/components/regata-fullview.template.html'
+    templateUrl: 'app/components/explorer/regata-fullview.template.html'
 })
 
 export class RegataFullViewComponent  {

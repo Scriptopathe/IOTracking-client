@@ -1,14 +1,14 @@
 import { Component, Input, ViewChild, ElementRef }  from '@angular/core'
 import { Http, Response }                           from '@angular/http'
 import { Observable }                               from 'rxjs/Observable'
-import { DevicesService }                           from '../services/devices.service'
 import { DomSanitizer, SafeHtml,SafeUrl,SafeStyle } from '@angular/platform-browser'
 import { DeviceListComponent }                      from './devices-list.component'
-import { Device }                                   from '../services/server-model'
+import { DevicesService }                           from '../../../services/devices.service'
+import { Device }                                   from '../../../services/server-model'
 
 @Component({
     selector: 'devices-dashboard',
-    templateUrl: 'app/components/devices-dashboard.template.html'
+    templateUrl: 'app/components/dashboard/devices/devices-dashboard.template.html'
 })
 
 export class DeviceDashboardComponent  { 
