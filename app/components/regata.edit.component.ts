@@ -61,9 +61,7 @@ export class RegataEditionComponent  {
     }
 
     onSave() {
-        this.regataSvc.postRegata(this.currentRegata).subscribe((value : Response) => {
-            alert("SAVE STATUS : " + value.status + " : " + value.statusText)
-        })
+        this.regataSvc.postRegata(this.currentRegata)
     }
 
     ngOnInit() {
