@@ -14,21 +14,17 @@ import * as $ from 'jquery'
 })
 
 export class RacerComponent  {
-    //@Input('regata') currentRegata: Regata;
     devices : Device[] = [];
     currentRacer: Racer; 
     currentRace: Race; 
     currentRegata: Regata; 
+    currentDeviceIndex : number; 
     regataId : string; 
     raceId : string;
-    racerId : string; 
+    racerId : string;
 
-    indexRacer : number; // to destroy unfinished racers, null if racer edition
+    indexRacer : number; // to destroy unfinished racers, null if racer Edition
 
-    newName : string;
-    newBoatId : string;
-    newDeviceId : number;
-    //modalId : string;
     missName : boolean = false;
     missBoat : boolean = false;
     missDevice : boolean = false;
@@ -37,10 +33,6 @@ export class RacerComponent  {
 
     constructor(private router : Router, private route : ActivatedRoute, private http : Http, private regataSvc : RegatasNewService, private sanitizer : DomSanitizer, private devicesSvc : DevicesService) {
         this.loadDevices();
-        this.regataSvc.loadRegatas;
-        this.newName = "";
-        this.newBoatId = "";
-        this.newDeviceId = null;
     }
 
     onSaveRacer(){
@@ -48,20 +40,20 @@ export class RacerComponent  {
         this.missName = false;
         this.missDevice = false;
         /* since the races are not identified, save the entire regata */ 
-        if (this.newName != "" && this.newBoatId != "" && this.devices[this.newDeviceId] != null){
-            this.currentRacer.skipperName = this.newName;
-            this.currentRacer.boatIdentifier = this.newBoatId;
-            this.currentRacer.device = new Reference<Device>(this.newDeviceId);
-            this.regataSvc.postRegata(this.currentRegata).subscribe((value : boolean) => {})
-            this.regataSvc.loadRegatas;
-            this.router.navigate(['/dashboard/regatas/', this.currentRegata.identifier, 'races', this.raceId, 'edit']);                
+        if (this.currentRacer.skipperName != "" && this.currentRacer.boatIdentifier != "" && this.devices[this.currentDeviceIndex] != null){
+            this.currentRacer.skipperName = this.currentRacer.skipperName;
+            this.currentRacer.boatIdentifier = this.currentRacer.boatIdentifier;
+            this.currentRacer.device = new Reference<Device>(this.currentDeviceIndex);
+            this.regataSvc.postRegata(this.currentRegata).subscribe((value : boolean) => {
+                this.router.navigate(['/dashboard/regatas/', this.currentRegata.identifier, 'races', this.raceId, 'edit']);  
+            })                 
         }
         else {
-            if (this.newName == "")
+            if (this.currentRacer.skipperName == "")
                 this.missName = true; 
-            if (this.newBoatId == "")
+            if (this.currentRacer.boatIdentifier == "")
                 this.missBoat = true; 
-            if (this.devices[this.newDeviceId] == null)
+            if (this.devices[this.currentDeviceIndex] == null)
                 this.missDevice = true;
         }
     }    
@@ -87,19 +79,7 @@ export class RacerComponent  {
             " 20px, rgba(255, 255, 255, 0) 20px, rgba(255, 255, 255, 0) 25px)")
     }
 
-    /*
-    getModalId() {
-        return this.modalId;
-    }
-    */
-
     onCancel() {
-        if (this.indexRacer != null) {
-            /* delete racer if the creation is abandonned */
-            this.currentRegata.races[this.raceId].concurrents.splice(this.indexRacer, 1)
-            this.regataSvc.postRegata(this.currentRegata).subscribe((value : boolean) => {})
-            this.regataSvc.loadRegatas;
-        }
         this.router.navigate(['/dashboard/regatas/', this.currentRegata.identifier, 'races', this.raceId, 'edit']);
     }
 
@@ -115,45 +95,29 @@ export class RacerComponent  {
                 if (params['racer'] != null) {
                     this.racerId = params['racer']
                     this.regataSvc.findById(this.regataId).subscribe((regata : Regata) => {
-                    this.currentRegata = regata;
-                    this.currentRace = this.currentRegata.races[this.raceId]
-                    this.currentRacer = this.currentRace.concurrents[this.racerId]
-                
-                    let index = this.devices.findIndex((value : Device) => { return value.identifier == this.currentRacer.device });
-                    this.newDeviceId = index;
-                    this.newName = this.currentRacer.skipperName;
-                    this.newBoatId = this.currentRacer.boatIdentifier;
-                    this.indexRacer = null;
+                        this.currentRegata = regata;
+                        this.currentRace = this.currentRegata.races[this.raceId]
+                        this.currentRacer = this.currentRace.concurrents[this.racerId]
+                    
+                        let index = this.devices.findIndex((value : Device) => { return value.identifier == this.currentRacer.device });
+                        this.currentDeviceIndex = index;
+                        this.indexRacer = null;
                     })
                 }
                 /* New Racer */
                 else {
                     this.regataSvc.findById(this.regataId).subscribe((regata : Regata) => {
-                    this.currentRegata = regata
-                    this.currentRace = this.currentRegata.races[this.raceId];
-                    this.currentRacer = new Racer("Temporary Boat Id", "New Racer", null, null);
-                    if (this.currentRace == null)
-                        console.log("currentRace NULL");
-                    else {
-                        console.log("race name : " + this.currentRace.name)
-                    }
-                    if (this.currentRace.concurrents == null)
-                        console.log("concurrents NULL")
-
-                    this.currentRace.concurrents.push(this.currentRacer);
-                    
-                    let index = this.currentRace.concurrents.findIndex((value : Racer) => { return value.skipperName == "New Racer"; });
-                    this.indexRacer = index;
-
-                    this.newDeviceId = null;
-                    this.newName = "";
-                    this.newBoatId = "";
+                        this.currentRegata = regata
+                        this.currentRace = this.currentRegata.races[this.raceId];
+                        this.currentRacer = new Racer("Boat Name", "New Racer", null, null);
+                        this.currentRace.concurrents.push(this.currentRacer);
+                        
+                        let index = this.currentRace.concurrents.findIndex((value : Racer) => { return value.skipperName == "New Racer"; });
+                        this.indexRacer = index;
+                        this.currentDeviceIndex = null;
                     })
                 }
-               // this.modalId = this.currentRegata.name + "_newrace"
         });
-
-        //$(this.modalId).modal()
     }
 }
 

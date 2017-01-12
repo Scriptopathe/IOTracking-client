@@ -13,7 +13,6 @@ import { DateHelper }                               from '../helpers/datehelper'
 
 export class RegataEditionComponent  {
     public DateHelper = DateHelper
-    //@Input('regata') currentRegata: Regata; 
     currentRegata: Regata; 
     currentRace: Race;
     regataId : string; 
@@ -22,10 +21,6 @@ export class RegataEditionComponent  {
     showComponentEditRace : boolean;
     isNew : boolean = true;
 
-    newName : string;
-    newLocation : string;
-    newStartDate : string;
-    newEndDate : string;
     missName : boolean = false;
     missLocation : boolean = false;
 
@@ -33,22 +28,22 @@ export class RegataEditionComponent  {
     liveRaceId : number
 
     constructor(private route : ActivatedRoute, private router : Router, private http : Http, 
-        private regataSvc : RegatasNewService, private raceSvc : RegatasNewService) {     
+        private regataSvc : RegatasNewService, private raceSvc : RaceService) {     
         this.showComponentNewRace = false;
         this.currentRegata = null
         this.currentRace = null
-        /*
+        
         this.raceSvc.getLiveRace().subscribe((serverState) => {
             this.liveRegataId = <string>serverState.liveRegata
             this.liveRaceId = serverState.liveRaceId
-        }) */
+        })
     }
 
     isLive(raceId : number) {
         return this.liveRegataId == this.regataId && raceId == this.liveRaceId
     }
 
-/*
+
     setLive(raceId : number) {
         this.raceSvc.setLiveRace(this.regataId, raceId).subscribe((value) =>{
             if(value) {
@@ -57,17 +52,18 @@ export class RegataEditionComponent  {
             }
         })
     }
-*/
 
     onNewRace(){
-        console.log("regataid = " + this.regataId)
-        this.router.navigate(['dashboard/regatas/', this.regataId, 'newrace']);
+        this.regataSvc.postRegata(this.currentRegata).subscribe((value : boolean) => {
+            this.router.navigate(['dashboard/regatas/', this.regataId, 'newrace']);
+        })
     }
 
     removeRace(raceId : number) {
         this.currentRegata.races.splice(raceId, 1)
         this.regataSvc.postRegata(this.currentRegata).subscribe((value : boolean) => {})
     }
+    
     
     clearLive() {
         this.raceSvc.clearLiveRace().subscribe((value) => {
@@ -89,16 +85,14 @@ export class RegataEditionComponent  {
     onSave() {
         this.missName = false;
         this.missLocation = false;
-        if (this.newName != "" && this.newLocation != "") {
-            this.currentRegata.name = this.newName;
-            this.currentRegata.location = this.newLocation;
+        if (this.currentRegata.name != "" && this.currentRegata.location != "") {
             this.regataSvc.postRegata(this.currentRegata).subscribe((value : boolean) => {})
             this.router.navigate(['/dashboard/regatas']);
         }
         else {
-            if (this.newName == "")
+            if (this.currentRegata.name == "")
                 this.missName = true;
-            if (this.newLocation == "")
+            if (this.currentRegata.location == "")
                 this.missLocation = true;
        }
     }
@@ -111,18 +105,15 @@ export class RegataEditionComponent  {
                 if(this.regataId == 'new') {
                     // Create new regata
                     this.currentRegata = new Regata("Nouvelle régate", new Date(), new Date(), "Lieu", new Array<Race>())
-                    this.newName = "";
-                    this.newLocation = "";
                     this.isNew = true
-                    this.regataSvc.postRegata(this.currentRegata).subscribe((value : boolean) => {})
-                    this.regataSvc.loadRegatas;
+                    this.regataSvc.postRegata(this.currentRegata).subscribe((value : boolean) => {
+                        this.regataId = this.currentRegata.identifier;
+                    })
                 } else {
                     // Edit regata
                     this.regataSvc.findById(this.regataId).subscribe((regata : Regata) => {
                         this.currentRegata = regata
                         this.isNew = false
-                        this.newName = this.currentRegata.name;
-                        this.newLocation = this.currentRegata.location;   
                     })
                 }
                 

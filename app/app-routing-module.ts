@@ -13,6 +13,7 @@ import { RegataFullViewComponent }    from './components/regata-fullview.compone
 import { RaceComponent }              from './components/race.component';
 import { RaceViewComponent }          from './components/race-view.component';
 import { RacerComponent }             from './components/racer.component';
+import { RacemapsComponent }          from './components/racemaps/racemaps.component';     
 
 const appRoutes: Routes = [
   { path: 'regata-explorer', component: RegataExplorerComponent },
@@ -35,6 +36,10 @@ const appRoutes: Routes = [
       {
         path: '',
         component: DashboardComponent
+      },
+      {
+        path: 'racemaps',
+        component: RacemapsComponent
       },
       {
         // dashboard/devices/

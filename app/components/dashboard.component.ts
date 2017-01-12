@@ -20,6 +20,11 @@ export class DashboardComponent  {
         private raceSvc : RaceService) {        
         
         this.loadLiveRace()
+        console.log("constructor")
+    }
+
+    ngOnInit() {
+        console.log("ng init")
     }
 
     clearLive() {

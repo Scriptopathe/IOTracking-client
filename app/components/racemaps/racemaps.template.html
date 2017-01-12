@@ -1,3 +1,94 @@
-<div>
+<div class="container">
+    <breadcumb
+        [labels]="['Dashboard', 'Cartes']"
+        [routes]="[['/dashboard'], ['/dashboard/racemaps']]"
+    >
+    </breadcumb>
+    
+    <!-- Actions -->
+    <div class="material-box material-box-fit animated fadeIn">
+        <div class="material-box-title">Actions</div>
 
+        <div class="btn-group" role="group">
+            <button class="btn btn-default" (click)="addNewRacemap()">
+                <span class="glyphicon glyphicon-plus"></span> Ajouter
+            </button>
+            <button class="btn btn-default" type="button" (click)="saveCurrentRacemap()" [disabled]="!hasCurrentRacemap()">
+                <span class="glyphicon glyphicon-check"></span> Enregistrer
+            </button>
+            <button class="btn btn-danger" (click)="deleteCurrentRacemap()" [disabled]="!hasCurrentRacemap()">
+                <span class="glyphicon glyphicon-remove"></span> Supprimer
+            </button>
+        </div>
+                
+    </div>
+    <div *ngIf="racemaps != null" class="material-box material-box-fit">
+        <div class="list-group">
+            <select class="form-control" [(ngModel)]="racemapIndex">
+                <option *ngFor="let racemap of racemaps; let i = index"
+                    [value]="i" 
+                    class="list-group-item">
+                    {{racemap.name}}
+                </option>
+            </select>
+        </div>
+
+        <div *ngIf="racemaps[racemapIndex] != null">
+            <div class="alert alert-danger" *ngIf="error != null">
+                Erreur : {{error}}
+            </div>
+
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Nom</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" [(ngModel)]="racemaps[racemapIndex].name">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Image de la carte</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" [(ngModel)]="racemaps[racemapIndex].raceMapImageUrl">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Latitude Nord</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" [(ngModel)]="racemaps[racemapIndex].northLatReference">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Latitude Sud</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" [(ngModel)]="racemaps[racemapIndex].southLatReference">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Longitude Est</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" [(ngModel)]="racemaps[racemapIndex].eastLongReference">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Longitude Ouest</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" [(ngModel)]="racemaps[racemapIndex].westLongReference">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button (click)="saveRacemap(racemaps[racemapIndex])"
+                                class="btn btn-primary">
+                            Enregistrer
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
 </div>

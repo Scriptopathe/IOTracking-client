@@ -13,55 +13,51 @@ import * as $ from 'jquery'
 })
 
 export class RaceComponent  {
-    //@Input('regata') currentRegata: Regata; 
     currentRace: Race; 
     currentRegata: Regata;
     regataId : string; 
     raceId : string;
     indexRace : number; // to destroy unfinished races, null if edition 
-    //modalId : string;
-    newName : string;
-    newStartDate : string;
-    newEndDate: string;
+
     missStartDate : boolean = false;
     missEndDate : boolean = false;
     missName : boolean = false;
-    newRaceIndex : number;
     isNew : boolean;
 
     constructor(private router : Router, private route : ActivatedRoute, private http : Http, private regataSvc : RegatasNewService) {
-        this.newStartDate = "";
-        this.newEndDate = "";
     }
 
     onRemoveRacer(racerId : number) {
         this.currentRegata.races[this.raceId].concurrents.splice(racerId, 1)
-        this.regataSvc.postRegata(this.currentRegata).subscribe((value : bolean) => {})
-        this.regataSvc.loadRegatas;
+        this.regataSvc.postRegata(this.currentRegata).subscribe((value : boolean) => {})
     }
 
     onNewRacer(){
-        this.router.navigate(['dashboard/regatas/', this.currentRegata.identifier, 'races', this.raceId, 'edit', 'newracer']);
+         this.regataSvc.postRegata(this.currentRegata).subscribe((value : boolean) => {
+            this.router.navigate(['dashboard/regatas/', this.currentRegata.identifier, 'races', this.raceId, 'edit', 'newracer']);
+         })
     }
 
     onSaveRace(){
         this.missName = false;
         this.missStartDate = false;
         this.missEndDate = false;
-        if (this.newName != "" && this.newStartDate != "" && this.newEndDate != "")
+        if (this.currentRace.name != "" /* && this.currentRace.startDate != "" && this.currentRace.endDate != "" */)
         {
-            this.currentRace.name = this.newName;
-            this.regataSvc.postRegata(this.currentRegata).subscribe((value : boolean) => {})
-            this.regataSvc.loadRegatas;
-            this.router.navigate(['/dashboard/regatas/', this.currentRegata.identifier]);
+            this.regataSvc.postRegata(this.currentRegata).subscribe((value : boolean) => {
+                this.router.navigate(['/dashboard/regatas/', this.currentRegata.identifier]);
+            })
+
         }
         else {
-            if (this.newName == "")
+            if (this.currentRace.name == "")
                 this.missName = true;
-            if (this.newStartDate == "")
+            /*      
+            if (this.currentRace.startDate == "")
                 this.missStartDate = true;
-            if (this.newEndDate == "")
+            if (this.currentRace.endDate == "")
                 this.missEndDate = true;
+            */
         }
     }
 
@@ -69,8 +65,9 @@ export class RaceComponent  {
         if (this.indexRace != null) {
             /* delete race if the creation is abandonned */
             this.currentRegata.races.splice(this.indexRace, 1);
-            this.regataSvc.postRegata(this.currentRegata).subscribe((value : boolean) => {})
-            this.regataSvc.loadRegatas;
+            this.regataSvc.postRegata(this.currentRegata).subscribe((value : boolean) => {
+                this.router.navigate(['/dashboard/regatas/', this.currentRegata.identifier]);        
+            })
         }
         this.router.navigate(['/dashboard/regatas/', this.currentRegata.identifier]);        
     }
@@ -83,34 +80,26 @@ export class RaceComponent  {
                 /* RACE EDITION */
                 if (params['race'] != null)
                 {                
-                    console.log("RACE EDITION");
                     this.raceId = params['race']
                     this.regataSvc.findById(this.regataId).subscribe((regata : Regata) => {
-                    this.currentRegata = regata
-                    this.currentRace = this.currentRegata.races[this.raceId]
-                    this.newName = this.currentRegata.races[this.raceId].name
-                    this.indexRace = null;//new name TODO
-                    this.isNew = false;
+                        this.currentRegata = regata
+                        this.currentRace = this.currentRegata.races[this.raceId]
+                        this.indexRace = null;
+                        this.isNew = false;
                     })
                 }
                 /* NEW RACE */
                 else {
-                    console.log("new RACE ");
                     this.regataSvc.findById(this.regataId).subscribe((regata : Regata) => {
-                    this.currentRegata = regata
-                    this.currentRace = new Race("Nouvelle Course", new Date(), new Date(), new Array<Racer>(), new Reference<RaceMap>(), new Reference<RaceData>(), new Array<Point>());
-                 
-                    this.currentRegata.races.push(this.currentRace);
-                    this.regataSvc.postRegata(this.currentRegata).subscribe((value : boolean) => {})
-                    this.regataSvc.loadRegatas;
-
-                    let index = this.currentRegata.races.findIndex((value : Race) => { return value.name == "Nouvelle Course"; });
-                    this.indexRace = index;
-                    this.isNew = true;
-
-                    this.raceId = String(this.currentRegata.races.length-1)
-                    console.log("new index : " + this.raceId)
-                    this.newName = "";
+                        this.currentRegata = regata
+                        this.currentRace = new Race("Nouvelle Course", new Date(), new Date(), new Array<Racer>(), new Reference<RaceMap>(), new Reference<RaceData>(), new Array<Point>());
+                        this.currentRegata.races.push(this.currentRace);
+                        this.regataSvc.postRegata(this.currentRegata).subscribe((value : boolean) => {
+                            let index = this.currentRegata.races.findIndex((value : Race) => { return value.name == "Nouvelle Course"; });
+                            this.indexRace = index;
+                            this.isNew = true;
+                            this.raceId = String(this.currentRegata.races.length-1)
+                        })                        
                     })
                 }
         });

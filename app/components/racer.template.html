@@ -1,6 +1,3 @@
-<!-- <div class="modal fade" [id]="getModalId()">-->
-
-<!-- <div class="modal fade" [id]="getModalId()">-->
 <style>
     .battery-container {
         border-color: #E0E0E0;
@@ -25,119 +22,76 @@
 
 </style>
 
-<div class="modal-dialog" role="dialog" *ngIf="currentRegata != null && currentRace != null && currentRacer != null">
-    <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-            <span *ngIf="isNewRacer == true">
-                <div class="modal-title" style="font-size: 1.5em;"><strong>New Racer:</strong></div>
-            </span>
-             <span *ngIf="isNewRacer != true">
-                <div class="modal-title" style="font-size: 1.5em;"><strong>Racer Edition:</strong></div>
-            </span>
+ <div class="container" style="margin-top:30px;" *ngIf="currentRegata != null && currentRace != null && currentRacer != null">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="panel-title" style="font-size: 1.5em;"><strong>Edition de coureur : </strong>{{ currentRacer.skipperName }}</div>
         </div>
 
-        <div class="modal-body">
-            <!-- NEW RACER -->
-            <span *ngIf="isNewRacer == true">
-                <div class="input-group">
-                    <span class="input-group-addon">Name</span>
-                    <input type="text" id="newName" class="form-control" [(ngModel)]="newName"/>
+        <div class="panel-body" style="margin-left:140px; margin-right:140px;">
+            <div class="row" ><br />
+                <div class="col-xs-4"><span class="glyphicon glyphicon-map-marker"></span> <b>Nom du coureur</b></div>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control" [(ngModel)]="currentRacer.skipperName">
                 </div>
-                <div *ngIf="missName == true" style="color:red;">
-                    Le nom du skipper doit être renseigné.
+                <div *ngIf="missName == true" style="margin-left:20px; color:red;">
+                    Le nom du coureur doit être renseigné.
                 </div><br />
+            </div>
 
-                <div class="input-group">
-                    <span class="input-group-addon">Boat name</span>
-                    <input type="text" id="newBoatId" class="form-control" [(ngModel)]="newBoatId">
+            <div class="row" ><br />
+                <div class="col-xs-4"><span class="glyphicon glyphicon-time"></span> <b>Nom du bateau</b></div>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control" [(ngModel)]="currentRacer.boatIdentifier">
                 </div>
-                <div *ngIf="missBoat == true" style="color:red;">
+                <div *ngIf="missName == true" style="margin-left:20px; color:red;">
                     Le nom du bateau doit être renseigné.
-                </div><br />
-
-                <!-- device list -->      
-                <div class="input-group" style="margin-right:0%; margin-left:0%;">
-                    <span class="input-group-addon">Device</span>        
-                    <div class="form-group">
-                        <select class="form-control" [(ngModel)]="newDeviceId">
-                            <option *ngFor="let device of devices; let i = index" [value]="i">{{device.hwid}} - {{ device.name }}</option>
-                        </select>
-                        <br />
-                    </div>
-                </div><br />      
-            </span>
-
-            <!-- RACER EDITION -->
-            <span *ngIf="isNewRacer != true">
-                <div class="input-group">
-                    <span class="input-group-addon">New name</span>
-                    <input type="text" id="newName" class="form-control" [(ngModel)]="newName"/>
                 </div>
-                <div *ngIf="missName == true" style="color:red;">
-                    Le nom du skipper doit être renseigné.
-                </div><br />
-                
-                <div class="input-group">
-                    <span class="input-group-addon">New boat name</span>
-                    <input type="text" id="newBoatId" class="form-control" [(ngModel)]="newBoatId">
+            </div><br />
+
+            <!-- device list -->      
+            <div class="input-group" style="margin-right:0%; margin-left:0%;">
+                <span class="input-group-addon">Boîtier</span>        
+                <div class="form-group">
+                    <select class="form-control" [(ngModel)]="currentDeviceIndex">
+                        <option *ngFor="let device of devices; let i = index" [value]="i">{{device.hwid}} - {{ device.name }}</option>
+                    </select>
+                    <br />
                 </div>
-                <div *ngIf="missBoat == true" style="color:red;">
-                    Le nom du bateau doit être renseigné.
-                </div><br />
+            </div><br />      
 
-                <!-- device list -->      
-                <div class="input-group" style="margin-right:0%; margin-left:0%;">
-                    <span class="input-group-addon">New Device</span>        
-                    <div class="form-group">
-                        <select class="form-control" [(ngModel)]="newDeviceId">
-                            <option *ngFor="let device of devices; let i = index" [value]="i">{{device.hwid}} - {{ device.name }}</option>
-                        </select>
-                        <br />
-                    </div>
-                </div><br /> 
-            </span>
-
-            <div class="animated fadeIn" *ngIf="devices[this.newDeviceId] != null">
+            <div class="animated fadeIn" *ngIf="devices[this.currentDeviceIndex] != null">
 
                 <!-- Energy -->
                 <div class="row">
                     <div class="col-xs-6 col-sm-4 col-md-3" style="height: 2em;">
                         <img src="app/static/battery-icon.png" style="width: 2em; height: 2em;" />
                         <span style="padding-left: 10px; display: inline-block; line-height: 2em; ">
-                            <strong>Energy Level</strong>
+                            <strong>Niveau de batterie</strong>
                         </span>
                     </div> 
                     <div class="col-xs-6 col-sm-8 col-md-9">
                         <div class="battery-container">
-                            <div class="battery-inner" [style.width]="devices[newDeviceId].batteryLevel + '%'" [style.background]="getBackground(devices[newDeviceId].batteryLevel)" >
-                                <strong style="background-color: rgba(255, 255, 255, 0.75); border-radius: 5px;" >{{ devices[newDeviceId].batteryLevel }} %</strong>
+                            <div class="battery-inner" [style.width]="devices[currentDeviceIndex].batteryLevel + '%'" [style.background]="getBackground(devices[currentDeviceIndex].batteryLevel)" >
+                                <strong style="background-color: rgba(255, 255, 255, 0.75); border-radius: 5px;" >{{ devices[currentDeviceIndex].batteryLevel }} %</strong>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div *ngIf="devices[newDeviceId].batteryLevel < 50"><br /><br />
-                ATTENTION: the current device's battery level is only {{ devices[newDeviceId].batteryLevel }} %
+                <div *ngIf="devices[currentDeviceIndex].batteryLevel < 50"><br /><br />
+                ATTENTION: Le niveau de batterie du boîtier sélectionné est seulement de {{ devices[currentDeviceIndex].batteryLevel }} %
                 </div><br />
             </div>
 
             <div *ngIf="missDevice == true" style="color:red;"><br />
-                Veuillez choisir un device.
+                Veuillez choisir un boîtier.
             </div>
+
+            <div class="btn-group;btn pull-right" role="group">
+                <button type="button" class="btn btn-danger" (click)="onCancel()"><a style="color: white;">Annuler </a><span class="glyphicon glyphicon-remove"></span></button>
+                <button type="button" class="btn btn-primary" (click)="onSaveRacer()"><a style="color: white;">Enregistrer </a><span class="glyphicon glyphicon-ok"></span></button>
+            </div><br /><br />
         </div>
-        
-        <div class="modal-footer">
-            <div class="btn-group" role="group">
-                <button type="button" class="btn btn-default" (click)="onCancel()"><a style="color: black;">Cancel </a><span class="glyphicon glyphicon-remove"></span></button>
-                <button type="button" class="btn btn-danger" (click)="onSaveRacer()"><a style="color: white;">Save Racer </a><span class="glyphicon glyphicon-ok"></span></button>
-            </div>
-        </div>           
-    </div>
+    </div>           
 </div>
-
-<!-- [routerLink]="['/dashboard/regatas/', currentRegata.identifier, 'races', raceId, 'edit']"  -->
-
-<!-- </div>-->
