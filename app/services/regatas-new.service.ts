@@ -44,9 +44,9 @@ export class RegatasNewService {
             this.http.delete(Server.RegattasUrl + "/" + regata.identifier)
             .subscribe((value : Response) => {
                 subscriber.next(value.ok)
-                if(!value.ok)
-                    subscriber.error(value.statusText)
                 subscriber.complete()
+            }, (error : Response) => {
+                subscriber.error(error.statusText)
             })
         })
     }
@@ -68,9 +68,12 @@ export class RegatasNewService {
 
             obs.subscribe((value : Response) => {
                 subscriber.next(value.ok)
-                if(!value.ok) 
-                    subscriber.error(value.statusText)
+                if(value.ok) {
+                    regata.loadValues(value.json())
+                }
                 subscriber.complete()
+            }, (error : Response) => {
+                subscriber.error(error.statusText)
             })
         })
     }
