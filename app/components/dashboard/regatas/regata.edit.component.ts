@@ -77,7 +77,7 @@ export class RegataEditionComponent  {
     onCancel() {
         if (this.isNew == true)
         {   
-            this.regataSvc.deleteRegata(this.currentRegata) 
+            this.regataSvc.deleteRegata(this.currentRegata)
         }
         this.router.navigate(['/dashboard/regatas']);        
     }
@@ -86,8 +86,9 @@ export class RegataEditionComponent  {
         this.missName = false;
         this.missLocation = false;
         if (this.currentRegata.name != "" && this.currentRegata.location != "") {
-            this.regataSvc.postRegata(this.currentRegata).subscribe((value : boolean) => {})
-            this.router.navigate(['/dashboard/regatas']);
+            this.regataSvc.postRegata(this.currentRegata).subscribe((value : boolean) => {
+                this.router.navigate(['/dashboard/regatas']);
+            })
         }
         else {
             if (this.currentRegata.name == "")

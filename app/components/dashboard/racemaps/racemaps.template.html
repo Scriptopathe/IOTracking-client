@@ -38,18 +38,13 @@
                 Erreur : {{error}}
             </div>
 
+
+            
             <div class="form-horizontal">
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Nom</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" [(ngModel)]="racemaps[racemapIndex].name">
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">Image de la carte</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" [(ngModel)]="racemaps[racemapIndex].raceMapImageUrl">
                     </div>
                 </div>
                 
@@ -79,13 +74,15 @@
                 </div>
 
                 <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <button (click)="saveRacemap(racemaps[racemapIndex])"
-                                class="btn btn-primary">
-                            Enregistrer
-                        </button>
+                    <label class="col-sm-2 control-label">Image de la carte</label>
+                    <div class="col-sm-10">
+	                    <input type="file" class="form-control" (change)="onChangeFile($event)"/>
+                        <!-- <input type="text" class="form-control" [(ngModel)]="racemaps[racemapIndex].raceMapImageUrl"> -->
                     </div>
                 </div>
+
+                <img style="width: 100%" *ngIf="showImage()" [src]="getImageUrl()" />
+                
             </div>
 
         </div>

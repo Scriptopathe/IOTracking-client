@@ -41,12 +41,10 @@ export class RacerComponent  {
         this.missDevice = false;
         /* since the races are not identified, save the entire regata */ 
         if (this.currentRacer.skipperName != "" && this.currentRacer.boatIdentifier != "" && this.devices[this.currentDeviceIndex] != null){
-            this.currentRacer.skipperName = this.currentRacer.skipperName;
-            this.currentRacer.boatIdentifier = this.currentRacer.boatIdentifier;
             this.currentRacer.device = new Reference<Device>(this.currentDeviceIndex);
             this.regataSvc.postRegata(this.currentRegata).subscribe((value : boolean) => {
                 this.router.navigate(['/dashboard/regatas/', this.currentRegata.identifier, 'races', this.raceId, 'edit']);  
-            })                 
+            })
         }
         else {
             if (this.currentRacer.skipperName == "")
@@ -62,21 +60,6 @@ export class RacerComponent  {
         this.devicesSvc.loadDevices().subscribe((devices : Device[]) => {
             this.devices = devices
         })
-    }
-
-    getBackground(energy : number) : SafeStyle {
-        let color : string;
-        if(energy < 10) {
-            color = "orangered"
-        } else if (energy < 40) {
-            color = "palegoldenrod"
-        } else {
-            color ="palegreen"
-        }
-        
-        return this.sanitizer.bypassSecurityTrustStyle(
-            "repeating-linear-gradient(to right, " + color + ", " + color +
-            " 20px, rgba(255, 255, 255, 0) 20px, rgba(255, 255, 255, 0) 25px)")
     }
 
     onCancel() {
@@ -118,6 +101,22 @@ export class RacerComponent  {
                     })
                 }
         });
+    }
+
+
+    getBackground(energy : number) : SafeStyle {
+        let color : string;
+        if(energy < 10) {
+            color = "orangered"
+        } else if (energy < 40) {
+            color = "palegoldenrod"
+        } else {
+            color ="palegreen"
+        }
+        
+        return this.sanitizer.bypassSecurityTrustStyle(
+            "repeating-linear-gradient(to right, " + color + ", " + color +
+            " 20px, rgba(255, 255, 255, 0) 20px, rgba(255, 255, 255, 0) 25px)")
     }
 }
 

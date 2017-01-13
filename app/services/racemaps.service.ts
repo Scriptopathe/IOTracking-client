@@ -6,10 +6,42 @@ import { RaceMap, Server }              from './server-model';
 
 @Injectable()
 export class RacemapsService {
+    private progressObserver : Subscriber<number>
+    public progress: Observable<number>
     public constructor(private http : Http) {
-        
+        this.progress = new Observable<number>((observer : Subscriber<number>) => {
+            this.progressObserver = observer
+        }).share()
     }
 
+    public uploadRacemap (file: File, filename : string): Observable<number> {
+        return new Observable<number>((observer : Subscriber<number>) => {
+            let formData: FormData = new FormData()
+            let xhr: XMLHttpRequest = new XMLHttpRequest();
+
+            formData.append("file", file, file.name);
+            formData.append("filename", filename)
+            
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        observer.next(xhr.response);
+                        observer.complete();
+                    } else {
+                        observer.error(xhr.response);
+                    }
+                }
+            };
+
+            xhr.upload.onprogress = (event) => {
+                if(this.progressObserver != null)
+                    this.progressObserver.next(Math.round(event.loaded / event.total * 100))
+            };
+
+            xhr.open('POST', Server.RaceMapUploadUrl, true);
+            xhr.send(formData);
+        });
+    }
 
     public deleteRacemap(racemap : RaceMap) : Observable<boolean> {
         var self = this
@@ -42,7 +74,7 @@ export class RacemapsService {
                 // new racemap
                 self.http.post(Server.RaceMapUrl, JSON.stringify(racemap))
                 .subscribe((value) => {
-                    if(!value.ok) subscriber.error(value.status)
+                    racemap.loadValues(value.json())
                     subscriber.next(value.ok)
                     subscriber.complete()
                 }, (error : Response) => {
@@ -53,7 +85,6 @@ export class RacemapsService {
                 // update racemap
                 self.http.put(Server.RaceMapUrl + "/" + racemap.identifier, 
                               JSON.stringify(racemap)).subscribe((value) => {
-                    if(!value.ok) subscriber.error(value.status)
                     subscriber.next(value.ok)
                     subscriber.complete()
                 }, (error) => {
