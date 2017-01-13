@@ -5,6 +5,7 @@ import { Http, Response }                           from '@angular/http'
 import { Observable }                               from 'rxjs/Observable'
 import { RegatasService }                           from '../services/regatas.service'
 import { RaceService }                              from '../services/race.service'
+import { RacemapsService }                          from '../services/racemaps.service'
 import { Regata, Race, Racer,
          TimePoint, Point, FullRace }               from '../services/server-model'
 
@@ -53,7 +54,8 @@ export class RacePlayerComponent  {
     /* ------------------------------------------------------
      * Constructor
      * ----------------------------------------------------*/
-    constructor(private http : Http, private raceSvc : RaceService) {
+    constructor(private http : Http, private raceSvc : RaceService,
+        private racemapsSvc : RacemapsService) {
         window.addEventListener("resize", () => this.resizeCanvas())
     }
 
@@ -122,7 +124,7 @@ export class RacePlayerComponent  {
         if(this.fullRace == undefined) {
             return ""
         }
-        return "app/static/" + this.fullRace.map.raceMapImageUrl
+        return this.racemapsSvc.getImageUrl(this.fullRace.map)
     }
 
     /* ------------------------------------------------------

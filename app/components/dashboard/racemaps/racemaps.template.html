@@ -24,9 +24,11 @@
     </div>
     <div *ngIf="racemaps != null" class="material-box material-box-fit">
         <div class="list-group">
-            <select class="form-control" [(ngModel)]="racemapIndex">
+            <select class="form-control" 
+                    (change)="onSelectionChanged()"
+                    [(ngModel)]="racemapIndex">
                 <option *ngFor="let racemap of racemaps; let i = index"
-                    [value]="i" 
+                    [value]="i"
                     class="list-group-item">
                     {{racemap.name}}
                 </option>

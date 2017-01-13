@@ -14,7 +14,11 @@ export class RacemapsService {
         }).share()
     }
 
-    public uploadRacemap (file: File, filename : string): Observable<number> {
+    public getImageUrl(racemap : RaceMap) : string {
+        return Server.RaceMapImagesUrl + "/" + racemap.identifier
+    }
+
+    public uploadRacemap(file: File, filename : string): Observable<number> {
         return new Observable<number>((observer : Subscriber<number>) => {
             let formData: FormData = new FormData()
             let xhr: XMLHttpRequest = new XMLHttpRequest();

@@ -16,46 +16,51 @@ export class RacemapsComponent  {
     racemapIndex : number
     error : string
     
+    imgRefreshNumber : number
     isUploading : boolean
     uploadProgress : number
-    imageChanged : boolean
 
     constructor(private sanitizer : DomSanitizer, private racemapsSvc : RacemapsService) {        
         this.loadRacemaps()
         this.racemapIndex = 0
         this.error = null
-        this.imageChanged = false
+        this.imgRefreshNumber = 0
         this.racemapsSvc.progress.subscribe((progress) => this.uploadProgress = progress)
     }
 
     showImage() {
         return true 
-        /* this.hasCurrentRacemap() && 
-            !(this.racemaps[this.racemapIndex].identifier == null && !this.imageChanged) */
     }
 
     getImageUrl() {
-        if(this.imageChanged) {
+        if(this.racemaps[this.racemapIndex]["imageChanged"]) {
             // show uploaded image
-            console.log("image changed")
-            return ""
+            return this.racemaps[this.racemapIndex]["tempUrl"]
         }
-        return Server.RaceMapImagesUrl + "/" + this.racemaps[this.racemapIndex].identifier
+        return this.racemapsSvc.getImageUrl(this.racemaps[this.racemapIndex]) + "?" + this.imgRefreshNumber
     }
     
+    onSelectionChanged() {
+        this.isUploading = false
+    }
+
     saveCurrentRacemap() {
         let self = this
         let racemap = this.racemaps[this.racemapIndex]
         this.racemapsSvc.saveRacemap(racemap).subscribe(
             (value) => {
-                this.isUploading = true
-                self.racemapsSvc.uploadRacemap(this.selectedFile, racemap.identifier).subscribe(() => {
-                    this.isUploading = false
-                }, 
-                (err) => {
-                    this.error = err
-                    this.isUploading = false
-                })
+                this.imgRefreshNumber += 1
+                if(racemap["imageChanged"]) {
+                    this.isUploading = true
+                    self.racemapsSvc.uploadRacemap(racemap["tempFile"], racemap.identifier).subscribe(() => {
+                        this.isUploading = false
+                        racemap["imageChanged"] = false
+                    },
+                    (err) => {
+                        this.error = err
+                        this.isUploading = false
+                    })
+                }
             }, 
             (err) => {
                 this.error = err
@@ -67,8 +72,10 @@ export class RacemapsComponent  {
         let eventObj: MSInputMethodContext = <MSInputMethodContext> event;
         let target: HTMLInputElement = <HTMLInputElement> eventObj.target;
         let files: FileList = target.files;
-        this.selectedFile = files.item(0)
-        this.imageChanged = true
+        let racemap = this.racemaps[this.racemapIndex]
+        racemap["imageChanged"] = true
+        racemap["tempUrl"] = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(files.item(0)))
+        racemap["tempFile"] = files.item(0)
     }
 
     hasCurrentRacemap() {
