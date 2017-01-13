@@ -6,6 +6,7 @@ import { RegatasNewService }                        from '../../../services/rega
 import { RaceService }                              from '../../../services/race.service'
 import { Regata, Race }                             from '../../../services/server-model'
 import { DateHelper }                               from '../../../helpers/datehelper'
+import { NotificationService }                      from '../../../services/notification.service'
 @Component({
     selector: 'regata-edit',
     templateUrl: 'app/components/dashboard/regatas/regata.edit.template.html'
@@ -28,7 +29,8 @@ export class RegataEditionComponent  {
     liveRaceId : number
 
     constructor(private route : ActivatedRoute, private router : Router, private http : Http, 
-        private regataSvc : RegatasNewService, private raceSvc : RaceService) {     
+        private regataSvc : RegatasNewService, private raceSvc : RaceService, 
+        private notifications : NotificationService) {     
         this.showComponentNewRace = false;
         this.currentRegata = null
         this.currentRace = null
@@ -61,7 +63,11 @@ export class RegataEditionComponent  {
 
     removeRace(raceId : number) {
         this.currentRegata.races.splice(raceId, 1)
-        this.regataSvc.postRegata(this.currentRegata).subscribe((value : boolean) => {})
+        this.regataSvc.postRegata(this.currentRegata).subscribe((value : boolean) => {
+            this.notifications.success("Course supprimée.")
+        }, (err) => {
+            this.notifications.failure("Echec de la suppression de la course.")
+        })
     }
     
     
@@ -88,6 +94,8 @@ export class RegataEditionComponent  {
         if (this.currentRegata.name != "" && this.currentRegata.location != "") {
             this.regataSvc.postRegata(this.currentRegata).subscribe((value : boolean) => {
                 this.router.navigate(['/dashboard/regatas']);
+            }, (err) => {
+                this.notifications.failure("Echec de la sauvegarde.")
             })
         }
         else {

@@ -5,12 +5,14 @@ import { Observable }                               from 'rxjs/Observable'
 import { DomSanitizer, SafeHtml,SafeUrl,SafeStyle } from '@angular/platform-browser'
 import { RacemapsService }                          from '../../../services/racemaps.service'
 import { RaceMap, Server }                          from '../../../services/server-model'
+import { NotificationService }                      from '../../../services/notification.service'
 @Component({
     selector: 'racemaps',
     templateUrl: 'app/components/dashboard/racemaps/racemaps.template.html'
 })
 
 export class RacemapsComponent  {
+
     selectedFile : File
     racemaps : RaceMap[]
     racemapIndex : number
@@ -20,7 +22,8 @@ export class RacemapsComponent  {
     isUploading : boolean
     uploadProgress : number
 
-    constructor(private sanitizer : DomSanitizer, private racemapsSvc : RacemapsService) {        
+    constructor(private sanitizer : DomSanitizer, private racemapsSvc : RacemapsService, 
+                public notifications : NotificationService) {
         this.loadRacemaps()
         this.racemapIndex = 0
         this.error = null
@@ -55,15 +58,20 @@ export class RacemapsComponent  {
                     self.racemapsSvc.uploadRacemap(racemap["tempFile"], racemap.identifier).subscribe(() => {
                         this.isUploading = false
                         racemap["imageChanged"] = false
+                        this.notifications.success("Sauvegarde effectuée")
                     },
                     (err) => {
                         this.error = err
                         this.isUploading = false
+                        this.notifications.failure("Echec lors de l'upload de l'image.")
                     })
+                } else {
+                    this.notifications.success("Sauvegarde effectuée")
                 }
             }, 
             (err) => {
                 this.error = err
+                this.notifications.failure("Echec lors de la sauvegarde.")
             }
         )
     }
@@ -86,9 +94,11 @@ export class RacemapsComponent  {
         let racemap = this.racemaps[this.racemapIndex]
         this.racemapsSvc.deleteRacemap(racemap).subscribe(
             (value) => {
+                this.notifications.success("Carte supprimée.")
                 if(value) this.loadRacemaps()
             }, 
             (err) => {
+                this.notifications.success("Echec lors de la suppression.")
                 this.error = err
             }
         )

@@ -1,0 +1,6 @@
+<div *ngIf="notifications.show" 
+    [class]="'animated ' + notifications.animation + ' alert ' + notifications.alertClass" 
+    style="z-index: 1; position: fixed; width: 50%; top: 3.5em; left: 25%;">
+    <span [class]="notifications.iconClass"></span>
+    {{ notifications.text }}
+</div>

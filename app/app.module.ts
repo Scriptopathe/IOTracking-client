@@ -21,11 +21,15 @@ import { RaceViewComponent }          from './components/race-view.component';
 import { SliderComponent }            from './components/ui/slider.component';
 import { BreadcumbComponent }         from './components/ui/breadcumb.component';
 import { RegataFullViewComponent }    from './components/explorer/regata-fullview.component';
+import { NotificationComponent }      from './components/notification.component';
+
 import { UserService }                from './services/user.service';
 import { RegatasService }             from './services/regatas.service';
 import { RegatasNewService }          from './services/regatas-new.service';
 import { DevicesService }             from './services/devices.service';
 import { RaceService }                from './services/race.service';
+import { NotificationService }        from './services/notification.service';
+
 import { RacerComponent }             from './components/dashboard/regatas/racer.component';     
 import { RacemapsService }            from './services/racemaps.service';
 import { RacemapsComponent }          from './components/dashboard/racemaps/racemaps.component';     
@@ -50,7 +54,8 @@ import * as router from '@angular/router';
                   RaceViewComponent,
                   RegataExplorerComponent,
                   RacerComponent,
-                  RacemapsComponent
+                  RacemapsComponent,
+                  NotificationComponent
                 ],
   providers:    [
     RegatasService,
@@ -58,7 +63,8 @@ import * as router from '@angular/router';
     DevicesService,
     UserService,
     RaceService,
-    RacemapsService
+    RacemapsService,
+    NotificationService
   ],
   
   bootstrap:    [ AppComponent ],

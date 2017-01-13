@@ -1,4 +1,5 @@
 <div class="container" *ngIf="currentRegata != null">
+    <notification></notification>
     <breadcumb
         [labels]="['Dashboard', 'Regatas', currentRegata.name]"
         [routes]="[['/dashboard'], 

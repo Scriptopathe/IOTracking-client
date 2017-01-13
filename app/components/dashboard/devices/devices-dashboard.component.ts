@@ -5,6 +5,7 @@ import { DomSanitizer, SafeHtml,SafeUrl,SafeStyle } from '@angular/platform-brow
 import { DeviceListComponent }                      from './devices-list.component'
 import { DevicesService }                           from '../../../services/devices.service'
 import { Device }                                   from '../../../services/server-model'
+import { NotificationService }                      from '../../../services/notification.service'
 
 @Component({
     selector: 'devices-dashboard',
@@ -15,7 +16,9 @@ export class DeviceDashboardComponent  {
     @ViewChild(DeviceListComponent) deviceList: DeviceListComponent
     public currentDevice : Device;
     public devices : Device[] = []
-    constructor(private sanitizer : DomSanitizer, private devicesSvc : DevicesService) {        
+    constructor(private sanitizer : DomSanitizer, 
+        private devicesSvc : DevicesService,
+        private notifications : NotificationService) {        
         this.loadDevices()
     }
 
@@ -30,12 +33,16 @@ export class DeviceDashboardComponent  {
             if(this.devices[this.deviceList.currentDevice].identifier == null) {
                 // Just need to erase locally if it was create without being saved.
                 this.devices.splice(this.deviceList.currentDevice, 1)
+                this.notifications.success("Device supprimé.")
             } else {
                 this.devicesSvc.deleteDevice(this.devices[this.deviceList.currentDevice]).subscribe((value) => {
                     if(value) {
                         this.currentDevice = null
                         this.loadDevices()
+                        this.notifications.success("Device supprimé.")
                     }
+                }, (err) => {
+                    this.notifications.failure("Erreur lors de la suppression du device.")
                 })
             }
         }
@@ -53,6 +60,9 @@ export class DeviceDashboardComponent  {
 
     saveDevice() {
         this.devicesSvc.updateDevice(this.devices[this.deviceList.currentDevice]).subscribe((value : boolean) => {  
+            this.notifications.success("Device sauvegardé !")
+        }, (err) => {
+            this.notifications.failure("Echec de la sauvegarde du device.")
         })
     }
 
