@@ -26,10 +26,8 @@
                         <a [routerLink]="['/login']"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Connexion</a>
                     </li>
 
-                    <div *ngIf="isStaff()">
-                        <li role="separator" class="divider"></li>
-                        <li><a [routerLink]="['/dashboard']"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Dashboard</a></li>
-                    </div>
+                    <li *ngIf="isStaff()" role="separator" class="divider"></li>
+                    <li *ngIf="isStaff()"><a [routerLink]="['/dashboard']"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Dashboard</a></li>
                 </ul>
                 </li>
             </ul>
