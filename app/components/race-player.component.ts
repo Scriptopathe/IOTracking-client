@@ -171,6 +171,26 @@ export class RacePlayerComponent  {
         return minTime
     }
 
+    /** 
+     * Transforms GPS coordinates (0-1024) to relative screen coordinates (between 0 and 1)
+     *          x: longitude (min = west, max = east)
+     *          y: latitude (min = south, max = west)
+     * 
+     * 
+     * This approximation is good for small areas only ! 
+     */
+    gpsToCartesian(gpsCoords : Point) : Point {
+        let maxValue = 1023 // 10 bits
+        let map = this.fullRace.map
+
+        return {
+            x: gpsCoords.x / maxValue,
+            y: 1 - (gpsCoords.y / maxValue) // inversion between screen coordinates and gps coordinates
+            //x: ((gpsCoords.x - map.westLongReference)/((map.eastLongReference - map.westLongReference))),
+            //y: (1 - ((gpsCoords.y - map.southLatReference)/(map.northLatReference - map.southLatReference)))
+        }
+    }
+
     canvasUpdate() : void {
         let img = this.mapImg.nativeElement
         let context: CanvasRenderingContext2D = this.mapCanvas.nativeElement.getContext("2d")
@@ -200,9 +220,10 @@ export class RacePlayerComponent  {
         // Draws checkpoints
         context.globalAlpha = 1
         for(let checkpoint of this.fullRace.buoys) {
+            let xy = this.gpsToCartesian(checkpoint)
             context.fillStyle = 'red'
-            let x = (checkpoint.x / max) * w
-            let y = (checkpoint.y / max) * h 
+            let x = xy.x * w
+            let y = xy.y * h 
             context.fillRect(x, y, 5, 5)
         }
 
@@ -229,9 +250,9 @@ export class RacePlayerComponent  {
             let pts : TimePoint[] = this.fullRace.data.rawData[devId]
             
             if(this.showTrajectory) {
-                let pt = pts[0]
-                let x = (pt.x / max) * w
-                let y = (pt.y / max) * h 
+                let xy = this.gpsToCartesian(pts[0])
+                let x = xy.x * w
+                let y = xy.y * h 
                 context.beginPath();   
                 context.moveTo(x, y);
             }
@@ -244,11 +265,13 @@ export class RacePlayerComponent  {
                 if(!this.showTrajectory && !isAfter)
                     continue
                 
-                let x = (pt.x / max) * w
-                let y = (pt.y / max) * h 
+                let xy = this.gpsToCartesian(pt)
+                let x = xy.x * w
+                let y = xy.y * h 
 
                 if(this.showTrajectory)
                     context.lineTo(x, y)
+                
                 context.fillRect(x, y, 2, 2)
 
                 if(isAfter)

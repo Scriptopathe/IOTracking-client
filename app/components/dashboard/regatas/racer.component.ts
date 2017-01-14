@@ -5,6 +5,7 @@ import { Observable }                               from 'rxjs/Observable';
 import { RegatasNewService }                        from '../../../services/regatas-new.service'
 import { Regata, Race, Racer, Device, Reference }   from '../../../services/server-model'
 import { DevicesService }                           from '../../../services/devices.service'
+import { NotificationService }                      from '../../../services/notification.service'
 import { DomSanitizer, SafeHtml,SafeUrl,SafeStyle } from '@angular/platform-browser'
 import * as $ from 'jquery'
 
@@ -18,7 +19,7 @@ export class RacerComponent  {
     currentRacer: Racer; 
     currentRace: Race; 
     currentRegata: Regata; 
-    currentDeviceIndex : number; 
+    currentDeviceIndex : number;
     regataId : string; 
     raceId : string;
     racerId : string;
@@ -31,28 +32,33 @@ export class RacerComponent  {
     
     isNewRace : boolean = false;
 
-    constructor(private router : Router, private route : ActivatedRoute, private http : Http, private regataSvc : RegatasNewService, private sanitizer : DomSanitizer, private devicesSvc : DevicesService) {
+    constructor(private router : Router, private route : ActivatedRoute, 
+                private http : Http, private regataSvc : RegatasNewService, 
+                private sanitizer : DomSanitizer, private devicesSvc : DevicesService,
+                private notifications : NotificationService) {
         this.loadDevices();
     }
 
     onSaveRacer(){
-        this.missBoat = false;
-        this.missName = false;
-        this.missDevice = false;
+        this.missBoat = this.currentRacer.skipperName == "";
+        this.missName = this.currentRacer.boatIdentifier == "";
+        this.missDevice = this.devices[this.currentDeviceIndex] == null;
+
+        var incorrectData = this.missBoat || this.missName || this.missDevice
         /* since the races are not identified, save the entire regata */ 
-        if (this.currentRacer.skipperName != "" && this.currentRacer.boatIdentifier != "" && this.devices[this.currentDeviceIndex] != null){
-            this.currentRacer.device = new Reference<Device>(this.currentDeviceIndex);
+        if (!incorrectData){
+            this.currentRacer.device = Reference.create<Device>(this.devices[this.currentDeviceIndex].identifier);
+            console.dir(this.currentRacer.device)
             this.regataSvc.postRegata(this.currentRegata).subscribe((value : boolean) => {
-                this.router.navigate(['/dashboard/regatas/', this.currentRegata.identifier, 'races', this.raceId, 'edit']);  
+                this.notifications.success("Coureur enregistré. Redirection...", 1000, () => {
+                    this.router.navigate(['/dashboard/regatas/', this.currentRegata.identifier, 'races', this.raceId, 'edit'])
+                })
+            }, (err) => {
+                this.notifications.failure("Echec de la sauvegarde.")
             })
         }
         else {
-            if (this.currentRacer.skipperName == "")
-                this.missName = true; 
-            if (this.currentRacer.boatIdentifier == "")
-                this.missBoat = true; 
-            if (this.devices[this.currentDeviceIndex] == null)
-                this.missDevice = true;
+            this.notifications.failure("Veuillez renseigner correctement tous les champs.")
         }
     }    
 
@@ -81,7 +87,7 @@ export class RacerComponent  {
                         this.currentRegata = regata;
                         this.currentRace = this.currentRegata.races[this.raceId]
                         this.currentRacer = this.currentRace.concurrents[this.racerId]
-                    
+                        
                         let index = this.devices.findIndex((value : Device) => { return value.identifier == this.currentRacer.device });
                         this.currentDeviceIndex = index;
                         this.indexRacer = null;

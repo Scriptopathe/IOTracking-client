@@ -21,6 +21,7 @@
     }
 
 </style>
+<notification></notification>
 
  <div class="container" style="margin-top:30px;" *ngIf="currentRegata != null && currentRace != null && currentRacer != null">
     <div class="panel panel-default">
@@ -60,7 +61,7 @@
                 </div>
             </div><br />      
 
-            <div class="animated fadeIn" *ngIf="devices[this.currentDeviceIndex] != null">
+            <div class="animated fadeIn" *ngIf="devices[currentDeviceIndex] != null">
 
                 <!-- Energy -->
                 <div class="row">

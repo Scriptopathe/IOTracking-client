@@ -23,19 +23,19 @@ export class NotificationService {
     }
 
     /** Shows a success notification */
-    public success(text : string, duration = 2000) {
-        this.showNotification("success", text, duration)
+    public success(text : string, duration = 2000, cb? : () => void) {
+        this.showNotification("success", text, duration, cb)
     }
 
 
     /** Shows a failure notification */
-    public failure(text : string, duration = 2000) {
-        this.showNotification("failure", text, duration)
+    public failure(text : string, duration = 2000, cb? : () => void) {
+        this.showNotification("failure", text, duration, cb)
     }
 
     /** Shows a failure notification */
-    public progress(text : string, progress : number, duration = 2000) {
-        this.showNotification("progress", text, duration)
+    public progress(text : string, progress : number, duration = 2000, cb? : () => void) {
+        this.showNotification("progress", text, duration, cb)
         this.progressValue = progress
     }
 
@@ -53,8 +53,9 @@ export class NotificationService {
      * @param text text to show
      * @param duration duration of the notification (in ms). Default 2000ms.
      *        set to -1 to infinite.
+     * @param 
      */
-    private showNotification(type : string, text : string, duration : number = 2000) {
+    private showNotification(type : string, text : string, duration : number = 2000, cb? : () => void) {
         this.text = text
         this.type = type
         this.show = true
@@ -62,7 +63,11 @@ export class NotificationService {
         this.iconClass = this.getIcon(this.type)
         this.animation = "fadeInDown"
         if(duration > 0) {
-            setTimeout(() => this.hide(), duration)    
+            setTimeout(() => { 
+                this.hide()
+                // Call callback at the end of the animation
+                setTimeout(() => { if(cb) cb() }, 500)
+            }, duration)
         }
     }
 

@@ -4,6 +4,7 @@ import { Observable }                               from 'rxjs/Observable';
 import { RegatasNewService }                        from '../../services/regatas-new.service'
 import { RaceService }                              from '../../services/race.service'
 import { Regata, Race}                              from '../../services/server-model'
+import { NotificationService }                      from '../../services/notification.service'
 
 @Component({
     selector: 'dashboard',
@@ -17,7 +18,8 @@ export class DashboardComponent  {
 
     constructor(private http : Http, 
         private regataSvc : RegatasNewService,
-        private raceSvc : RaceService) {        
+        private raceSvc : RaceService,
+        private notifications : NotificationService) {        
         
         this.loadLiveRace()
         console.log("constructor")
@@ -32,6 +34,8 @@ export class DashboardComponent  {
             this.liveRaceId = null
             this.liveRegata = null
             this.liveRegata = null
+        }, (err) => {
+            this.notifications.failure("Echec de l'opération.")
         })
     }
     
@@ -44,8 +48,8 @@ export class DashboardComponent  {
                     self.liveRaceId = serverState.liveRaceId
                     self.liveRegataId = <string>serverState.liveRegata
                     self.liveRegata = regata
-                })
+                }, (err) => console.log(err))
             }
-        })
+        }, (err) => { console.log(err) })
     }
 }

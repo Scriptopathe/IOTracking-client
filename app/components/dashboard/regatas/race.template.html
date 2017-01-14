@@ -1,6 +1,7 @@
 <!-- <div class="modal fade" [id]="getModalId()"> -->
 
 <div class="container" *ngIf="currentRegata != null && currentRace != null">
+    <notification></notification>
     <breadcumb
             [labels]="['Dashboard', 'Regatas', currentRegata.name, currentRace.name]"
             [routes]="[['/dashboard'], 
@@ -23,6 +24,21 @@
                     </div>
                     <div *ngIf="missName == true" style="margin-left:20px; color:red;">
                         Le nom de la course doit être renseigné.
+                    </div><br />
+                </div>
+
+                <div class="row" ><br />
+                    <div class="col-xs-4"><span class="glyphicon glyphicon-map-marker"></span> <b>Carte </b></div>
+                    <div class="col-xs-8">
+                        <select class="form-control" [(ngModel)]="currentRace.map">
+                            <option *ngFor="let map of racemaps" [value]="map.identifier">
+                                {{ map.name }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div *ngIf="missMap == true" style="margin-left:20px; color:red;">
+                        La carte de la course doit être renseignée.
                     </div><br />
                 </div>
 

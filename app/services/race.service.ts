@@ -27,6 +27,8 @@ export class RaceService {
             {
                 subscriber.next(value.ok)
                 subscriber.complete()
+            }, (err) => {
+                subscriber.error(err)
             })
         })
     }
@@ -39,6 +41,8 @@ export class RaceService {
             {
                 subscriber.next(value.ok)
                 subscriber.complete()
+            }, (err) => {
+                subscriber.error(err)
             })
         })
     }
@@ -59,6 +63,8 @@ export class RaceService {
                 state.loadValues(value.json())
                 subscriber.next(state)
                 subscriber.complete()
+            }, (err) => {
+                subscriber.error(err)
             })
         })
     }

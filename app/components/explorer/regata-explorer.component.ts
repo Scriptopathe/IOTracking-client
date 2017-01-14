@@ -4,7 +4,9 @@ import { Observable }                               from 'rxjs/Observable';
 import { RegatasNewService }                        from '../../services/regatas-new.service'
 import { RaceService }                              from '../../services/race.service'
 import { Regata, Race}                              from '../../services/server-model'
+import { NotificationService }                      from '../../services/notification.service'
 import { DateHelper }                               from '../../helpers/datehelper'
+
 @Component({
     selector: 'regatas',
     templateUrl: 'app/components/explorer/regata-explorer.template.html'
@@ -25,7 +27,8 @@ export class RegataExplorerComponent  {
     
     constructor(private http : Http,
         private regataSvc : RegatasNewService,
-        private raceSvc : RaceService) {        
+        private raceSvc : RaceService,
+        private notifications : NotificationService) {        
         let now = new Date()
 
         // Loads this months regatas
@@ -79,8 +82,10 @@ export class RegataExplorerComponent  {
                     self.liveRaceId = serverState.liveRaceId
                     self.liveRegataId = <string>serverState.liveRegata
                     self.liveRegata = regata
-                })
+                }, (err) => { console.log(err) })
             }
+        }, (err) => {
+            console.log(err)
         })
     }
 

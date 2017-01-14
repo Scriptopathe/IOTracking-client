@@ -5,7 +5,7 @@
             color: black;
         }
     </style>
-    <div class="material-box material-box-fit" *ngIf="liveRegata != null">
+    <div class="material-box material-box-fit" *ngIf="liveRegata != null && liveRegata.races[liveRaceId] != null">
         <div class="material-box-title">Course en direct : {{ liveRegata.races[liveRaceId].name }}</div>
         <div class="row">
             <div class="col-xs-6">

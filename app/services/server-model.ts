@@ -13,7 +13,11 @@ export interface TimePoint
 /** 
  * Represents a reference to another object of the database.
  */
-export class Reference<T> extends String { }
+export class Reference<T> extends String {
+    public static create<T>(str : any) : Reference<T> {
+        return String(str) as Reference<T>
+    }
+ }
 
 export class DBItem {
     public constructor(public _id? : string) { }

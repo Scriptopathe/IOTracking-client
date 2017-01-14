@@ -58,6 +58,8 @@ export class RegataEditionComponent  {
     onNewRace(){
         this.regataSvc.postRegata(this.currentRegata).subscribe((value : boolean) => {
             this.router.navigate(['dashboard/regatas/', this.regataId, 'newrace']);
+        }, (err) => {
+            this.notifications.failure("Echec de la création de la régate.")
         })
     }
 
@@ -93,7 +95,9 @@ export class RegataEditionComponent  {
         this.missLocation = false;
         if (this.currentRegata.name != "" && this.currentRegata.location != "") {
             this.regataSvc.postRegata(this.currentRegata).subscribe((value : boolean) => {
-                this.router.navigate(['/dashboard/regatas']);
+                this.notifications.success("Régate sauvegardée. Redirection...", 1000, () => {
+                    this.router.navigate(['/dashboard/regatas']);
+                })
             }, (err) => {
                 this.notifications.failure("Echec de la sauvegarde.")
             })
