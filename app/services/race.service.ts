@@ -1,12 +1,13 @@
-import { Injectable }       from '@angular/core';
-import { Http, Response }   from '@angular/http';
-import { Observable, Subscriber }  from 'rxjs/Rx';
-import { Inject }           from '@angular/core';
+import { Injectable }                   from '@angular/core';
+import { Response }                     from '@angular/http';
+import { HttpClient as Http }           from './http-client.service'
+import { Observable, Subscriber }       from 'rxjs/Rx';
+import { Inject }                       from '@angular/core';
 import { User, Regata,
          FullRace, Race, Server, 
          RaceData, RaceMap,
          Point, TimePoint,
-         ServerState } from './server-model';
+         ServerState }                  from './server-model';
 
 @Injectable()
 export class RaceService {

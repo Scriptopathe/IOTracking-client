@@ -1,5 +1,6 @@
 import { Injectable }                   from '@angular/core';
-import { Http, Response }               from '@angular/http';
+import { Response }                     from '@angular/http';
+import { HttpClient as Http }           from './http-client.service'
 import { Observable, Subscriber }       from 'rxjs/Rx';
 import { Inject }                       from '@angular/core';
 import { RaceMap, Server }              from './server-model';

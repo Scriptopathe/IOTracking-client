@@ -1,0 +1,29 @@
+<div class="container">
+    <notification></notification>
+
+    <div class="material-box material-box-fit">
+        <div class="material-box-title">Connexion</div>
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Nom d'utilisateur</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" [(ngModel)]="username">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Mot de passe</label>
+                <div class="col-sm-10">
+                    <input type="password" class="form-control" [(ngModel)]="password">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="button" class="btn btn-default" (click)="login()">Se connecter</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

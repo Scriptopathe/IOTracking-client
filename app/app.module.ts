@@ -24,12 +24,16 @@ import { LoadingIndicatorComponent }  from './components/ui/loading-indicator.co
 import { RegataFullViewComponent }    from './components/explorer/regata-fullview.component';
 import { NotificationComponent }      from './components/notification.component';
 
+import { StaffGuardComponent }        from './components/auth/staff-guard.component';
+import { LoginComponent }             from './components/auth/login.component'
+
 import { UserService }                from './services/user.service';
 import { RegatasService }             from './services/regatas.service';
 import { RegatasNewService }          from './services/regatas-new.service';
 import { DevicesService }             from './services/devices.service';
 import { RaceService }                from './services/race.service';
 import { NotificationService }        from './services/notification.service';
+import { HttpClient }                 from './services/http-client.service';
 
 import { RacerComponent }             from './components/dashboard/regatas/racer.component';     
 import { RacemapsService }            from './services/racemaps.service';
@@ -57,7 +61,9 @@ import * as router from '@angular/router';
                   RacerComponent,
                   RacemapsComponent,
                   NotificationComponent,
-                  LoadingIndicatorComponent
+                  LoadingIndicatorComponent,
+                  StaffGuardComponent,
+                  LoginComponent
                 ],
   providers:    [
     RegatasService,
@@ -66,7 +72,8 @@ import * as router from '@angular/router';
     UserService,
     RaceService,
     RacemapsService,
-    NotificationService
+    NotificationService,
+    HttpClient
   ],
   
   bootstrap:    [ AppComponent ],

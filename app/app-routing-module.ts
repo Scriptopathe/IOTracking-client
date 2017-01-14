@@ -14,8 +14,10 @@ import { RacerComponent }             from './components/dashboard/regatas/racer
 import { RegataFullViewComponent }    from './components/explorer/regata-fullview.component';
 import { RaceViewComponent }          from './components/race-view.component';
 import { RacemapsComponent }          from './components/dashboard/racemaps/racemaps.component';
+import { LoginComponent }             from './components/auth/login.component'
 
 const appRoutes: Routes = [
+  { path: 'login', component: LoginComponent },
   { path: 'regata-explorer', component: RegataExplorerComponent },
   { path: 'regata-explorer/regata',
     children: [

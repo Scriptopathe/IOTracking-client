@@ -83,12 +83,13 @@ export class RaceMap extends DBItem {
 /**
  * Interface containing all the fields of a user object.
  */
-export class User extends DBItem {
+export class User {
     public constructor(
         public username? : string,
-        public role? : string
+        public role? : string,
+        public token? : string
     ) {
-        super(null)
+        
     }
 } 
 
@@ -166,4 +167,5 @@ export class Server {
     public static UsersUrl = Server.BaseUrl + "/racemaps"
     public static DevicesUrl = Server.BaseUrl + "/devices"
     public static LiveUrl = Server.BaseUrl + "/state/live"
+    public static LoginUrl = Server.RootUrl + "/auth/login"
 }

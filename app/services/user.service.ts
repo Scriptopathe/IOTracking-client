@@ -10,22 +10,46 @@ export class UserService {
     public user : User
 
     public constructor(private http : Http) {
-        this.user = null
+        this.loadUser()
     }
 
-    public authenticate(username : string, password : string) : User {
-        return new User(username, "staff")
+    /**
+     * Loads the user form the cookie.
+     */
+    loadUser() {
+        if(document.cookie != null) {
+            try {
+                // part 1 is the crsf token added by angular
+                var parts = document.cookie.split(';')
+                this.user = JSON.parse(parts[parts.length - 1])
+            } catch(e) {
+                this.user = null
+            }
+        }
     }
 
-    public loadUser(id : Reference<User>) : Observable<User> {
+    /**
+     * Authenticates an user given its username and password.
+     */
+    public authenticate(username : string, password : string) : Observable<User> {
         var self = this
-        return new Observable<User>((subcriber : Subscriber<User>) => {
-            this.http.get(Server.UsersUrl + "/" + id).subscribe((value : Response) => {
-                let user = new User()
-                user.loadValues(value.json())
-                self.user = user
+        return new Observable<User>((subscriber : Subscriber<User>) => {
+            this.http.post(Server.LoginUrl, JSON.stringify({ username: username, password: password }))
+            .subscribe((response) => {
+                self.user = response.json()
+                subscriber.next(self.user)
+                document.cookie = JSON.stringify(self.user)
+            }, (err) => {
+                subscriber.error(err)
             })
         })
+    }
+
+    /**
+     * Logs out the user.
+     */
+    public logout() {
+        this.user = null
     }
 
     public isStaff() {
