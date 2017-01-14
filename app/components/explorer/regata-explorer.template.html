@@ -1,4 +1,6 @@
-<div class="container animated fadeInUp">
+<div class="container">
+    <notification></notification>
+
     <div class="material-box material-box-fit" *ngIf="liveRegataId != null">
         <div class="material-box-title">Course en direct : {{ liveRegata.races[liveRaceId].name }}</div>
         <div style="text-align: center">
@@ -7,6 +9,7 @@
             </button>
         </div>
     </div>
+
 
     <div class="material-box material-box-fit">
         <div class="material-box-title">Regates</div>

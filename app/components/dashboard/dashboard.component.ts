@@ -22,11 +22,6 @@ export class DashboardComponent  {
         private notifications : NotificationService) {        
         
         this.loadLiveRace()
-        console.log("constructor")
-    }
-
-    ngOnInit() {
-        console.log("ng init")
     }
 
     clearLive() {

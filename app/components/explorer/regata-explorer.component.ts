@@ -15,7 +15,6 @@ import { DateHelper }                               from '../../helpers/datehelp
 export class RegataExplorerComponent  { 
     public DateHelper = DateHelper
 
-
     public regatas : Regata[] = []
     
     public liveRaceId : number
@@ -70,6 +69,8 @@ export class RegataExplorerComponent  {
 
         this.regataSvc.loadRegatas(after, before).subscribe((regatas : Regata[]) => {
             this.regatas = regatas
+        }, (err) => {
+            this.notifications.failure("Erreur de connexion avec le serveur.", -1)
         })
     }
 

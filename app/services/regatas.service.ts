@@ -24,33 +24,38 @@ export class RegatasService {
         this.pastRegatas = []
         this.upcomingRegatas = []
         this.pastRegatasCount = 0
-        this.loadRegatas(0, 5);
     }
 
-    public loadRegatas(start : number, count : number) : void {
-        var now = new Date()
-        var pastRegatasNeedle = "{\"endDate\": {\"$lte\": " + now.getTime() + "}, " + " \"$orderby\": {\"startDate\" : -1 } }"
-        var upcomingRegatasNeedle = "{\"endDate\": {\"$gt\": " + now.getTime() + "}, " + " \"$orderby\": {\"startDate\" : -1 } }"
-        this.http
-            .get(Server.RegattasUrl + "?first=" + start + "&last=" + (start + count) + "&needle=" + pastRegatasNeedle)
-            .subscribe((value : Response) => {
-                var regatas = value.json()
-                this.pastRegatas = (<Array<any>>regatas).map(function(regata : any) {
-                    return new Regata().loadValues(regata)
+    public loadRegatas(start : number, count : number) : Observable<boolean> {
+        return new Observable<boolean>((subscriber : Subscriber<boolean>) => {
+            var now = new Date()
+            var pastRegatasNeedle = "{\"endDate\": {\"$lte\": " + now.getTime() + "}, " + " \"$orderby\": {\"startDate\" : -1 } }"
+            var upcomingRegatasNeedle = "{\"endDate\": {\"$gt\": " + now.getTime() + "}, " + " \"$orderby\": {\"startDate\" : -1 } }"
+            this.http
+                .get(Server.RegattasUrl + "?first=" + start + "&last=" + (start + count) + "&needle=" + pastRegatasNeedle)
+                .subscribe((value : Response) => {
+                    var regatas = value.json()
+                    this.pastRegatas = (<Array<any>>regatas).map(function(regata : any) {
+                        return new Regata().loadValues(regata)
+                    })
+                    this.pastRegatasCount = parseInt(value.headers.get("X-IOTracking-Count"))
+                }, (err) => {
+                    subscriber.error(err)
                 })
-                this.pastRegatasCount = parseInt(value.headers.get("X-IOTracking-Count"))
-            })
-        
-        this.http
-            .get(Server.RegattasUrl + "?needle=" + upcomingRegatasNeedle)
-            .subscribe((value : Response) => {
-                var regatas = value.json()
-                this.upcomingRegatas = (<Array<any>>regatas).map(function(regata : any) {
-                    return new Regata().loadValues(regata)
+            
+            this.http
+                .get(Server.RegattasUrl + "?needle=" + upcomingRegatasNeedle)
+                .subscribe((value : Response) => {
+                    var regatas = value.json()
+                    this.upcomingRegatas = (<Array<any>>regatas).map(function(regata : any) {
+                        return new Regata().loadValues(regata)
+                    })
+                }, (err) => {
+                    subscriber.error(err)
                 })
-            })
-        this._lastStart = start
-        this._lastCount = count
+            this._lastStart = start
+            this._lastCount = count
+        })
     }
 
     /**
@@ -95,7 +100,7 @@ export class RegatasService {
                     regata.loadValues(response.json())
                     subscriber.next(regata)
                     subscriber.complete()
-                })
+                }, (err) => subscriber.error(err))
             }); 
         }
 

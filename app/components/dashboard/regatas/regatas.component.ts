@@ -1,8 +1,10 @@
-import { Component, Input, ViewChild, ElementRef } from '@angular/core';
-import { Http, Response }   from '@angular/http';
-import { Observable }       from 'rxjs/Observable';
-import { RegatasService }   from '../../../services/regatas.service'
-import { Regata, Race}      from '../../../services/server-model'
+import { Component, Input, ViewChild, ElementRef }  from '@angular/core';
+import { Http, Response }                           from '@angular/http';
+import { Observable }                               from 'rxjs/Observable';
+import { RegatasService }                           from '../../../services/regatas.service'
+import { Regata, Race}                              from '../../../services/server-model'
+import { NotificationService}                       from '../../../services/notification.service'
+
 @Component({
     selector: 'regatas',
     templateUrl: 'app/components/dashboard/regatas/regatas.template.html'
@@ -12,8 +14,10 @@ export class RegatasComponent  {
     public pastRegatasPage : number = 0
     public pastRegatasCountPerPage : number = 5
 
-    constructor(private http : Http, private regataSvc : RegatasService) {        
-                                
+    constructor(private http : Http, 
+                private regataSvc : RegatasService,
+                private notifications : NotificationService) {        
+        this.reload()
     }
 
     /**-------------------------------------------------------------------------------- 
@@ -56,5 +60,8 @@ export class RegatasComponent  {
     public reload() : void
     {
         this.regataSvc.loadRegatas(this.pastRegatasPage * this.pastRegatasCountPerPage, this.pastRegatasCountPerPage)
+        .subscribe(() => {}, (err) => {
+            this.notifications.failure("Erreur de connexion avec le serveur.", -1)
+        })
     }
 }

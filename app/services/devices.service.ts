@@ -19,10 +19,10 @@ export class DevicesService {
                 if(value.ok) {
                     let devices = (<any[]>value.json()).map((value) => new Device().loadValues(value))
                     subscriber.next(devices)
-                } else {
-                    subscriber.error(value.status)
                 }
                 subscriber.complete()
+            }, (err) => {
+                subscriber.error(err)
             })
         })
     }
@@ -32,9 +32,9 @@ export class DevicesService {
             this._http.delete(Server.DevicesUrl + "/" + device.identifier)
             .subscribe((value : Response) => {
                 subscriber.next(value.ok)
-                if(!value.ok)
-                    subscriber.error(value.status)
                 subscriber.complete()
+            }, (err) => {
+                subscriber.error(err)
             })
         })
     }
@@ -45,17 +45,17 @@ export class DevicesService {
                 this._http.post(Server.DevicesUrl, JSON.stringify(device))
                 .subscribe((value : Response) => {
                     subscriber.next(value.ok)
-                    if(!value.ok)
-                        subscriber.error(value.status)
                     subscriber.complete()
+                }, (err) => {
+                    subscriber.error(err)
                 })
             } else {
                 this._http.put(Server.DevicesUrl + "/" + device.identifier, JSON.stringify(device))
                 .subscribe((value : Response) => {
                     subscriber.next(value.ok)
-                    if(!value.ok)
-                        subscriber.error(value.status)
                     subscriber.complete()
+                }, (err) => {
+                    subscriber.error(err)
                 })
             }
         })

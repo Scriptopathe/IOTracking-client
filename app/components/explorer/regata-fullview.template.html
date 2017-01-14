@@ -1,9 +1,8 @@
 <div class="container">
-    <div *ngIf="regata == null" class="spinning-container animated bounceInDown">
-        <span style="margin-top: 2em" class="glyphicon glyphicon-refresh spinning"></span>
-    </div>
+    <notification></notification>
+    <loading-indicator *ngIf="!isReady()"></loading-indicator>
 
-    <div *ngIf="regata != null">
+    <div *ngIf="isReady()">
         <div class="material-box material-box-fit animated fadeIn">
             <div class="material-box-title">{{ regata.name }}</div>
             <div class="row">

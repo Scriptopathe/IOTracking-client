@@ -82,7 +82,7 @@ export class RacemapsService {
                     subscriber.next(value.ok)
                     subscriber.complete()
                 }, (error : Response) => {
-                    subscriber.error(error.statusText)
+                    subscriber.error(error)
                 })
 
             } else {
@@ -92,7 +92,7 @@ export class RacemapsService {
                     subscriber.next(value.ok)
                     subscriber.complete()
                 }, (error) => {
-                    subscriber.error(error.statusText)
+                    subscriber.error(error)
                 })
             }
         })
@@ -110,6 +110,8 @@ export class RacemapsService {
                 }
                 subscriber.next(maps)
                 subscriber.complete()
+            }, (err) => {
+                subscriber.error(err)
             })
         })
     }

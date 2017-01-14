@@ -20,6 +20,7 @@ import { DeviceListComponent }        from './components/dashboard/devices/devic
 import { RaceViewComponent }          from './components/race-view.component';
 import { SliderComponent }            from './components/ui/slider.component';
 import { BreadcumbComponent }         from './components/ui/breadcumb.component';
+import { LoadingIndicatorComponent }  from './components/ui/loading-indicator.component';
 import { RegataFullViewComponent }    from './components/explorer/regata-fullview.component';
 import { NotificationComponent }      from './components/notification.component';
 
@@ -55,7 +56,8 @@ import * as router from '@angular/router';
                   RegataExplorerComponent,
                   RacerComponent,
                   RacemapsComponent,
-                  NotificationComponent
+                  NotificationComponent,
+                  LoadingIndicatorComponent
                 ],
   providers:    [
     RegatasService,

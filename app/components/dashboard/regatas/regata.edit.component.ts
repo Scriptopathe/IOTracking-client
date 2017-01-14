@@ -121,12 +121,16 @@ export class RegataEditionComponent  {
                     this.isNew = true
                     this.regataSvc.postRegata(this.currentRegata).subscribe((value : boolean) => {
                         this.regataId = this.currentRegata.identifier;
+                    }, (err) => {
+                        this.notifications.failure("Erreur lors de la création de la régate")
                     })
                 } else {
                     // Edit regata
                     this.regataSvc.findById(this.regataId).subscribe((regata : Regata) => {
                         this.currentRegata = regata
                         this.isNew = false
+                    }, (err) => {
+                        this.notifications.failure("Erreur de connexion avec le serveur.")
                     })
                 }
                 

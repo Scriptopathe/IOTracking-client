@@ -32,7 +32,7 @@ export class RegatasNewService {
                         return new Regata().loadValues(regata)
                     })
                     subscriber.next(regatas)
-                })
+                }, (err) => subscriber.error(err))
         })
     }
 

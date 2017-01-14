@@ -25,6 +25,8 @@ export class DeviceDashboardComponent  {
     loadDevices() {
         this.devicesSvc.loadDevices().subscribe((devices : Device[]) => {
             this.devices = devices
+        }, (err) => {
+            this.notifications.failure("Erreur de connexion au serveur.", -1)
         })
     }
 

@@ -13,7 +13,7 @@ import { RaceComponent }              from './components/dashboard/regatas/race.
 import { RacerComponent }             from './components/dashboard/regatas/racer.component';    
 import { RegataFullViewComponent }    from './components/explorer/regata-fullview.component';
 import { RaceViewComponent }          from './components/race-view.component';
-import { RacemapsComponent }          from './components/dashboard/racemaps/racemaps.component';     
+import { RacemapsComponent }          from './components/dashboard/racemaps/racemaps.component';
 
 const appRoutes: Routes = [
   { path: 'regata-explorer', component: RegataExplorerComponent },

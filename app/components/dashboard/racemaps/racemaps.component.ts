@@ -12,11 +12,9 @@ import { NotificationService }                      from '../../../services/noti
 })
 
 export class RacemapsComponent  {
-
     selectedFile : File
     racemaps : RaceMap[]
     racemapIndex : number
-    error : string
     
     imgRefreshNumber : number
     isUploading : boolean
@@ -26,7 +24,6 @@ export class RacemapsComponent  {
                 public notifications : NotificationService) {
         this.loadRacemaps()
         this.racemapIndex = 0
-        this.error = null
         this.imgRefreshNumber = 0
         this.racemapsSvc.progress.subscribe((progress) => this.uploadProgress = progress)
     }
@@ -61,7 +58,6 @@ export class RacemapsComponent  {
                         this.notifications.success("Sauvegarde effectuée")
                     },
                     (err) => {
-                        this.error = err
                         this.isUploading = false
                         this.notifications.failure("Echec lors de l'upload de l'image.")
                     })
@@ -70,7 +66,6 @@ export class RacemapsComponent  {
                 }
             }, 
             (err) => {
-                this.error = err
                 this.notifications.failure("Echec lors de la sauvegarde.")
             }
         )
@@ -99,7 +94,6 @@ export class RacemapsComponent  {
             }, 
             (err) => {
                 this.notifications.success("Echec lors de la suppression.")
-                this.error = err
             }
         )
     }
@@ -115,7 +109,8 @@ export class RacemapsComponent  {
         this.racemapsSvc.loadRacemaps().subscribe((racemaps) => {
             this.racemaps = racemaps
             this.racemapIndex = Math.max(0, Math.min(this.racemapIndex, this.racemaps.length - 1))
-            this.error = null
+        }, (err) => {
+            this.notifications.failure("Erreur de connexion au serveur.", -1)
         })
     }
 }

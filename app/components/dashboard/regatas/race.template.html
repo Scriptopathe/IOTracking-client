@@ -68,7 +68,7 @@
                 </span>
 
                  <div class="btn-group;btn pull-right" role="group">
-                    <button type="button" class="btn btn-danger" (click)="onCancel()"><a style="color: white;">Annuler </a><span class="glyphicon glyphicon-remove"></span></button>
+                    <button type="button" class="btn btn-default" (click)="onCancel()"><a style="color: black;">Annuler </a><span class="glyphicon glyphicon-remove"></span></button>
                     <button type="button" class="btn btn-primary" (click)="onSaveRace()"><a style="color: white;">Enregistrer </a><span class="glyphicon glyphicon-ok"></span></button>
                 </div><br />
 
@@ -95,8 +95,8 @@
                                     </div>
                                     
                                     <div class="col-xs-6" style="text-align: right">
-                                        <button type="button" class="btn btn-default" [routerLink]="[i, 'edit']"><span class="glyphicon glyphicon-pencil"></span></button>
-                                        <button type="button" class="btn btn-danger" (click)="onRemoveRacer(i)"><span class="glyphicon glyphicon-remove"></span></button>
+                                        <button type="button" class="btn btn-default btn-sm" [routerLink]="[i, 'edit']"><span class="glyphicon glyphicon-pencil"></span></button>
+                                        <button type="button" class="btn btn-danger btn-sm" (click)="onRemoveRacer(i)"><span class="glyphicon glyphicon-remove"></span></button>
                                     </div>
                                 </div>
                             </div>
