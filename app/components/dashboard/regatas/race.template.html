@@ -46,7 +46,7 @@
                 <div class="row" ><br />
                     <div class="col-xs-4"><span class="glyphicon glyphicon-time"></span> <b>Date de début</b></div>
                     <div class="col-xs-8">
-                        <input type="text" class="form-control" [(ngModel)]="currentRace.startDate">
+                        <datepicker [(timestamp)]="currentRace.startDate"></datepicker>
                     </div>
                     <div *ngIf="missName == true" style="margin-left:20px; color:red;">
                         La date de début doit être renseignée.
@@ -56,7 +56,7 @@
                 <div class="row" ><br />
                     <div class="col-xs-4"><span class="glyphicon glyphicon-time"></span> <b>Date de fin</b></div>
                     <div class="col-xs-8">
-                        <input type="text" class="form-control" [(ngModel)]="currentRace.endDate">
+                        <datepicker [(timestamp)]="currentRace.endDate"></datepicker>
                     </div>
                     <div *ngIf="missName == true" style="margin-left:20px; color:red;">
                         La date de fin doit être renseignée.

@@ -1,0 +1,30 @@
+<div>
+    <div class="form-inline">
+        <div class="form-group">
+            <select class="form-control" [(ngModel)]="day">
+                <option *ngFor="let d of getDays()" [value]="d">{{ d }}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <select class="form-control" [(ngModel)]="month">
+                <option *ngFor="let m of getMonths()" [value]="m">{{ DateHelper.getMonthString(m) }}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <select class="form-control" [(ngModel)]="year">
+                <option *ngFor="let y of getYears()" [value]="y">{{ y }}</option>
+            </select>
+        </div>
+        à
+        <div class="form-group">
+            <select class="form-control" [(ngModel)]="hour">
+                <option *ngFor="let h of getHours()" [value]="h">{{ h }}h</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <select class="form-control" [(ngModel)]="minute">
+                <option *ngFor="let min of getMinutes()" [value]="min">{{ min }}</option>
+            </select>
+        </div>
+    </div>
+</div>
