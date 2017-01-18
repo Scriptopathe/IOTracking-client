@@ -47,15 +47,17 @@ export class RacemapsComponent  {
     saveCurrentRacemap() {
         let self = this
         let racemap = this.racemaps[this.racemapIndex]
+        let changed = racemap["imageChanged"]
+        let file = racemap["tempFile"]
         this.racemapsSvc.saveRacemap(racemap).subscribe(
             (value) => {
-                this.imgRefreshNumber += 1
-                if(racemap["imageChanged"]) {
+                if(changed) {
                     this.isUploading = true
-                    self.racemapsSvc.uploadRacemap(racemap["tempFile"], racemap.identifier).subscribe(() => {
-                        this.isUploading = false
+                    self.racemapsSvc.uploadRacemap(file, racemap.identifier).subscribe(() => {
                         racemap["imageChanged"] = false
-                        this.notifications.success("Sauvegarde effectuée")
+                        this.isUploading = false
+                        this.imgRefreshNumber += 1
+                        this.notifications.success("Upload et sauvegarde effectués.")
                     },
                     (err) => {
                         this.isUploading = false

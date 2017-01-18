@@ -70,6 +70,18 @@ export class RaceService {
         })
     }
 
+    public initialize(race : Race) : Observable<Race> {
+        var self = this
+        return new Observable<Race>((subscriber : Subscriber<Race>) => {
+            self.http.post(Server.RaceDataUrl, "{}").subscribe((response) => {
+                race.data = response.json()["_id"]
+                subscriber.next(race)
+            }, (err) => {
+                subscriber.error(err)
+            })
+        })
+    }
+
     /**
      * Loads raceData and raceMap actual values using the references in the
      * given race object.

@@ -2,6 +2,7 @@ import { Component, Input, ViewChild, ElementRef }  from '@angular/core';
 import { ActivatedRoute, Router }                   from '@angular/router'
 import { Http, Response }                           from '@angular/http';
 import { Observable }                               from 'rxjs/Observable';
+import { RaceService }                              from '../../../services/race.service'
 import { RegatasNewService }                        from '../../../services/regatas-new.service'
 import { RacemapsService }                          from '../../../services/racemaps.service'
 import { NotificationService }                      from '../../../services/notification.service'
@@ -32,6 +33,7 @@ export class RaceComponent  {
 
     constructor(private router : Router, private route : ActivatedRoute, private http : Http, 
                 private regataSvc : RegatasNewService, private racemapsSvc : RacemapsService,
+                private raceSvc : RaceService,
                 private notifications : NotificationService) {
         
         this.racemapsSvc.loadRacemaps().subscribe((racemaps) => {
@@ -105,12 +107,18 @@ export class RaceComponent  {
                         // TODO add race data automatically
                         this.currentRegata = regata
                         this.currentRace = new Race("Nouvelle Course", new Date(), new Date(), new Array<Racer>(), null, null, new Array<Point>());
-                        this.currentRegata.races.push(this.currentRace);
-                        this.regataSvc.postRegata(this.currentRegata).subscribe((value : boolean) => {
-                            let index = this.currentRegata.races.findIndex((value : Race) => { return value.name == "Nouvelle Course"; });
-                            this.indexRace = index;
-                            this.isNew = true;
-                            this.raceId = String(this.currentRegata.races.length-1)
+                        this.raceSvc.initialize(this.currentRace).subscribe((race : Race) => {
+                            this.currentRegata.races.push(this.currentRace);
+                            this.regataSvc.postRegata(this.currentRegata).subscribe((value : boolean) => {
+                                let index = this.currentRegata.races.findIndex((value : Race) => { return value.name == "Nouvelle Course"; });
+                                this.indexRace = index;
+                                this.isNew = true;
+                                this.raceId = String(this.currentRegata.races.length-1)
+                            }, (err) => {
+                                this.notifications.failure("Erreur : impossible de sauvegarder la course.")
+                            })
+                        }, (err) => {
+                            this.notifications.failure("Erreur : impossible de sauvegarder la course ; impossible d'initialiser les données de course.")
                         })
                     })
                 }
