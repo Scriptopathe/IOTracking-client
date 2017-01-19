@@ -14,6 +14,7 @@ import * as $ from 'jquery'
 
 export class RaceViewComponent  {
     public race : Race = null
+    public isLive : boolean = false
 
     constructor(private route : ActivatedRoute, private http : Http, 
         private regataSvc : RegatasService,
@@ -31,7 +32,14 @@ export class RaceViewComponent  {
                         let raceId = Number(params["race"])
                         let race : Race = regata.races[raceId]
                         this.race = race
+                        this.raceSvc.getLiveRace().subscribe((serverState) => {
+                            if(serverState.liveRegata == regattaId && serverState.liveRaceId == raceId) {
+                                this.isLive = true
+                            }
+                        })
                     }
+
+
                 })
         });
     }

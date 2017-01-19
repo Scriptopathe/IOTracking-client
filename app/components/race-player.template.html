@@ -16,7 +16,7 @@
                     <button class="btn btn-default" *ngIf="isPlaying" (click)="isPlaying = false"><span class="glyphicon glyphicon-pause"></span></button>
                     <button class="btn btn-default" *ngIf="!isPlaying" (click)="isPlaying = true"><span class="glyphicon glyphicon-play"></span></button>
                     <button class="btn btn-default" (click)="speedUp()"><span class="glyphicon glyphicon-forward"></span></button>
-                    <span class="label label-default">{{ getTimeString(currentTime) }}</span>
+                    <span class="label label-default">{{ getTimeString(getTime()) }}</span>
                 </h3>
                 
             </div>

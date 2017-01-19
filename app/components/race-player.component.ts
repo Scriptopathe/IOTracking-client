@@ -25,11 +25,13 @@ export class RacePlayerComponent  {
     @ViewChild("mapCanvas") mapCanvas: ElementRef;
     @ViewChild("mapImg") mapImg: ElementRef;
     @Input("race") race : Race
+    @Input("live") live : boolean
     /* ------------------------------------------------------
      * Variables
      * ----------------------------------------------------*/
     // constants
     private frameDelta : number = 1000.0 / 30.0
+    private liveRefreshInterval : number = 1000.0 // seconds
     
     // data
     private fullRace : FullRace = null
@@ -45,17 +47,32 @@ export class RacePlayerComponent  {
      * Properties
      * ----------------------------------------------------*/
     ngOnChanges(changes: {[ propName: string]: SimpleChange}) {
+        var self = this
+        console.dir(changes)
         if("race" in changes && this.race != null) {
             this.raceSvc.loadRaceData(this.race).subscribe((fullRace) => {
                 this.fullRace = fullRace
+                this.currentTime = this.getMinTime()
             })
+        } else if("live" in changes && this.race != null) {
+            setInterval(function() {
+                self.refreshLiveData();
+            }, this.liveRefreshInterval)
         }
+    }
+
+
+    refreshLiveData() {
+        this.raceSvc.loadRaceData(this.race).subscribe((fullRace) => {
+            this.fullRace = fullRace
+        })
     }
     /* ------------------------------------------------------
      * Constructor
      * ----------------------------------------------------*/
     constructor(private http : Http, private raceSvc : RaceService,
-        private racemapsSvc : RacemapsService) {
+                private racemapsSvc : RacemapsService) {
+        this.live = false
         window.addEventListener("resize", () => this.resizeCanvas())
     }
 
@@ -171,6 +188,9 @@ export class RacePlayerComponent  {
         return minTime
     }
 
+    getTime() : number {
+        return this.currentTime - this.getMinTime()
+    }
     /** 
      * Transforms GPS coordinates (0-1024) to relative screen coordinates (between 0 and 1)
      *          x: longitude (min = west, max = east)
@@ -211,7 +231,9 @@ export class RacePlayerComponent  {
         // Update time
         if(this.isPlaying) {
             this.currentTime += this.speed * this.frameDelta / 1000.0
-            this.currentTime %= this.getMaxTime()
+            if(this.currentTime > this.getMaxTime()) {
+                this.currentTime = this.getMaxTime()
+            }
         }
 
         if(this.fullRace == null)
