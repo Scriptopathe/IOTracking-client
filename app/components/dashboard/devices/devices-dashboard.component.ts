@@ -6,7 +6,7 @@ import { DeviceListComponent }                      from './devices-list.compone
 import { DevicesService }                           from '../../../services/devices.service'
 import { Device }                                   from '../../../services/server-model'
 import { NotificationService }                      from '../../../services/notification.service'
-
+import { LoraServerService }                        from '../../../services/loraserver.service'
 @Component({
     selector: 'devices-dashboard',
     templateUrl: 'app/components/dashboard/devices/devices-dashboard.template.html'
@@ -18,6 +18,7 @@ export class DeviceDashboardComponent  {
     public devices : Device[] = []
     constructor(private sanitizer : DomSanitizer, 
         private devicesSvc : DevicesService,
+        private loraServer : LoraServerService,
         private notifications : NotificationService) {        
         this.loadDevices()
     }
@@ -60,8 +61,28 @@ export class DeviceDashboardComponent  {
         this.setDevice(dev)
     }
 
+    /** 
+     * Registers the device on the lora server
+     */
+    registerDeviceOnLoraServer(dev : Device) {
+        this.loraServer.createLoraDevice(dev).subscribe((ok) => {
+            console.log("[devices-dashboard] lora server OK")
+        }, (err) => {
+            this.notifications.failure("Erreur lors de l'enregistrement au serveur LoRa : " + err)
+        })
+    }
+
+    /**
+     * Saves the device on the server.
+     */
     saveDevice() {
-        this.devicesSvc.updateDevice(this.devices[this.deviceList.currentDevice]).subscribe((value : boolean) => {  
+        let isNew = this.devices[this.deviceList.currentDevice].identifier == null
+        this.devicesSvc.updateDevice(this.devices[this.deviceList.currentDevice]).subscribe((value : boolean) => {
+            // If a new device is created, registers it to the lora server.  
+            if(isNew) {
+                this.registerDeviceOnLoraServer(this.devices[this.deviceList.currentDevice])
+            }
+
             this.notifications.success("Device sauvegardé !")
         }, (err) => {
             this.notifications.failure("Echec de la sauvegarde du device.")

@@ -36,12 +36,20 @@
                     <input type="text" class="form-control" [(ngModel)]="devices[currentDevice].name">
                 </div>
                 <br />
+
                 <div class="input-group">
                     <span class="input-group-addon">EUID</span>
-                    <input type="text" class="form-control" [(ngModel)]="devices[currentDevice].hwid">
+                    <input type="text" class="form-control"
+                         [disabled]="devices[currentDevice].identifier != null"
+                         [(ngModel)]="devices[currentDevice].hwid">
                 </div>
                 <br />
 
+                <div class="">
+                    <a class="btn btn-default btn-pull-right" [href]="getLoraServerLink(devices[currentDevice])" targer="_blank" >Configure on Lora App Server</a>
+                </div>
+                <br />
+                
                 <!-- Energy -->
                 <div class="row">
                     <div class="col-xs-6 col-sm-4 col-md-3" style="height: 2em;">

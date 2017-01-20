@@ -3,7 +3,7 @@ import { Response }                     from '@angular/http';
 import { HttpClient as Http }           from './http-client.service'
 import { Observable, Subscriber }       from 'rxjs/Rx';
 import { Inject }                       from '@angular/core';
-import { User, Regata,
+import { User, Regata, Racer,
          FullRace, Race, Server, 
          RaceData, RaceMap,
          Point, TimePoint,
@@ -14,6 +14,46 @@ export class RaceService {
 
     public constructor(private http : Http) {
 
+    }
+
+    /**
+     * Imports a CSV file.
+     * @returns An observable on the parsed racers.
+     */
+    public importCSV(file: File) : Observable<Racer[]> {
+        return new Observable<Racer[]>((subcriber : Subscriber<Racer[]>) => {
+            let reader = new FileReader()
+            let self = this
+            reader.onload = function() {
+                let separator = ","
+                let text = <string>reader.result
+                let lines = text.split('\n')
+                let headers = lines[0].split(separator)
+                let boatIdCol = headers.indexOf("VOILE")
+                let nameCol = headers.indexOf("NOM_1")
+                let firstnameCol = headers.indexOf("PRENOM_1")
+                let racers : Racer[] = []
+
+                if(boatIdCol < 0 || nameCol < 0 || firstnameCol < 0) {
+                    subcriber.error("Mauvais format CSV : colonne VOILE, NOM_1, ou PRENOM_1 manquante.")
+                    return
+                }
+
+                for(let i = 1; i < lines.length; i++) {
+                    let line = lines[i].split(separator)
+                    let racer = new Racer()
+                    racer.boatIdentifier = line[boatIdCol]
+                    racer.skipperName = line[firstnameCol] + " " + line[nameCol].slice(0, 1) + "."
+                    racer.user = null
+                    racer.device = null
+                    racers.push(racer)
+                }
+
+                subcriber.next(racers)
+                subcriber.complete()
+            }
+            reader.readAsText(file)
+        })
     }
 
     /** ======================================================================

@@ -130,7 +130,7 @@ export class Device extends DBItem {
         public hwid? : string,
         public name? : string,
         public batteryLevel? : number,
-        public isActive? : boolean
+        public lastActivity? : boolean
     ) {
         super(null)
     }
@@ -156,9 +156,35 @@ export class ServerState extends DBItem {
     }
 }
 
+
+export class LoraDevice {
+    public constructor(
+        public name : string,
+        public devEUI : string,
+        public appEUI : string,
+        public appKey = "00000000000000000000000000000000",
+        public channelListID = "0",
+        public installationMargin = 0,
+        public adrInterval = 0,
+        public relaxFCnt = true,
+        public rx1DROffset = 0,
+        public rx2DR = 0,
+        public rxDelay = 0,
+        public rxWindow = "RX1"
+    ) { }
+} 
+
+export class LoraServer {
+    public static RootUrl = "https://localhost:8080"
+    public static NodeUrl = LoraServer.RootUrl + "/api/node"
+    public static SessionUrl = LoraServer.RootUrl + "/nodeSession"
+    public static UserNodeUrl = LoraServer.RootUrl + "/#/nodes"
+}
+
 export class Server {
     public static RootUrl = "http://localhost:3001"
     public static BaseUrl = Server.RootUrl + "/api"
+    public static AppEUIUrl = Server.BaseUrl + "/appeui"
     public static RegattasUrl = Server.BaseUrl + "/regattas"
     public static RaceDataUrl = Server.BaseUrl + "/racedata"
     public static RaceMapUrl = Server.BaseUrl + "/racemaps"

@@ -41,6 +41,23 @@ export class RaceComponent  {
         })
     }
 
+    onImportCSV() {
+        // called when the import button is clicked
+        // simulates a click on the file input
+        document.getElementById("importCSV").click()
+    }
+
+    onChangeFile(event : EventTarget) {
+        let eventObj: MSInputMethodContext = <MSInputMethodContext> event;
+        let target: HTMLInputElement = <HTMLInputElement> eventObj.target;
+        let files: FileList = target.files;
+        let self = this
+        self.raceSvc.importCSV(files[0]).subscribe((racers) => {
+            self.currentRace.concurrents.push(...racers)
+            self.onSaveRace()
+        }, (err) => self.notifications.failure(err, -1))
+    }
+
     onRemoveRacer(racerId : number) {
         this.currentRegata.races[this.raceId].concurrents.splice(racerId, 1)
         this.regataSvc.postRegata(this.currentRegata).subscribe((value : boolean) => {})
@@ -50,6 +67,13 @@ export class RaceComponent  {
          this.regataSvc.postRegata(this.currentRegata).subscribe((value : boolean) => {
             this.router.navigate(['dashboard/regatas/', this.currentRegata.identifier, 'races', this.raceId, 'edit', 'newracer']);
          })
+    }
+
+    /**
+     * Returns true if the given racer has no assigned device.
+     */
+    hasNoDevice(racer : Racer) {
+        return racer.device == 'null'
     }
 
     onSaveRace(){
@@ -63,9 +87,7 @@ export class RaceComponent  {
         if (!incorrectData)
         {
             this.regataSvc.postRegata(this.currentRegata).subscribe((value : boolean) => {
-                this.notifications.success("Course enregistrée. Redirection....", 2000, () => {
-                    this.router.navigate(['/dashboard/regatas/', this.currentRegata.identifier]);
-                })
+                this.notifications.success("Course enregistrée.", 2000)
             }, (err) => {
                 this.notifications.failure("Echec de la sauvegarde.")
             })

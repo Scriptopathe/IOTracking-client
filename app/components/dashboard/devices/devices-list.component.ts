@@ -5,6 +5,7 @@ import { Observable }                               from 'rxjs/Observable'
 import { DomSanitizer, SafeHtml,SafeUrl,SafeStyle } from '@angular/platform-browser'
 import { DevicesService }                           from '../../../services/devices.service'
 import { Device }                                   from '../../../services/server-model'
+import { LoraServerService }                        from '../../../services/loraserver.service'
 
 @Component({
     selector: 'device-list',
@@ -16,8 +17,14 @@ export class DeviceListComponent  {
     @Input("devices") public devices : Device[]
     @Output("device") currentDeviceChange = new EventEmitter()
 
-    constructor(private sanitizer : DomSanitizer, private devicesSvc : DevicesService) {        
+    constructor(private sanitizer : DomSanitizer, 
+        private loraServer : LoraServerService,
+        private devicesSvc : DevicesService) {        
+        
+    }
 
+    getLoraServerLink(dev : Device) {
+        return this.loraServer.getDeviceUrl(dev)
     }
 
     getBackground(energy : number) : SafeStyle {

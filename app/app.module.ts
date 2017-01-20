@@ -35,6 +35,7 @@ import { DevicesService }             from './services/devices.service';
 import { RaceService }                from './services/race.service';
 import { NotificationService }        from './services/notification.service';
 import { HttpClient }                 from './services/http-client.service';
+import { LoraServerService }          from './services/loraserver.service';
 
 import { RacerComponent }             from './components/dashboard/regatas/racer.component';     
 import { RacemapsService }            from './services/racemaps.service';
@@ -75,7 +76,8 @@ import * as router from '@angular/router';
     RaceService,
     RacemapsService,
     NotificationService,
-    HttpClient
+    HttpClient,
+    LoraServerService
   ],
   
   bootstrap:    [ AppComponent ],

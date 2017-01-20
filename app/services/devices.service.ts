@@ -64,5 +64,10 @@ export class DevicesService {
 
     public getLowPowerDevices(devices : Device[]) { return devices.filter((value, index) => { return value.batteryLevel < 10 }) }
     public getNewDevices(devices : Device[]) { return devices.filter((value, index) => { return value.name == "" }) }
-    public getActiveDevices(devices : Device[]) { return devices.filter((value, index) => { return value.isActive }) }
+    public getActiveDevices(devices : Device[]) {
+        return devices.filter((value, index) => {
+            let timeout = 30000 // 30 seconds
+            return value.lastActivity && new Date(value.lastActivity).getTime() > new Date().getTime() - timeout 
+        })
+    }
 }
