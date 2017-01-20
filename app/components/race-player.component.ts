@@ -43,6 +43,8 @@ export class RacePlayerComponent  {
     public isPlaying : boolean = true
     public speed : number = 1 // 1x realtime
 
+    // refresh interval to be cleared at the end of the components
+    private _refreshInterval : any
     /* ------------------------------------------------------
      * Properties
      * ----------------------------------------------------*/
@@ -55,12 +57,15 @@ export class RacePlayerComponent  {
                 this.currentTime = this.getMinTime()
             })
         } else if("live" in changes && this.race != null) {
-            setInterval(function() {
+            this._refreshInterval = setInterval(function() {
                 self.refreshLiveData();
             }, this.liveRefreshInterval)
         }
     }
 
+    ngOnDestroy() {
+        if(this._refreshInterval) clearInterval(this._refreshInterval)
+    }
 
     refreshLiveData() {
         this.raceSvc.loadRaceData(this.race).subscribe((fullRace) => {
