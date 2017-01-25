@@ -19,6 +19,7 @@ _temp
 # compiled output
 /dist
 /tmp
+src/environments/environment.custom.ts
 
 # dependencies
 /node_modules
