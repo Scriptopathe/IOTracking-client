@@ -216,6 +216,17 @@ export class RacePlayerComponent  {
         }
     }
 
+    /**
+     * As the buoys are raw GPS coordinates, we need to convert them.
+     */
+    buoyToCartesian(buoyCoord : Point) {
+        let map = this.fullRace.map
+        return this.gpsToCartesian({
+            x: ((buoyCoord.x - map.westLongReference)/((map.eastLongReference - map.westLongReference))),
+            y: (1 - ((buoyCoord.y - map.southLatReference)/(map.northLatReference - map.southLatReference)))
+        })
+    }
+
     canvasUpdate() : void {
         let img = this.mapImg.nativeElement
         let context: CanvasRenderingContext2D = this.mapCanvas.nativeElement.getContext("2d")
@@ -247,7 +258,7 @@ export class RacePlayerComponent  {
         // Draws checkpoints
         context.globalAlpha = 1
         for(let checkpoint of this.fullRace.buoys) {
-            let xy = this.gpsToCartesian(checkpoint)
+            let xy = this.buoyToCartesian(checkpoint)
             context.fillStyle = 'red'
             let x = xy.x * w
             let y = xy.y * h 
