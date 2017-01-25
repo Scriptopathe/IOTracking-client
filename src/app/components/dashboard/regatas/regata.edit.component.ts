@@ -28,8 +28,6 @@ export class RegataEditionComponent  {
     liveRegataId : string
     liveRaceId : number
 
-    test : number = new Date().getTime()
-
     constructor(private route : ActivatedRoute, private router : Router, private http : Http, 
         private regataSvc : RegatasNewService, private raceSvc : RaceService, 
         private notifications : NotificationService) {     
