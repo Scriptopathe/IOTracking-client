@@ -1,5 +1,5 @@
 export const environment = {
-  loraServerUrl     : "http://localhost:8080",
-  serverUrl         : "http://localhost:8081",
+  loraServerUrl     : "localhost:8080",
+  serverUrl         : "localhost:8081",
   production        : true
 };

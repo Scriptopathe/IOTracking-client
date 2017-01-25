@@ -176,14 +176,14 @@ export class LoraDevice {
 } 
 
 export class LoraServer {
-    public static RootUrl = env.environment.loraServerUrl
+    public static RootUrl = "http://" + env.environment.loraServerUrl
     public static NodeUrl = LoraServer.RootUrl + "/api/node"
     public static SessionUrl = LoraServer.RootUrl + "/nodeSession"
     public static UserNodeUrl = LoraServer.RootUrl + "/#/nodes"
 }
 
 export class Server {
-    public static RootUrl = env.environment.serverUrl
+    public static RootUrl = "http://" + env.environment.serverUrl
     public static BaseUrl = Server.RootUrl + "/api"
     public static AppEUIUrl = Server.BaseUrl + "/appeui"
     public static RegattasUrl = Server.BaseUrl + "/regattas"
