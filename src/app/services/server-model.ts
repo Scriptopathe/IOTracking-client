@@ -1,3 +1,4 @@
+import * as env from "../../environments/environment"
 export interface Point 
 { 
     x : number
@@ -175,14 +176,14 @@ export class LoraDevice {
 } 
 
 export class LoraServer {
-    public static RootUrl = "https://localhost:8080"
+    public static RootUrl = env.environment.loraServerUrl
     public static NodeUrl = LoraServer.RootUrl + "/api/node"
     public static SessionUrl = LoraServer.RootUrl + "/nodeSession"
     public static UserNodeUrl = LoraServer.RootUrl + "/#/nodes"
 }
 
 export class Server {
-    public static RootUrl = "http://localhost:8081"
+    public static RootUrl = env.environment.serverUrl
     public static BaseUrl = Server.RootUrl + "/api"
     public static AppEUIUrl = Server.BaseUrl + "/appeui"
     public static RegattasUrl = Server.BaseUrl + "/regattas"
