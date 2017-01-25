@@ -80,7 +80,7 @@ export class DeviceDashboardComponent  {
         this.devicesSvc.updateDevice(this.devices[this.deviceList.currentDevice]).subscribe((value : boolean) => {
             // If a new device is created, registers it to the lora server.  
             if(isNew) {
-                this.registerDeviceOnLoraServer(this.devices[this.deviceList.currentDevice])
+                // this.registerDeviceOnLoraServer(this.devices[this.deviceList.currentDevice])
             }
 
             this.notifications.success("Device sauvegardé !")
