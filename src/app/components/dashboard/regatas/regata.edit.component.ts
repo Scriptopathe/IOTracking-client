@@ -95,8 +95,8 @@ export class RegataEditionComponent  {
         this.missLocation = false;
         if (this.currentRegata.name != "" && this.currentRegata.location != "") {
             this.regataSvc.postRegata(this.currentRegata).subscribe((value : boolean) => {
-                this.notifications.success("Régate sauvegardée. Redirection...", 1000, () => {
-                    this.router.navigate(['/dashboard/regatas']);
+                this.notifications.success("Régate sauvegardée.", 500, () => {
+                    // this.router.navigate(['/dashboard/regatas']);
                 })
             }, (err) => {
                 this.notifications.failure("Echec de la sauvegarde.")

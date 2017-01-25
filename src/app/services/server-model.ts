@@ -195,4 +195,5 @@ export class Server {
     public static DevicesUrl = Server.BaseUrl + "/devices"
     public static LiveUrl = Server.BaseUrl + "/state/live"
     public static LoginUrl = Server.RootUrl + "/auth/login"
+    public static AuthCheck = Server.RootUrl + "/auth/profile"
 }

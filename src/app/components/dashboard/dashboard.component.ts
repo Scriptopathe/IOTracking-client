@@ -43,8 +43,8 @@ export class DashboardComponent  {
                     self.liveRaceId = serverState.liveRaceId
                     self.liveRegataId = <string>serverState.liveRegata
                     self.liveRegata = regata
-                }, (err) => console.log(err))
+                }, (err) => { })
             }
-        }, (err) => { console.log(err) })
+        }, (err) => {  })
     }
 }

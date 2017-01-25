@@ -30,9 +30,10 @@ export class RacePlayerComponent  {
      * Variables
      * ----------------------------------------------------*/
     // constants
-    private frameDelta : number = 1000.0 / 30.0
+    private frameDelta          : number = 1000.0 / 30.0
     private liveRefreshInterval : number = 1000.0 // seconds
-    
+    private liveTime            : number = new Date().getTime()
+
     // data
     private fullRace : FullRace = null
 
@@ -108,6 +109,15 @@ export class RacePlayerComponent  {
         })
     }
 
+    getSkipperName(devId : string) : string {
+        let racer = this.getRacer(devId)
+        if(racer == null) {
+            return "no-name"
+        }
+
+        return racer.skipperName
+    }
+
     getDeviceOpts(devId : string) : DeviceOption {
         return this.devicesOptions[devId]
     }
@@ -173,17 +183,28 @@ export class RacePlayerComponent  {
 
     getMaxTime() : number {
         if(this.fullRace == undefined)
-            return 100
+            return 1
+        
+        if(Object.keys(this.fullRace.data.rawData).length == 0)
+            return 1
+
+        if(this.live)
+            return this.liveTime
         
         let maxTime = 0
         for(let devId in this.fullRace.data.rawData) {
             maxTime = Math.max(maxTime,  this.fullRace.data.rawData[devId][this.fullRace.data.rawData[devId].length - 1].t)
         }
+
+        console.log("max time : " + maxTime)
         return maxTime
     }
 
     getMinTime() : number {
         if(this.fullRace == undefined)
+            return 0
+        
+        if(Object.keys(this.fullRace.data.rawData).length == 0)
             return 0
         
         let minTime = Number.MAX_VALUE
@@ -233,6 +254,10 @@ export class RacePlayerComponent  {
         let w = context.canvas.width
         let h = context.canvas.height
         let max = 1024
+
+        // Update current time
+        this.liveTime = new Date().getTime() / 1000
+        this.liveTime -= new Date().getTimezoneOffset() * 60
 
         // Draw background image
         context.fillStyle = 'white'

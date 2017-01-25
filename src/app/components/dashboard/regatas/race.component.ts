@@ -73,7 +73,7 @@ export class RaceComponent  {
      * Returns true if the given racer has no assigned device.
      */
     hasNoDevice(racer : Racer) {
-        return racer.device == 'null'
+        return racer.device == 'null' || racer.device == null
     }
 
     onSaveRace(){
@@ -86,6 +86,7 @@ export class RaceComponent  {
 
         if (!incorrectData)
         {
+            console.log(this.currentRegata)
             this.regataSvc.postRegata(this.currentRegata).subscribe((value : boolean) => {
                 this.notifications.success("Course enregistrée.", 2000)
             }, (err) => {

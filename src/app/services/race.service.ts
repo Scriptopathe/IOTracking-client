@@ -25,7 +25,7 @@ export class RaceService {
             let reader = new FileReader()
             let self = this
             reader.onload = function() {
-                let separator = ","
+                let separator = ";"
                 let text = <string>reader.result
                 let lines = text.split('\n')
                 let headers = lines[0].split(separator)
@@ -39,8 +39,14 @@ export class RaceService {
                     return
                 }
 
+                let lastIndex = Math.max(boatIdCol, firstnameCol, nameCol)
+
                 for(let i = 1; i < lines.length; i++) {
                     let line = lines[i].split(separator)
+
+                    if(line.length < lastIndex)
+                        continue
+
                     let racer = new Racer()
                     racer.boatIdentifier = line[boatIdCol]
                     racer.skipperName = line[firstnameCol] + " " + line[nameCol].slice(0, 1) + "."
